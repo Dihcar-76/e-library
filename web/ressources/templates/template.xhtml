@@ -37,14 +37,14 @@
                 }
             </style>
             <!-- Custom styles for this template -->
-            <link href="starter-template.css" rel="stylesheet"/>
+            <link href="../starter-template.css" rel="stylesheet"/>
         </h:head>
 
 
         <h:outputLabel value="Hello, world"/>
         <h:body>
             <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-                <a class="navbar-brand" href="#">Navbar</a>
+                <a class="navbar-brand" href="/main.xhtml">My e-library</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -71,7 +71,16 @@
                     </ul>
                     <form class="form-inline my-2 my-lg-0">
                         <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"/>
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                        <button class="btn btn-secondary my-2 my-sm-0 mr-1" type="submit">Search</button>
+                        <h:panelGroup layout="block" class="form-group" rendered="true">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown active">
+                                    <!--<h:link outcome="/account/signin.xhtml" class="p-2 mb-2 bg-secondary text-white" value="Log in"/>-->
+
+                                    <a class="btn btn-secondary" href="/account/signin.xhtml" role="button">Log in</a>
+                                </li>
+                            </ul>
+                        </h:panelGroup>
                     </form>
                 </div>
             </nav>

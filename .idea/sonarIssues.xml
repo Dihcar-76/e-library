@@ -23,6 +23,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$USER_HOME$/IdeaProjects/View360/View360/target/apache-tomcat-8.5.16/logs/appli/ci360.v4.log">
+          <value>
+            <set />
+          </value>
+        </entry>
       </map>
     </option>
   </component>
