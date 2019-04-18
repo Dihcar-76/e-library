@@ -13,12 +13,52 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/out/artifacts/e_library_war_exploded/ressources/starter-template.css">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/out/artifacts/e_library_war_exploded/ressources/templates/templateAdmin.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/web/admin/book/search.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/web/admin/book/search.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/web/index.xhtml">
           <value>
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/web/ressources/forge-style.css">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/web/ressources/templates/template.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/web/ressources/templates/templateAdmin.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/agoncal-application-cdbookstore-master/cdbookstore/src/main/webapp/resources/scaffold/templateAdmin.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/agoncal-book-javaee7-master/chapter06/chapter06-samples/target/generated-sources/annotations/org/agoncal/book/javaee7/chapter06/ex24/Address24_.java">
           <value>
             <set />
           </value>
