@@ -18,7 +18,7 @@
 
         <!-- Bootstrap core CSS -->
         <!--<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css"/>-->
-        <h:outputStylesheet name=""/>
+        <h:outputStylesheet name="bootstrap/css/bootstrap.min.css"/>
         <!--<style>
             .bd-placeholder-img {
                 font-size: 1.125rem;
@@ -37,9 +37,11 @@
         </style>-->
         <!-- Custom styles for this template -->
         <!--<link href="../starter-template.css" rel="stylesheet"/>-->
+        <h:outputStylesheet name="starter-template.css"/>
         <!--<link href="../forge-style.css" rel="stylesheet"/>-->
+        <!--<h:outputStylesheet name="forge-style.css"/>-->
         <!--<link href="../jumbotron.css" rel="stylesheet"/>-->
-        <h:outputStylesheet name="jumbotron.css"/>
+        <!--<h:outputStylesheet name="jumbotron.css"/>-->
 
 
 
@@ -90,10 +92,11 @@
             </div>
         </nav>
 
-        <div class="customcontainer forgecontainer">
+        <div class="container forgecontainer">
             <div id="navigation">
                <!--<h:link id="homeLink" outcome="/main.xhtml">
                     <img src='#{resource["../forge-logo.png"]}' alt="Forge... get hammered" border="0"/>
+                   <h:graphicImage value = "../resources/forge-logo.png" alt="Forge... get hammered" border="0"/>
                 </h:link>-->
                 <ul>
                     <li>

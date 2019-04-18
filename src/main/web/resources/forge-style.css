@@ -33,7 +33,7 @@ body {
     padding-top: 50px;
 }
 
-#customcontainer {
+#container {
     margin: 0 auto;
     border: 1px solid #666666;
     width: 940px; /* subtract 40px from banner width for padding */

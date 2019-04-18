@@ -13,6 +13,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/out/artifacts/e_library_war_exploded/resources/starter-template.css">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/out/artifacts/e_library_war_exploded/ressources/starter-template.css">
           <value>
             <set />
@@ -24,6 +29,26 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/web/admin/book/search.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/web/resources/forge-style.css">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/web/resources/starter-template.css">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/web/resources/templates/templateAdmin.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/web/ressources/templates/templateAdmin.xhtml">
           <value>
             <set />
           </value>
