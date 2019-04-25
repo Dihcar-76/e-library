@@ -73,15 +73,6 @@ code {
     font-size: 0.9em;
 }
 
-a {
-    color: #0e5974;
-    text-decoration: underline;
-}
-
-a:hover {
-    color: #000;
-    text-decoration: none;
-}
 
 h1, h2, h3, h4, h5, h6 {
     color: #41484A;
@@ -507,46 +498,7 @@ p.logo {
     padding-right: 20px;
 }
 
-/* Navbar */
-.navbar {
-    margin: 0 auto;
-}
 
-.navbar-inner {
-    border-radius: 0px;
-    box-shadow: none;
-}
-
-.navbar .nav > li > a {
-    font-size: 14px;
-    color: #b5b5b5;
-}
-
-.navbar .nav > li > a:hover,
-.navbar .nav > li > a.current {
-    color: #8ebf3a;
-}
-
-.navbar .brand {
-    font-weight: bold;
-    text-shadow: 0 1px 0 #000;
-    text-decoration: none;
-}
-
-.navbar-inner {
-    background-image: -moz-linear-gradient(top, #083847, #04202E);
-    background-image: -ms-linear-gradient(top, #083847, #04202E);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#083847), to(#04202E));
-    background-image: -webkit-linear-gradient(top, #083847, #04202E);
-    background-image: -o-linear-gradient(top, #083847, #04202E);
-    background-image: linear-gradient(top, #083847, #04202E);
-    background-image: -moz-linear-gradient(center top, #083847, #04202E);
-    border-top: 2px solid #000000;
-}
-
-.navbar-fixed-top .brand {
-    color: #FFF;
-}
 
 /* Carousel */
 .carousel-control {
@@ -587,85 +539,6 @@ input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focu
     outline: thin solid #09F;
 }
 
-/* Buttons */
-.btn:focus, a:focus {
-    border: 0;
-    outline: none;
-}
-
-select:focus {
-    border: 1px solid #CCC;
-}
-
-button::-moz-focus-inner {
-    border: 0;
-}
-
-.btn-primary {
-    background-color: #817B10; /* dk gold */
-    *background-color: #817B10;
-    background-image: -ms-linear-gradient(top, #B0A826, #979026); /* light gold, med gold */
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#B0A826), to(#979026));
-    background-image: -webkit-linear-gradient(top, #B0A826, #979026);
-    background-image: -o-linear-gradient(top, #B0A826, #979026);
-    background-image: -moz-linear-gradient(top, #B0A826, #979026);
-    background-image: linear-gradient(top, #B0A826, #979026);
-    background-repeat: repeat-x;
-    border-color: #979026 #979026 #7C7301;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#B0A826', endColorstr='#979026', GradientType=0);
-    filter: progid:dximagetransform.microsoft.gradient(enabled=false);
-
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-    font-weight: bold;
-    text-align: center;
-    color: #fff !important;
-    padding: 8px 10px;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    -moz-box-shadow: 0px 1px 2px rgba(137, 137, 137, 0.8);
-    -webkit-box-shadow: 0px 1px 3px rgba(137, 137, 137, 0.8);
-    box-shadow: 0px 1px 3px rgba(137, 137, 137, 0.8);
-}
-
-.btn-primary:hover,
-.btn-primary:active,
-.btn-primary.active,
-.btn-primary.disabled,
-.btn-primary[disabled] {
-    background-color: #979026;
-    *background-color: #979026;
-}
-
-.btn-primary:active,
-.btn-primary.active {
-    background-color: #979026 \9;
-}
-
-a.btn-primary:active {
-    font-weight: bold;
-    color: #fff !important;
-    background: #817B10;
-    padding: 8px 10px;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    -moz-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
-    -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
-}
-
-a.btn-danger:hover,
-a.btn-primary:hover {
-    font-weight: bold;
-    color: #fff !important;
-    background: #817B10;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-}
-
 /* Input */
 input, textarea, select, .uneditable-input {
 }
@@ -697,6 +570,15 @@ h2.page-header {
 
 h4.page-header {
     font-size: 16px;
+}
+.container:before,
+.container:after {
+    display: table;
+    content: "";
+}
+
+.container:after {
+    clear: both;
 }
 
 

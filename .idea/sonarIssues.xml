@@ -8,7 +8,17 @@
             <set />
           </value>
         </entry>
+        <entry key="/fragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/.gitignore">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/out/artifacts/e_library_war_exploded/resources/forge-style.css">
           <value>
             <set />
           </value>
@@ -24,6 +34,26 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/out/artifacts/e_library_war_exploded/ressources/templates/templateAdmin.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/model/Author.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/model/LanguageConverter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/view/admin/BookBean.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml">
           <value>
             <set />
           </value>
@@ -74,6 +104,26 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/web/ressources/templates/templateAdmin.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../tutorial-examples/README.md">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../tutorial-examples/case-studies/dukes-bookstore/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../tutorial-examples/case-studies/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../tutorial-examples/pom.xml">
           <value>
             <set />
           </value>

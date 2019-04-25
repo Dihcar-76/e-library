@@ -6,10 +6,10 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="../../resources/templates/templateAdmin.xhtml">
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                template="/resources/templates/templateAdmin.xhtml">
 
     <ui:param name="pageTitle" value="Search Book entities"/>
-
     <ui:define name="header">
         Book
     </ui:define>
@@ -17,9 +17,65 @@
     <ui:define name="subheader">
         Search Book entities
     </ui:define>
-
     <ui:define name="footer"/>
 
+    <ui:define name="main">
+        <h:form id="search">
+        <f:validateBean disabled="true">
+            <h:panelGroup styleClass="search">
+
+                <h:panelGrid columnClasses="label,component,required" columns="3">
+                    <h:outputLabel for="bookBeanExampleTitle" value="Title:"/>
+                    <h:panelGroup>
+                        <h:inputText id="bookBeanExampleTitle" maxLength="30" value="#{bookBean.example.title}"/>
+                        <h:message for="bookBeanExampleTitle" styleClass="error"/>
+                    </h:panelGroup>
+                    <h:outputText/>
+                    <h:outputLabel for="bookBeanExampleDescription" value="Description:"/>
+                    <h:panelGroup>
+                        <h:inputTextarea id="bookBeanExampleDescription" value="#{bookBean.example.description}"/>
+                        <h:message for="bookBeanExampleDescription" styleClass="error"/>
+                    </h:panelGroup>
+                    <h:outputText/>
+                    <h:outputLabel for="bookBeanExampleIsbn" value="Isbn:"/>
+                    <h:panelGroup>
+                        <h:inputText id="bookBeanExampleIsbn" maxLength="15" value="#{bookBean.example.isbn}"/>
+                        <h:message for="bookBeanExampleIsbn" styleClass="error"/>
+                    </h:panelGroup>
+                    <h:outputText/>
+                    <h:outputLabel for="bookBeanExampleNbOfPage" value="Nb Of Page:"/>
+                    <h:panelGroup>
+                        <h:inputText id="bookBeanExampleNbOfPage" value="#{bookBean.example.nbOfPage}"/>
+                        <h:message for="bookBeanExampleNbOfPage" styleClass="error"/>
+                    </h:panelGroup>
+                    <h:outputText/>
+                    <h:outputLabel for="bookBeanExampleLanguage" value="Language:"/>
+                    <h:panelGroup>
+                        <h:selectOneMenu id="bookBeanExampleLanguage" value="#{bookBean.example.language}">
+                            <f:selectItem/>
+                            <f:selectItem itemValue="ENGLISH"/>
+                            <f:selectItem itemValue="FRENCH"/>
+                            <f:selectItem itemValue="SPANISH"/>
+                            <f:selectItem itemValue="PORTUGUESE"/>
+                            <f:selectItem itemValue="ITALIAN"/>
+                            <f:selectItem itemValue="FINISH"/>
+                            <f:selectItem itemValue="GERMAN"/>
+                            <f:selectItem itemValue="DEUTSCH"/>
+                            <f:selectItem itemValue="RUSSIAN"/>
+                        </h:selectOneMenu>
+                        <h:message for="bookBeanExampleLanguage" styleClass="error"/>
+                    </h:panelGroup>
+                    <h:outputText/>
+                </h:panelGrid>
+                <h:panelGroup styleClass="buttons">
+                    <h:commandLink value="Search" action='#{bookBean.search}' styleClass="btn btn-primary"/>
+                    <h:commandLink value="Create New" action='#{bookBean.create}' styleClass="btn btn-primary"/>
+                </h:panelGroup>
+            </h:panelGroup>
+        </f:validateBean>
+        </h:form>
+
+    </ui:define>
 
 
 </ui:composition>

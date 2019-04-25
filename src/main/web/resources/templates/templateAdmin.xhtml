@@ -1,10 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
 
 <f:view contentType="text/html" encoding="UTF-8">
 
@@ -16,10 +18,17 @@
         <meta name="author" content="rboug"/>
         <meta name="generator" content="Jekyll v3.8.5"/>
 
+
         <!-- Bootstrap core CSS -->
-        <!--<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css"/>-->
+        <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>-->
         <h:outputStylesheet name="bootstrap/css/bootstrap.min.css"/>
-        <!--<style>
+        <h:outputStylesheet name="forge-style.css"/>
+
+
+        <!-- Custom styles for this template -->
+        <h:outputStylesheet name="jumbotron.css"/>
+
+        <style>
             .bd-placeholder-img {
                 font-size: 1.125rem;
                 text-anchor: middle;
@@ -34,16 +43,9 @@
                     font-size: 3.5rem;
                 }
             }
-        </style>-->
+        </style>
         <!-- Custom styles for this template -->
         <!--<link href="../starter-template.css" rel="stylesheet"/>-->
-        <h:outputStylesheet name="starter-template.css"/>
-        <!--<link href="../forge-style.css" rel="stylesheet"/>-->
-        <!--<h:outputStylesheet name="forge-style.css"/>-->
-        <!--<link href="../jumbotron.css" rel="stylesheet"/>-->
-        <!--<h:outputStylesheet name="jumbotron.css"/>-->
-
-
 
         <title><ui:insert name="title"/></title>
 
@@ -51,28 +53,36 @@
 
     <h:body>
         <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand" href="/main.xhtml">My e-library</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <!--<a jsf:id="link" class="navbar-brand" href="/main.xhtml">My e-library</a>-->
+            <h:link id="homeLink" styleClass="navbar-brand" outcome="/main.xhtml" value="My e-library">
+            </h:link>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+                    aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        <!--<a class="nav-link" href="/main.xhtml">Home <span class="sr-only">(current)</span></a>-->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        <!--<a class="nav-link" href="#">Link</a>-->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                        <!--<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                        <!--<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">Dropdown</a>-->
+                        <h:link styleClass="nav-link dropdown-toggle" outcome="#" id="dropdown01"
+                                pt:data-toggle="dropdown"
+                                pt:aria-haspopup="true" pt:aria-expanded="false" value="Dropdown"></h:link>
                         <div class="dropdown-menu" aria-labelledby="dropdown01">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            <!--<a class="dropdown-item" href="#">Action</a>-->
+                            <h:link styleClass="dropdown-item" outcome="/main.xhtml" value="Action"></h:link>
+                            <!--<a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>-->
                         </div>
                     </li>
                 </ul>
@@ -82,9 +92,9 @@
                     <h:panelGroup layout="block" class="form-group" rendered="true">
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown active">
-                                <!--<h:link outcome="/account/signin.xhtml" class="p-2 mb-2 bg-secondary text-white" value="Log in"/>-->
+                                <h:link outcome="/account/signin.xhtml" styleClass="btn btn-secondary" value="Log in"/>
 
-                                <a class="btn btn-secondary" href="/account/signin.xhtml" role="button">Log in</a>
+                                <!--<a class="btn btn-secondary" href="/account/signin.xhtml" role="button">Log in</a>-->
                             </li>
                         </ul>
                     </h:panelGroup>
@@ -94,10 +104,9 @@
 
         <div class="container forgecontainer">
             <div id="navigation">
-               <!--<h:link id="homeLink" outcome="/main.xhtml">
-                    <img src='#{resource["../forge-logo.png"]}' alt="Forge... get hammered" border="0"/>
-                   <h:graphicImage value = "../resources/forge-logo.png" alt="Forge... get hammered" border="0"/>
-                </h:link>-->
+                <h:link id="homeLink" outcome="/main.xhtml">
+                    <img src='#{resource["forge-logo.png"]}' alt="Forge... get hammered" border="0"/>
+                </h:link>
                 <ul>
                     <li>
                         <h:link outcome="/admin/CD/search" value="CD"/>
@@ -150,14 +159,20 @@
 
         <footer>
             <div id="footer-wrapper">
-                <p>footer</p>
+                <p><a href="http://www.antoniogoncalves.org">Antonio Goncalves</a></p>
             </div>
         </footer>
 
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
     </h:body>
 </f:view>
 </html>
