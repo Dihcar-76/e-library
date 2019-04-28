@@ -8,6 +8,10 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
                 template="/resources/templates/templateAdmin.xhtml">
+    <f:metadata>
+        <f:viewParam name="page" value='#{bookBean.page}'/>
+        <f:event type="preRenderView" listener='#{bookBean.paginate}'/>
+    </f:metadata>
 
     <ui:param name="pageTitle" value="Search Book entities"/>
     <ui:define name="header">

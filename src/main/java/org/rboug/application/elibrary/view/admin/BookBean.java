@@ -6,12 +6,14 @@ import org.rboug.application.elibrary.util.Loggable;
 import org.rboug.application.elibrary.util.NumberGenerator;
 import org.rboug.application.elibrary.util.ThirteenDigits;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -28,6 +30,8 @@ import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.annotation.FacesConfig;
+import static javax.faces.annotation.FacesConfig.Version.JSF_2_3;
 
 /**
  * Backing bean for Book entities.
@@ -36,7 +40,10 @@ import java.util.List;
  * <tt>&#64;ConversationScoped</tt> for state management, <tt>PersistenceContext</tt> for persistence,
  * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD framework or custom base class.
  */
-
+@FacesConfig(
+        // Activates CDI build-in beans
+        version = JSF_2_3
+)
 @Named
 @Stateful
 @ConversationScoped
@@ -69,7 +76,10 @@ public class BookBean implements Serializable {
    /*
     * Support updating and deleting Book entities
     */
-
+@PostConstruct
+public void init(){
+    System.out.println("init===========================");
+}
     public Long getId() {
         return this.id;
     }

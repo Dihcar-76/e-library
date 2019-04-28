@@ -8,7 +8,6 @@
           <element id="module-output" name="e-library" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Bean Validation" />
           <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
           <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.6.0" />
         </element>
