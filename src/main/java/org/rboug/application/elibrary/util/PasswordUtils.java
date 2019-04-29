@@ -3,11 +3,6 @@ package org.rboug.application.elibrary.util;
 import java.security.MessageDigest;
 import java.util.Base64;
 
-/**
- * @author Antonio Goncalves
- *         http://www.antoniogoncalves.org
- *         --
- */
 
 public class PasswordUtils {
 

@@ -12,11 +12,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-/**
- * @author Antonio Goncalves
- *         http://www.antoniogoncalves.org
- *         --
- */
 
 @MappedSuperclass
 @XmlAccessorType(XmlAccessType.FIELD)

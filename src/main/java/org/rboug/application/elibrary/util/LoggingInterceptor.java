@@ -7,11 +7,6 @@ import javax.interceptor.InvocationContext;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
-/**
- * @author Antonio Goncalves
- *         http://www.antoniogoncalves.org
- *         --
- */
 
 @Loggable
 @Interceptor

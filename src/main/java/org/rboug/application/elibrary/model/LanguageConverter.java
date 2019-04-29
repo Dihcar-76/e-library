@@ -5,11 +5,7 @@ import javax.persistence.Converter;
 
 import static org.rboug.application.elibrary.model.Language.*;
 
-/**
- * @author Antonio Goncalves
- *         http://www.antoniogoncalves.org
- *         --
- */
+
 @Converter
 public class LanguageConverter implements AttributeConverter<Language, String> {
 

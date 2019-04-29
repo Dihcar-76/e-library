@@ -2,11 +2,6 @@ package org.rboug.application.elibrary.util;
 
 import java.util.Random;
 
-/**
- * @author Antonio Goncalves
- *         http://www.antoniogoncalves.org
- *         --
- */
 
 @EightDigits
 public class IssnGenerator implements NumberGenerator {

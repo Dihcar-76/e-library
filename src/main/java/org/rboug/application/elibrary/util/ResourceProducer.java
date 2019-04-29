@@ -9,11 +9,6 @@ import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletResponse;
 import java.util.logging.Logger;
 
-/**
- * @author Antonio Goncalves
- *         http://www.antoniogoncalves.org
- *         --
- */
 
 public class ResourceProducer {
 

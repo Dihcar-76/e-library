@@ -10,11 +10,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 
-/**
- * @author Antonio Goncalves
- *         http://www.antoniogoncalves.org
- *         --
- */
 
 @Entity
 @DiscriminatorColumn(name = "discriminator", discriminatorType = DiscriminatorType.CHAR)
