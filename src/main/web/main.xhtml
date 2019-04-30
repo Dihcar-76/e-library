@@ -5,12 +5,76 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:rich="http://richfaces.org/rich"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:p="http://primefaces.org/ui"
       template="/resources/templates/template.xhtml">
+        <!--xmlns:rich="http://richfaces.org/rich"
+        xmlns:a4j="http://richfaces.org/a4j"-->
 <ui:define name="title">e-library</ui:define>
 
 <ui:define name="message">Welcome to the e-library commerce site</ui:define>
 
 <ui:define name="body">
+    <!--<h:outputStylesheet>
+        .label {
+            font-weight: bold;
+        }
+        .rf-dg, .rf-dg-c{
+            border:none;
+        }
+        .pbody {
+            width: 180px;
+        }
+    </h:outputStylesheet>-->
+
+    <!--<rich:panel>
+        <f:facet name="header">
+            <h:outputText value="e-library Store" />
+        </f:facet>
+        <h:form id="form">
+            <rich:dataGrid value="#{bookBean.allItems}" var="item" columns="2" elements="6">
+                <rich:panel bodyClass="pbody">
+                    <f:facet name="header">
+                        <h:outputText value="#{fn:substring(item.title, 0, 22)}" />
+                    </f:facet>
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Title:" styleClass="label" />
+                        <h:outputText value="#{item.title}" />
+                        <h:outputText value="Description:" styleClass="label" />
+                        <h:outputText value="#{fn:substring(item.description, 0, 150)}..." />
+                        <h:outputText value="Price:" styleClass="label" />
+                        <h:outputText value="#{item.unitCost}" />
+                    </h:panelGrid>
+                </rich:panel>
+                <f:facet name="footer">
+                    <rich:dataScroller fastStep="3"/>
+                </f:facet>
+            </rich:dataGrid>
+        </h:form>
+    </rich:panel>-->
+            <h:dataTable value="#{bookBean.allItems}" var="item"
+                         styleClass="order-table"
+                         headerClass="order-table-header"
+                         rowClasses="order-table-odd-row,order-table-even-row"
+            >
+
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Title</f:facet>
+                    <!-- row record -->
+                    #{item.title}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Description</f:facet>
+                    #{fn:substring(item.description, 0, 150)}...
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Price</f:facet>
+                    #{item.unitCost}
+                </h:column>
+            </h:dataTable>
+    <p:spinner />
 </ui:define>
 </ui:composition>

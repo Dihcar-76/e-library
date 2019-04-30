@@ -5,7 +5,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:rich="http://richfaces.org/rich">
 
 <f:view contentType="text/html" encoding="UTF-8">
 
@@ -19,10 +20,13 @@
         <title>Starter Template · Bootstrap</title>
 
         <!-- Bootstrap core CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-              crossorigin="anonymous"/>
-        <style>
+        <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>-->
+        <h:outputStylesheet name="bootstrap/css/bootstrap.min.css"/>
+
+
+        <!-- Custom styles for this template -->
+        <h:outputStylesheet name="jumbotron.css"/>
+        <!--<style>
             .bd-placeholder-img {
                 font-size: 1.125rem;
                 text-anchor: middle;
@@ -37,9 +41,9 @@
                     font-size: 3.5rem;
                 }
             }
-        </style>
+        </style>-->
         <!-- Custom styles for this template -->
-        <link href="../starter-template.css" rel="stylesheet"/>
+        <!--<link href="../starter-template.css" rel="stylesheet"/>-->
 
         <title><ui:insert name="title"/></title>
 

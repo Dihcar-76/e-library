@@ -1,6 +1,7 @@
 package org.rboug.application.elibrary.view.admin;
 
 import org.rboug.application.elibrary.model.Book;
+import org.rboug.application.elibrary.model.Item;
 import org.rboug.application.elibrary.model.Language;
 import org.rboug.application.elibrary.util.Loggable;
 import org.rboug.application.elibrary.util.NumberGenerator;
@@ -65,6 +66,12 @@ public class BookBean implements Serializable {
     private int page;
     private long count;
     private List<Book> pageItems;
+
+    public void setAllItems(List<Item> allItems) {
+        this.allItems = allItems;
+    }
+
+    private List<Item> allItems = new ArrayList<>();
     private Book example = new Book();
     @Resource
     private SessionContext sessionContext;
@@ -262,6 +269,13 @@ public class BookBean implements Serializable {
                 .createQuery(Book.class);
         return this.entityManager.createQuery(
                 criteria.select(criteria.from(Book.class))).getResultList();
+    }
+
+    public List<Item> getAllItems() {
+
+        TypedQuery<Item> query = entityManager.createNamedQuery(Item.FIND_ALL, Item.class);
+        this.allItems = query.getResultList();
+        return allItems;
     }
 
    /*
