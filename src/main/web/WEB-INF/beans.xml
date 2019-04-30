@@ -6,7 +6,7 @@
                       http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
     bean-discovery-mode="all">
     <interceptors>
-        <!--<class>org.rboug.application.elibrary.util.LoggingInterceptor</class>-->
-        <!--<class>org.rboug.application.elibrary.util.AuditInterceptor</class>-->
+        <class>org.rboug.application.elibrary.util.LoggingInterceptor</class><!---->
+        <class>org.rboug.application.elibrary.util.AuditInterceptor</class><!---->
     </interceptors>
 </beans>
