@@ -7,6 +7,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:forgeview="http://jboss.org/forge/view"
+                xmlns:p="http://primefaces.org/ui"
                 template="/resources/templates/templateAdmin.xhtml">
 
     <f:metadata>
@@ -34,7 +35,7 @@
     <ui:define name="footer"/>
 
     <ui:define name="main">
-        <h:form id="create">
+        <h:form id="create" enctype="multipart/form-data">
             <h:messages globalOnly="true" styleClass="error"/>
 
             <h:panelGrid columnClasses="label,component,required" columns="3">
@@ -58,7 +59,8 @@
                 <h:outputText/>
                 <h:outputLabel for="bookBeanBookIsbn" value="Isbn:"/>
                 <h:panelGroup>
-                    <h:outputLabel id="bookBeanBookIsbn" maxLength="15" required="true" value="#{bookBean.book.isbn}" readonly="true"/>
+                    <h:outputLabel id="bookBeanBookIsbn" maxLength="15" required="true" value="#{bookBean.book.isbn}"
+                                   readonly="true"/>
                     <h:message for="bookBeanBookIsbn" styleClass="error"/>
                 </h:panelGroup>
                 <h:outputText value=""/>
@@ -156,10 +158,16 @@
                     <h:message for="bookBeanBookPublisher" styleClass="error"/>
                 </h:panelGroup>
                 <h:outputText/>
+                <h:outputLabel for="fileUpload" value="Image:"/>
+                <h:panelGroup>
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:fileUpload id="fileUpload" value="#{bookBean.file}" mode="simple" skinSimple="true"/>
+                </h:panelGroup>
+                <h:outputText/>
             </h:panelGrid>
 
             <div class="buttons">
-                <h:commandLink value="Save" action='#{bookBean.update}' styleClass="btn btn-primary"/>
+                <p:commandButton value="Submit" action='#{bookBean.update}' styleClass="btn btn-primary mr-1"/>
                 <c:choose>
                     <c:when test='#{!empty bookBean.id}'>
                         <h:link value="Cancel" outcome="view" styleClass="btn btn-primary">

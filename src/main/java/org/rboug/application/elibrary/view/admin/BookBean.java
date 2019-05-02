@@ -1,5 +1,7 @@
 package org.rboug.application.elibrary.view.admin;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import org.rboug.application.elibrary.model.Book;
 import org.rboug.application.elibrary.model.Item;
 import org.rboug.application.elibrary.model.Language;
@@ -28,6 +30,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +84,39 @@ public class BookBean implements Serializable {
     @Inject
     @ThirteenDigits
     private NumberGenerator generator;
+
+    private UploadedFile file;
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+
+    public void upload() {
+        try{
+            InputStream input = this.file.getInputstream();
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            for(int length = 0; (length = input.read(buffer))>0;){
+                output.write(buffer, 0, length);
+            }
+            this.book.setSmallImage(output.toByteArray());
+            FacesMessage message = new FacesMessage("Uploaded!"+file.getFileName());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+
+
+        }
+        catch (IOException e) {
+            FacesMessage message = new FacesMessage("Error upload"+file.getFileName());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            e.printStackTrace();
+        }
+
+    }
+
 
    /*
     * Support updating and deleting Book entities
@@ -135,7 +173,7 @@ public class BookBean implements Serializable {
 
     public String update() {
         this.conversation.end();
-
+        upload();
         try {
             if (id == null) {
                 book.setIsbn(generator.generateNumber());

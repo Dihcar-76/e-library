@@ -2,80 +2,84 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-      xmlns:p="http://primefaces.org/ui"
-                xmlns:rich="http://richfaces.org/rich"
-                xmlns:a4j="http://richfaces.org/a4j"
-      template="/resources/templates/template.xhtml">
-        <!---->
-<ui:define name="title">e-library</ui:define>
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:p="http://primefaces.org/ui"
+                template="/resources/templates/template.xhtml">
+    <!---->
+    <ui:define name="title">e-library</ui:define>
 
-<ui:define name="message">Welcome to the e-library commerce site</ui:define>
+    <ui:define name="message">Welcome to the e-library commerce site</ui:define>
 
-<ui:define name="body">
-    <h:outputStylesheet>
-        .label {
-            font-weight: bold;
-        }
-        .rf-dg, .rf-dg-c{
-            border:none;
-        }
-        .pbody {
-            width: 180px;
-        }
-    </h:outputStylesheet>
+    <ui:define name="body">
+        <style type="text/css">
+            .value {
+                font-weight: bold;
+            }
+        </style>
 
-    <rich:panel>
-        <f:facet name="header">
-            <h:outputText value="e-library Store" />
-        </f:facet>
+
         <h:form id="form">
-            <rich:dataGrid value="#{bookBean.allItems}" var="item" columns="2" elements="6">
-                <rich:panel bodyClass="pbody">
-                    <f:facet name="header">
-                        <h:outputText value="#{fn:substring(item.title, 0, 22)}" />
-                    </f:facet>
-                    <h:panelGrid columns="2">
-                        <h:outputText value="Title:" styleClass="label" />
-                        <h:outputText value="#{item.title}" />
-                        <h:outputText value="Description:" styleClass="label" />
-                        <h:outputText value="#{fn:substring(item.description, 0, 150)}..." />
-                        <h:outputText value="Price:" styleClass="label" />
-                        <h:outputText value="#{item.unitCost}" />
-                    </h:panelGrid>
-                </rich:panel>
-                <f:facet name="footer">
-                    <rich:dataScroller fastStep="3"/>
+            <p:dataGrid var="item" value="#{bookBean.allItems}" columns="3" layout="grid"
+                        rows="12" paginator="true" id="items"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+
+                <f:facet name="header">
+                    All items for sale
                 </f:facet>
-            </rich:dataGrid>
+
+                <p:panel header="#{item.id}" style="text-align:center">
+                    <h:panelGrid columns="1" style="width:100%">
+                        <div class="col-md-4">
+                            <h3>#{fn:substring(item.title, 0, 35)}</h3>
+
+                            <p>
+                                <h:link outcome="/shopping/viewItem.xhtml">
+                                    <f:param name="id" value="#{item.id}"/>
+                                    <p:graphicImage url="#{item.smallImageURL}"/>
+                                </h:link>
+                            </p>
+
+                            <p>#{fn:substring(item.description, 0, 35)}...</p>
+
+                            <p>
+                                <h:button outcome="/shopping/viewItem.xhtml" styleClass="btn btn-default" value="View details ">
+                                    <f:param name="id" value="#{item.id}"/>
+                                </h:button>
+                            </p>
+                            <p/>
+                        </div>
+                    </h:panelGrid>
+                </p:panel>
+
+            </p:dataGrid>
         </h:form>
-    </rich:panel>
-            <h:dataTable value="#{bookBean.allItems}" var="item"
-                         styleClass="order-table"
-                         headerClass="order-table-header"
-                         rowClasses="order-table-odd-row,order-table-even-row"
-            >
+        <h:dataTable value="#{bookBean.allItems}" var="item"
+                     styleClass="order-table"
+                     headerClass="order-table-header"
+                     rowClasses="order-table-odd-row,order-table-even-row"
+        >
 
-                <h:column>
-                    <!-- column header -->
-                    <f:facet name="header">Title</f:facet>
-                    <!-- row record -->
-                    #{item.title}
-                </h:column>
+            <h:column>
+                <!-- column header -->
+                <f:facet name="header">Title</f:facet>
+                <!-- row record -->
+                #{item.title}
+            </h:column>
 
-                <h:column>
-                    <f:facet name="header">Description</f:facet>
-                    #{fn:substring(item.description, 0, 150)}...
-                </h:column>
+            <h:column>
+                <f:facet name="header">Description</f:facet>
+                #{fn:substring(item.description, 0, 150)}...
+            </h:column>
 
-                <h:column>
-                    <f:facet name="header">Price</f:facet>
-                    #{item.unitCost}
-                </h:column>
-            </h:dataTable>
-    <p:spinner id="basic" value="3" />
-</ui:define>
+            <h:column>
+                <f:facet name="header">Price</f:facet>
+                #{item.unitCost}
+            </h:column>
+        </h:dataTable>
+        <p:spinner id="basic" value="3"/>
+    </ui:define>
 </ui:composition>

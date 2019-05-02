@@ -45,6 +45,8 @@ public class Book extends Item {
     @OneToMany
     private Set<Author> authors = new HashSet<>();
 
+    private byte[] smallImage;
+
     // ======================================
     // =            Constructors            =
     // ======================================
@@ -166,6 +168,14 @@ public class Book extends Item {
             authors = new HashSet<>();
         }
         authors.add(author);
+    }
+
+    public byte[] getSmallImage() {
+        return smallImage;
+    }
+
+    public void setSmallImage(byte[] smallImage) {
+        this.smallImage = smallImage;
     }
 
     // ======================================
