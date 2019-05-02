@@ -17,11 +17,6 @@
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
 
-    <context-param>
-        <param-name>primefaces.UPLOADER</param-name>
-        <param-value>auto|native|commons</param-value>
-    </context-param>
-
     <filter>
         <filter-name>PrimeFaces FileUpload Filter</filter-name>
         <filter-class>
@@ -32,5 +27,11 @@
         <filter-name>PrimeFaces FileUpload Filter</filter-name>
         <servlet-name>Faces Servlet</servlet-name>
     </filter-mapping>
+
+    <context-param>
+        <param-name>primefaces.UPLOADER</param-name>
+        <param-value>auto</param-value>
+    </context-param>
+
 
 </web-app>

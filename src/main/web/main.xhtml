@@ -22,7 +22,7 @@
 
 
         <h:form id="form">
-            <p:dataGrid var="item" value="#{bookBean.allItems}" columns="3" layout="grid"
+            <p:dataGrid var="item" value="#{itemBean.allItems}" columns="3" layout="grid"
                         rows="12" paginator="true" id="items"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="6,12,16">
@@ -39,7 +39,9 @@
                             <p>
                                 <h:link outcome="/shopping/viewItem.xhtml">
                                     <f:param name="id" value="#{item.id}"/>
-                                    <p:graphicImage url="#{item.smallImageURL}"/>
+                                    <p:graphicImage value="#{itemBean.imageFromDB}">
+                                        <f:param name="id" value="#{item.id}" />
+                                    </p:graphicImage>
                                 </h:link>
                             </p>
 
@@ -57,7 +59,7 @@
 
             </p:dataGrid>
         </h:form>
-        <h:dataTable value="#{bookBean.allItems}" var="item"
+        <h:dataTable value="#{itemBean.allItems}" var="item"
                      styleClass="order-table"
                      headerClass="order-table-header"
                      rowClasses="order-table-odd-row,order-table-even-row"
@@ -78,6 +80,12 @@
             <h:column>
                 <f:facet name="header">Price</f:facet>
                 #{item.unitCost}
+            </h:column>
+            <h:column>
+            <f:facet name="header">Image</f:facet>
+            <p:graphicImage value="#{itemBean.imageFromDB}">
+                <f:param name="id" value="#{item.id}" />
+            </p:graphicImage>
             </h:column>
         </h:dataTable>
         <p:spinner id="basic" value="3"/>

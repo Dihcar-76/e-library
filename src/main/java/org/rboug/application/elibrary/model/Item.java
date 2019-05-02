@@ -1,5 +1,10 @@
 package org.rboug.application.elibrary.model;
 
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
+import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -8,6 +13,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 
 
@@ -67,6 +74,10 @@ public class Item implements Serializable {
     @Column(name = "medium_image_url")
     @XmlElement(name = "medium-image-url")
     protected String mediumImageURL;
+
+    private byte[] smallImage;
+
+
 
     // ======================================
     // =        Getters and Setters         =
@@ -134,6 +145,14 @@ public class Item implements Serializable {
 
     public void setMediumImageURL(String mediumImageURL) {
         this.mediumImageURL = mediumImageURL;
+    }
+
+    public byte[] getSmallImage() {
+        return smallImage;
+    }
+
+    public void setSmallImage(byte[] smallImage) {
+        this.smallImage = smallImage;
     }
 
     // ======================================
