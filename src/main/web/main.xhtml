@@ -7,15 +7,16 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:p="http://primefaces.org/ui"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:a4j="http://richfaces.org/a4j"
       template="/resources/templates/template.xhtml">
-        <!--xmlns:rich="http://richfaces.org/rich"
-        xmlns:a4j="http://richfaces.org/a4j"-->
+        <!---->
 <ui:define name="title">e-library</ui:define>
 
 <ui:define name="message">Welcome to the e-library commerce site</ui:define>
 
 <ui:define name="body">
-    <!--<h:outputStylesheet>
+    <h:outputStylesheet>
         .label {
             font-weight: bold;
         }
@@ -25,9 +26,9 @@
         .pbody {
             width: 180px;
         }
-    </h:outputStylesheet>-->
+    </h:outputStylesheet>
 
-    <!--<rich:panel>
+    <rich:panel>
         <f:facet name="header">
             <h:outputText value="e-library Store" />
         </f:facet>
@@ -51,7 +52,7 @@
                 </f:facet>
             </rich:dataGrid>
         </h:form>
-    </rich:panel>-->
+    </rich:panel>
             <h:dataTable value="#{bookBean.allItems}" var="item"
                          styleClass="order-table"
                          headerClass="order-table-header"

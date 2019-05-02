@@ -27,12 +27,18 @@
             <artifactId>javaee-api</artifactId>
             <version>8.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.richfaces/richfaces
+        <!--https://mvnrepository.com/artifact/org.richfaces/richfaces-->
         <dependency>
             <groupId>org.richfaces</groupId>
             <artifactId>richfaces</artifactId>
             <version>4.5.1.Final</version>
-        </dependency>-->
+        </dependency>
+        <!--Primefaces-->
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>7.0</version>
+        </dependency>
 
 
     </dependencies>
