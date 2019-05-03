@@ -1,10 +1,13 @@
 package org.rboug.application.elibrary.view.admin;
 
 import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import org.primefaces.model.StreamedContent;
 import org.rboug.application.elibrary.model.Item;
 import org.rboug.application.elibrary.util.Loggable;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
@@ -17,10 +20,7 @@ import javax.faces.convert.Converter;
 import javax.faces.event.PhaseId;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -29,7 +29,9 @@ import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.faces.annotation.FacesConfig;
+
 import static javax.faces.annotation.FacesConfig.Version.JSF_2_3;
 
 /**
@@ -66,7 +68,6 @@ public class ItemBean implements Serializable {
     private Conversation conversation;
 
     @PersistenceContext(unitName = "applicationCDBookStorePU", type = PersistenceContextType.EXTENDED)
-
     private EntityManager entityManager;
 
     private int page;
@@ -77,7 +78,7 @@ public class ItemBean implements Serializable {
 
     private Item example = new Item();
 
-    private List<Item> allItems = new ArrayList<>();
+    private List<Item> allItems;
 
     private StreamedContent imageFromDB;
 
@@ -89,6 +90,7 @@ public class ItemBean implements Serializable {
     public Long getId() {
         return this.id;
     }
+
     /*
      * Support updating and deleting Item entities
      */
@@ -255,6 +257,7 @@ public class ItemBean implements Serializable {
                                       UIComponent component, String value) {
                 return ejbProxy.findById(Long.valueOf(value));
             }
+
             @Override
             public String getAsString(FacesContext context,
                                       UIComponent component, Object value) {
@@ -276,22 +279,34 @@ public class ItemBean implements Serializable {
         return added;
     }
 
-    public List<Item> getAllItems() {
-
+    @PostConstruct
+    public void init() {
+        allItems= new ArrayList<Item>();
         TypedQuery<Item> query = entityManager.createNamedQuery(Item.FIND_ALL, Item.class);
         this.allItems = query.getResultList();
+    }
+
+
+    public void setAllItems(List<Item> allItems) {
+        this.allItems = allItems;
+    }
+
+    public List<Item> getAllItems() {
+        /*if (allItems == null) {
+            TypedQuery<Item> query = entityManager.createNamedQuery(Item.FIND_ALL, Item.class);
+            this.allItems = query.getResultList();
+        }*/
         return allItems;
     }
 
-    public StreamedContent getImageFromDB(){
+    public StreamedContent getImageFromDB() {
 
         FacesContext context = FacesContext.getCurrentInstance();
 
         if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
             // So, we're rendering the HTML. Return a stub StreamedContent so that it will generate right URL.
             return new DefaultStreamedContent();
-        }
-        else {
+        } else {
 
             // Reading image from database assuming that product image (bytes)
             String id = context.getExternalContext().getRequestParameterMap().get("id");
@@ -302,4 +317,51 @@ public class ItemBean implements Serializable {
         }
 
     }
+
+    public void setModel(LazyDataModel<Item> model) {
+        this.model = model;
+    }
+
+    public void load(){
+
+    }
+
+    private LazyDataModel<Item> model;
+
+    public LazyDataModel<Item> getModel() {
+        try {
+            this.model = new LazyDataModel<Item>() {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public List<Item> load(int first, int pageSize, String sortField,
+                                       SortOrder sortOrder, Map<String, Object> filters) {
+                    List<Item> result = getItemList(first, pageSize);
+                    model.setRowCount(getItemTotalCount());
+                    return result;
+                }
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return model;
+    }
+
+    public List<Item> getItemList(int start, int size) {
+        Query query = entityManager.createQuery("SELECT i FROM Item i");
+        query.setFirstResult(start);
+        query.setMaxResults(size);
+        List<Item> list = query.getResultList();
+        return list;
+    }
+
+    public int getItemTotalCount() {
+        Query query = entityManager.createQuery("SELECT COUNT(i.id) FROM Item i");
+        return ((Long) query.getSingleResult()).intValue();
+    }
 }
+
+
+
+
+

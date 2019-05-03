@@ -8,7 +8,13 @@
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 xmlns:p="http://primefaces.org/ui"
                 template="/resources/templates/template.xhtml">
-    <!---->
+
+    <!--<f:event listener="#{itemBean.load}" type="preRenderView" />-->
+    <!--<f:metadata>
+        <f:viewParam name="page" value='#{itemBean.page}'/>
+        <f:event type="preRenderView" listener='#{itemBean.paginate}'/>
+    </f:metadata>-->
+
     <ui:define name="title">e-library</ui:define>
 
     <ui:define name="message">Welcome to the e-library commerce site</ui:define>
@@ -22,10 +28,11 @@
 
 
         <h:form id="form">
-            <p:dataGrid var="item" value="#{itemBean.allItems}" columns="3" layout="grid"
-                        rows="12" paginator="true" id="items"
+            <p:dataGrid var="item" value="#{itemBean.allItems}" columns="3" layout="grid" lazy="false"
+                        rows="6" paginator="true" id="items"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                        rowsPerPageTemplate="6,12,16">
+                        rowsPerPageTemplate="6,12,18"
+                        widgetvar="items">
 
                 <f:facet name="header">
                     All items for sale
@@ -33,33 +40,45 @@
 
                 <p:panel header="#{item.id}" style="text-align:center">
                     <h:panelGrid columns="1" style="width:100%">
-                        <div class="col-md-4">
-                            <h3>#{fn:substring(item.title, 0, 35)}</h3>
-
-                            <p>
-                                <h:link outcome="/shopping/viewItem.xhtml">
-                                    <f:param name="id" value="#{item.id}"/>
-                                    <p:graphicImage value="#{itemBean.imageFromDB}">
-                                        <f:param name="id" value="#{item.id}" />
-                                    </p:graphicImage>
-                                </h:link>
-                            </p>
-
-                            <p>#{fn:substring(item.description, 0, 35)}...</p>
-
-                            <p>
-                                <h:button outcome="/shopping/viewItem.xhtml" styleClass="btn btn-default" value="View details ">
-                                    <f:param name="id" value="#{item.id}"/>
-                                </h:button>
-                            </p>
-                            <p/>
-                        </div>
+                        <h:outputText value="#{fn:substring(item.title, 0, 35)}"/>
+                        <h:link outcome="/shopping/viewItem.xhtml">
+                            <f:param name="id" value="#{item.id}"/>
+                            <p:graphicImage value="#{itemBean.imageFromDB}" width="200px" height="200px" >
+                                <f:param name="id" value="#{item.id}" />
+                            </p:graphicImage>
+                        </h:link>
+                        <h:outputText value="#{fn:substring(item.description, 0, 35)}..."/>
+                        <h:button outcome="/shopping/viewItem.xhtml" styleClass="btn btn-default"
+                                  value="View details ">
+                            <f:param name="id" value="#{item.id}"/>
+                        </h:button>
                     </h:panelGrid>
                 </p:panel>
 
             </p:dataGrid>
         </h:form>
-        <h:dataTable value="#{itemBean.allItems}" var="item"
+
+        <h:form>
+            <p:dataTable var="_item" value="#{itemBean.allItems}" rows="10"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15">
+                <p:column headerText="Id">
+                    <h:outputText value="#{_item.id}"/>
+                </p:column>
+
+                <p:column headerText="Title">
+                    <h:outputText value="#{_item.title}"/>
+                </p:column>
+
+                <p:column headerText="Description">
+                    <h:outputText value="#{_item.description}"/>
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+
+        <h:dataTable value="#{itemBean.allItems}" var="_item2"
                      styleClass="order-table"
                      headerClass="order-table-header"
                      rowClasses="order-table-odd-row,order-table-even-row"
@@ -69,23 +88,23 @@
                 <!-- column header -->
                 <f:facet name="header">Title</f:facet>
                 <!-- row record -->
-                #{item.title}
+                #{_item2.title}
             </h:column>
 
             <h:column>
                 <f:facet name="header">Description</f:facet>
-                #{fn:substring(item.description, 0, 150)}...
+                #{fn:substring(_item2.description, 0, 150)}...
             </h:column>
 
             <h:column>
                 <f:facet name="header">Price</f:facet>
-                #{item.unitCost}
+                #{_item2.unitCost}
             </h:column>
             <h:column>
-            <f:facet name="header">Image</f:facet>
-            <p:graphicImage value="#{itemBean.imageFromDB}">
-                <f:param name="id" value="#{item.id}" />
-            </p:graphicImage>
+                <f:facet name="header">Image</f:facet>
+                <p:graphicImage value="#{itemBean.imageFromDB}">
+                    <f:param name="id" value="#{_item2.id}"/>
+                </p:graphicImage>
             </h:column>
         </h:dataTable>
         <p:spinner id="basic" value="3"/>

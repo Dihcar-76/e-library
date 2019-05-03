@@ -163,6 +163,21 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/view/admin/ItemBean.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/view/admin/ItemLazyDataModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/view/admin/ItemService.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/view/admin/PublisherBean.java">
           <value>
             <set />
@@ -309,6 +324,11 @@
           </value>
         </entry>
         <entry key="$USER_HOME$/Downloads/agoncal-application-cdbookstore-master/cdbookstore/src/main/webapp/admin/book/create.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/agoncal-application-cdbookstore-master/cdbookstore/src/main/webapp/main.xhtml">
           <value>
             <set />
           </value>
