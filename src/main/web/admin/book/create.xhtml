@@ -47,7 +47,7 @@
                 <h:outputText value="*"/>
                 <h:outputLabel for="bookBeanBookDescription" value="Description:"/>
                 <h:panelGroup>
-                    <h:inputTextarea id="bookBeanBookDescription" value="#{bookBean.book.description}"/>
+                    <h:inputTextarea id="bookBeanBookDescription" style="width:95%;height:75px"  value="#{bookBean.book.description}"/>
                     <h:message for="bookBeanBookDescription" styleClass="error"/>
                 </h:panelGroup>
                 <h:outputText/>
@@ -108,7 +108,7 @@
                 <h:outputText/>
                 <h:outputLabel for="bookBeanBookAuthors" value="Authors:"/>
                 <h:panelGroup>
-                    <ui:param name="_collection" value="#{bookBean.book.authors}"/>
+                <!--    <ui:param name="_collection" value="#{bookBean.book.authors}"/>
                     <h:dataTable id="bookBeanBookAuthors" styleClass="data-table"
                                  value="#{forgeview:asList(_collection)}" var="_item">
                         <h:column>
@@ -144,7 +144,12 @@
                                        id="bookBeanBookAuthorsAdd"
                                        onclick="if (document.getElementById(document.forms[0].id+':bookBeanBookAuthorsSelect').selectedIndex &lt; 1) { alert('Must select a Author'); return false; }"
                                        styleClass="add-button"/>
-                    </h:panelGrid>
+                    </h:panelGrid>-->
+                    <h:selectManyListbox converter="#{authorBean.converter}" id="bookBeanBookAuthors"
+                                     value="#{bookBean.book.authors}">
+                        <f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}"
+                                       value="#{authorBean.all}" var="_item"/>
+                    </h:selectManyListbox>
                 </h:panelGroup>
                 <h:outputText/>
                 <h:outputLabel for="bookBeanBookPublisher" value="Publisher:"/>
@@ -160,14 +165,14 @@
                 <h:outputText/>
                 <h:outputLabel for="fileUpload" value="Image:"/>
                 <h:panelGroup>
-                    <p:growl id="messages" showDetail="true"/>
+                    <p:growl id="messages" style="padding-top:50px" showDetail="true"/>
                     <p:fileUpload id="fileUpload" value="#{bookBean.file}" mode="simple" skinSimple="true"/>
                 </h:panelGroup>
                 <h:outputText/>
             </h:panelGrid>
 
             <div class="buttons">
-                <p:commandButton value="Submit" action='#{bookBean.update}' styleClass="btn btn-primary mr-1"/>
+                <h:commandLink value="Save" action='#{bookBean.update}' styleClass="btn btn-primary mr-1"/>
                 <c:choose>
                     <c:when test='#{!empty bookBean.id}'>
                         <h:link value="Cancel" outcome="view" styleClass="btn btn-primary">

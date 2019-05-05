@@ -1,16 +1,20 @@
 package org.rboug.application.elibrary.model;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = Author.FIND_ALL, query = "SELECT a FROM Author a order by a.lastName")
+
+})
 public class Author extends Artist {
 
     // ======================================
     // =             Attributes             =
     // ======================================
+
+    public static final String FIND_ALL = "Author.findAll";
 
     @Column(name = "preferred_language")
     @Convert(converter = LanguageConverter.class)

@@ -28,7 +28,7 @@
 
 
         <h:form id="form">
-            <p:dataGrid var="item" value="#{itemBean.allItems}" columns="3" layout="grid" lazy="false"
+            <p:dataGrid var="item" value="#{itemBean.model}" columns="3" layout="grid" lazy="true"
                         rows="6" paginator="true" id="items"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="6,12,18"
@@ -57,7 +57,7 @@
 
             </p:dataGrid>
         </h:form>
-
+<br/>
         <h:form>
             <p:dataTable var="_item" value="#{itemBean.allItems}" rows="10"
                          paginator="true"
@@ -83,30 +83,26 @@
                      headerClass="order-table-header"
                      rowClasses="order-table-odd-row,order-table-even-row"
         >
-
             <h:column>
                 <!-- column header -->
                 <f:facet name="header">Title</f:facet>
                 <!-- row record -->
                 #{_item2.title}
             </h:column>
-
             <h:column>
                 <f:facet name="header">Description</f:facet>
                 #{fn:substring(_item2.description, 0, 150)}...
             </h:column>
-
             <h:column>
                 <f:facet name="header">Price</f:facet>
                 #{_item2.unitCost}
             </h:column>
             <h:column>
                 <f:facet name="header">Image</f:facet>
-                <p:graphicImage value="#{itemBean.imageFromDB}">
+                <p:graphicImage value="#{itemBean.imageFromDB}" width="200px" height="200px">
                     <f:param name="id" value="#{_item2.id}"/>
                 </p:graphicImage>
             </h:column>
         </h:dataTable>
-        <p:spinner id="basic" value="3"/>
     </ui:define>
 </ui:composition>

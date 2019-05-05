@@ -45,8 +45,6 @@ public class Book extends Item {
     @OneToMany
     private Set<Author> authors = new HashSet<>();
 
-
-
     // ======================================
     // =            Constructors            =
     // ======================================

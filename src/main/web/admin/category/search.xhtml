@@ -7,10 +7,10 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="/resources/templates/templateAdmin.xhtml">
 
-    <!--<f:metadata>
-        <f:viewParam name="page" value='#{categoryBean.page}'/>
-        <f:event type="preRenderView" listener='#{categoryBean.paginate}'/>
-    </f:metadata>-->
+    <f:metadata>
+        <!--<f:viewParam name="page" value='#{categoryBean.page}'/>-->
+        <f:event type="preRenderView" listener='#{categoryBean.search}'/>
+    </f:metadata>
 
     <ui:param name="pageTitle" value="Search Category entities"/>
 

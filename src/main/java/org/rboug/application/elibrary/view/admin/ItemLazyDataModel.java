@@ -28,7 +28,8 @@ import static javax.faces.annotation.FacesConfig.Version.JSF_2_3;
 @ConversationScoped
 public class ItemLazyDataModel extends LazyDataModel<Item> implements Serializable {
 
-
+@Inject
+ItemService itemService;
 
     public ItemLazyDataModel(){
         System.out.println("--------- "+this+" -----------------");
@@ -38,8 +39,8 @@ public class ItemLazyDataModel extends LazyDataModel<Item> implements Serializab
     public List<Item> load(int first, int pageSize, String sortField,
                            SortOrder sortOrder, Map<String, Object> filters) {
 
-       // List<Item> list = getItemList(first, pageSize);
-        //this.setRowCount(getItemTotalCount());
+        List<Item> list = itemService.getItemList(first, pageSize);
+        this.setRowCount(itemService.getItemTotalCount());
         return null;
     }
 

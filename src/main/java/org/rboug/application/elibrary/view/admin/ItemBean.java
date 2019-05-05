@@ -4,6 +4,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 import org.primefaces.model.StreamedContent;
+import org.rboug.application.elibrary.model.Author;
 import org.rboug.application.elibrary.model.Item;
 import org.rboug.application.elibrary.util.Loggable;
 
@@ -27,9 +28,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import javax.faces.annotation.FacesConfig;
 
 import static javax.faces.annotation.FacesConfig.Version.JSF_2_3;
@@ -81,6 +80,20 @@ public class ItemBean implements Serializable {
     private List<Item> allItems;
 
     private StreamedContent imageFromDB;
+
+    public List<Author> getSelectedAuthors() {
+
+        TypedQuery<Author> query = entityManager.createNamedQuery(Author.FIND_ALL, Author.class);
+        this.selectedAuthors = query.getResultList();
+        return selectedAuthors;
+    }
+
+    public void setSelectedAuthors(List<Author> selectedAuthors) {
+
+        this.selectedAuthors = selectedAuthors;
+    }
+
+    private List<Author> selectedAuthors = new ArrayList<>();
 
     @Resource
     private SessionContext sessionContext;
@@ -329,7 +342,7 @@ public class ItemBean implements Serializable {
     private LazyDataModel<Item> model;
 
     public LazyDataModel<Item> getModel() {
-        try {
+        if(model==null){
             this.model = new LazyDataModel<Item>() {
                 private static final long serialVersionUID = 1L;
 
@@ -341,8 +354,6 @@ public class ItemBean implements Serializable {
                     return result;
                 }
             };
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return model;
     }

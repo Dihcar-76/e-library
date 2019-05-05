@@ -24,8 +24,8 @@ import java.io.Serializable;
 @NamedQueries({
         @NamedQuery(name = Item.FIND_TOP_RATED, query = "SELECT i FROM Item i WHERE i.id in :ids"),
         @NamedQuery(name = Item.SEARCH, query = "SELECT i FROM Item i WHERE UPPER(i.title) LIKE :keyword OR UPPER(i.description) LIKE :keyword ORDER BY i.title"),
-        @NamedQuery(name = Item.FIND_ALL, query = "SELECT i FROM Item i order by i.title")
-
+        @NamedQuery(name = Item.FIND_ALL, query = "SELECT i FROM Item i order by i.title"),
+        @NamedQuery(name = Item.FIND_ALL_BOOK_AUTHORS, query = "SELECT a FROM Book b, IN(b.authors) a WHERE b.id = :id order by a.lastName")
 })
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Item implements Serializable {
@@ -37,6 +37,7 @@ public class Item implements Serializable {
     public static final String FIND_TOP_RATED = "Item.findTopRated";
     public static final String SEARCH = "Item.search";
     public static final String FIND_ALL = "Item.findAll";
+    public static final String FIND_ALL_BOOK_AUTHORS = "Item.findAllBookAuthors";
 
     // ======================================
     // =             Attributes             =
