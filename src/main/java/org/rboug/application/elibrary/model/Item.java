@@ -16,6 +16,8 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Objects;
 
 
 @Entity
@@ -159,6 +161,22 @@ public class Item implements Serializable {
     // ======================================
     // =   Methods hash, equals, toString   =
     // ======================================
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return version == item.version &&
+                Objects.equals(id, item.id);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id);
+        return result;
+    }
 
     @Override
     public String toString() {

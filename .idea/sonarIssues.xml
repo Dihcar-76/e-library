@@ -58,6 +58,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/account/AccountBean.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/model/Address.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/model/Artist.java">
           <value>
             <set />
@@ -78,6 +88,31 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/model/Country.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/model/CreditCard.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/model/CreditCardType.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/model/Invoice.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/model/InvoiceLine.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/model/Item.java">
           <value>
             <set />
@@ -94,6 +129,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/model/Publisher.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/model/User.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/model/UserRole.java">
           <value>
             <set />
           </value>
@@ -193,6 +238,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/view/shopping/ShoppingCartBean.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/view/shopping/ShoppingCartItem.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/view/shopping/viewItem.xhtml">
           <value>
             <set />
@@ -214,6 +269,26 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/web/WEB-INF/web.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/web/account/forgot.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/web/account/profile.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/web/account/signin.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/web/account/signup.xhtml">
           <value>
             <set />
           </value>
@@ -258,6 +333,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/web/admin/main.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/web/main.xhtml">
           <value>
             <set />
@@ -284,6 +364,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/web/ressources/templates/templateAdmin.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/web/shopping/searchItems.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/web/shopping/showShoppingCart.xhtml">
           <value>
             <set />
           </value>
@@ -339,6 +429,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../tutorial-examples/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/agoncal-application-cdbookstore-master/cdbookstore/src/main/java/org/agoncal/application/cdbookstore/view/shopping/ShoppingCartBean.java">
           <value>
             <set />
           </value>

@@ -60,8 +60,13 @@
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><h:link class="nav-link" outcome="/shopping/showShoppingCart.xhtml" value="Shopping cart"
+                                rendered="#{!shoppingCartBean.shoppingCartIsEmpty()}"/></li>
+                    <!--<li><h:link outcome="/admin/main.xhtml" value="Admin"/></li>-->
+                    <li class="nav-item"><h:link class="nav-link" outcome="/admin/main.xhtml" value="Admin" rendered="#{accountBean.admin}"/></li>
                     <li class="nav-item active">
                         <!--<a class="nav-link" href="/main.xhtml">Home <span class="sr-only">(current)</span></a>-->
+
                     </li>
                     <li class="nav-item">
                         <!--<a class="nav-link" href="#">Link</a>-->
@@ -83,9 +88,10 @@
                         </div>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"/>
-                    <button class="btn btn-secondary my-2 my-sm-0 mr-1" type="submit">Search</button>
+                <h:form class="form-inline my-2 my-lg-0">
+                    <!--<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"/>-->
+                    <h:inputText pt:placeholder="Search" class="form-control mr-sm-2" value="#{catalogBean.keyword}"/>
+                    <h:commandButton class="btn btn-secondary my-2 my-sm-0 mr-1" type="submit" action="/shopping/searchItems.xhtml?faces-redirect=true&amp;includeViewParams=true" value="Search"/>
                     <h:panelGroup layout="block" styleClass="form-group my-2 my-sm-0 mr-1" rendered="true">
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown active">
@@ -95,7 +101,7 @@
                             </li>
                         </ul>
                     </h:panelGroup>
-                </form>
+                </h:form>
             </div>
         </nav>
 
