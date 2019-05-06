@@ -368,6 +368,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/web/shopping/checkout.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/web/shopping/searchItems.xhtml">
           <value>
             <set />
