@@ -149,7 +149,7 @@ public class AccountBean implements Serializable {
                     "You can now browse the catalog"));
             return "/main";
         } catch (NoResultException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Wrong user/password",
+            FacesContext.getCurrentInstance().addMessage("signinForm:inputPassword", new FacesMessage(FacesMessage.SEVERITY_WARN, "Wrong user/password",
                     "Check your inputs or ask for a new password"));
             return null;
         }
@@ -187,11 +187,12 @@ public class AccountBean implements Serializable {
             int n = rand.nextInt(50);
             String temporaryPassword = loremIpsum.getWords(1, n);
             System.out.println("#################################################################################"+temporaryPassword);
-            user.setPassword(PasswordUtils.digestPassword(temporaryPassword));
+            user.setPassword(temporaryPassword);
+            System.out.println("#################################################################################"+PasswordUtils.digestPassword(temporaryPassword).toString());
             em.merge(user);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Email sent",
                     "An email has been sent to " + user.getEmail() + " with temporary password :" + temporaryPassword));
-            // send an email with the password "dummyPassword"
+            // TODO:send an email with the password "dummyPassword"
             return doLogout();
         } catch (NoResultException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Unknown email",
