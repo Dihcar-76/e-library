@@ -13,6 +13,7 @@ import javax.jms.JMSContext;
 import javax.jms.Queue;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.logging.Logger;
 
 @Named
 @SessionScoped
+@Transactional
 public class ShoppingCartBean implements Serializable {
 
     // ======================================
@@ -107,7 +109,8 @@ public class ShoppingCartBean implements Serializable {
         for (ShoppingCartItem cartItem : cartItems) {
             invoice.addInvoiceLine(new InvoiceLine(cartItem.getQuantity(), cartItem.getItem().getTitle(), cartItem.getItem().getUnitCost()));
         }
-
+        //persist invoice
+        em.persist(invoice);
         // Sending the invoice
         /*jmsContext.createProducer().send(queue, invoice);
         logger.info("An invoice has been sent to the queue");*/
