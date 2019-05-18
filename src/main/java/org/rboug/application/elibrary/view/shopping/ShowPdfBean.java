@@ -38,12 +38,13 @@ public class ShowPdfBean {
         Properties props = new Properties();
         props.setProperty("user","postgres");
         props.setProperty("password","postgres");
-        props.setProperty("ssl","true");
+        //props.setProperty("ssl","true");
         Connection conn = DriverManager.getConnection(url, props);
 
         File file = new File(PATH_OF_REPORTS_JASPER);
         HashMap hm = new HashMap();
-        hm.put("INVOICE_ID",751);
+        hm.put("INVOICE_ID",(long)751);
+        hm.put("subReport", PATH_OF_REPORTS_JASPER+"\\Blank_A4_3" + ".jasper");
         JasperPrint jasperPrint = JasperFillManager.fillReport(
                 new FileInputStream(new File(file, "Blank_A4_2" + ".jasper")),
                 hm, conn);
