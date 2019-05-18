@@ -122,7 +122,7 @@ public class ShoppingCartBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Order created",
                 "You will receive a confirmation email"));
 
-        return "/main";
+        return "showPdf";
     }
 
     public List<ShoppingCartItem> getCartItems() {

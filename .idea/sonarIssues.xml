@@ -248,6 +248,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/view/shopping/ShowPdfBean.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/org/rboug/application/elibrary/view/shopping/viewItem.xhtml">
           <value>
             <set />
@@ -374,6 +379,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/web/shopping/searchItems.xhtml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/web/shopping/showPdf.xhtml">
           <value>
             <set />
           </value>
