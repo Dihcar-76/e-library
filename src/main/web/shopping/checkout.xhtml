@@ -90,7 +90,11 @@
             </h:panelGrid>
 
             <div class="buttons">
-                <h:commandLink action="#{shoppingCartBean.confirmation}" styleClass="btn btn-primary" value="Check Out">
+                <h:commandLink action="#{shoppingCartBean.confirmation}" styleClass="btn btn-primary" value="Check Out" rendered="#{!shoppingCartBean.shoppingCartIsEmpty()}">
+                </h:commandLink>
+            </div>
+            <div class="buttons">
+                <h:commandLink action="/main?faces-redirect=true" styleClass="btn btn-primary" value="Return to site" rendered="#{shoppingCartBean.shoppingCartIsEmpty()}">
                 </h:commandLink>
             </div>
         </h:form>
