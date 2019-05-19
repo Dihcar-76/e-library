@@ -104,7 +104,7 @@ public class CategoryBean implements Serializable {
 
         if (this.conversation.isTransient()) {
             this.conversation.begin();
-            this.conversation.setTimeout(1800000L);
+            this.conversation.setTimeout(1800000L);//30 min
         }
 
         if (this.id == null) {

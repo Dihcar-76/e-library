@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.jms.JMSContext;
@@ -56,6 +57,7 @@ public class ShoppingCartBean implements Serializable {
     private Address address = new Address();
     private String country = new String();
     private CreditCard creditCard = new CreditCard();
+    private Long invoice_id;
 
     // ======================================
     // =          Business methods          =
@@ -111,6 +113,7 @@ public class ShoppingCartBean implements Serializable {
         }
         //persist invoice
         em.persist(invoice);
+        this.invoice_id = invoice.getId();
         // Sending the invoice
         /*jmsContext.createProducer().send(queue, invoice);
         logger.info("An invoice has been sent to the queue");*/
@@ -121,16 +124,23 @@ public class ShoppingCartBean implements Serializable {
         // Displaying the invoice creation
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Order created",
                 "You will receive a confirmation email"));
-
-        return "showPdf";
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("id", invoice_id);
+        return "showPdf?faces-redirect=true";
+        //return null;
     }
-
+/*    public String redirect(){
+        return "showPdf?faces-redirect=true&includeViewParams=true";
+    }*/
     public List<ShoppingCartItem> getCartItems() {
         return cartItems;
     }
 
     public boolean shoppingCartIsEmpty() {
         return getCartItems() == null || getCartItems().size() == 0;
+    }
+
+    public boolean invoice_idIsNull(){
+        return invoice_id==null;
     }
 
     public Float getTotal() {
@@ -192,5 +202,12 @@ public class ShoppingCartBean implements Serializable {
             result[i] = countries.get(i).getName();
         }
         return result;
+    }
+    public Long getInvoice_id() {
+        return invoice_id;
+    }
+
+    public void setInvoice_id(Long invoice_id) {
+        this.invoice_id = invoice_id;
     }
 }

@@ -5,10 +5,15 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+
     <h:head>
         <title>Test iReport With JSF</title>
     </h:head>
     <h:body style="background-color: #fff4db">
+
+        <h:outputLabel value="#{flash['id']}" />
+        <!-- Keep the first param for next redirection -->
+        #{flash.keep.id}
     <h:form id="reportForm" target="report">
         <h:commandButton id="pdfButton" value="Visualiser PDF"
                          styleClass="buttonStyle" action="#{showPdfBean.viewReportPDF}" />
