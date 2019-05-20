@@ -92,12 +92,26 @@
                     <!--<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"/>-->
                     <h:inputText pt:placeholder="Search" class="form-control mr-sm-2" value="#{catalogBean.keyword}"/>
                     <h:commandButton class="btn btn-secondary my-2 my-sm-0 mr-1" type="submit" action="/shopping/searchItems.xhtml?faces-redirect=true&amp;includeViewParams=true" value="Search"/>
-                    <h:panelGroup layout="block" styleClass="form-group my-2 my-sm-0 mr-1" rendered="true">
+                    <h:panelGroup layout="block" styleClass="form-group my-2 my-sm-0 mr-1" rendered="#{!accountBean.loggedIn}">
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown active">
                                 <h:link outcome="/account/signin.xhtml" styleClass="btn btn-secondary" value="Log in"/>
 
                                 <!--<a class="btn btn-secondary" href="/account/signin.xhtml" role="button">Log in</a>-->
+                            </li>
+                        </ul>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" class="form-group" rendered="#{accountBean.loggedIn}">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false">#{accountBean.user.fullName} <span
+                                        class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><h:link styleClass="dropdown-item" outcome="/account/profile.xhtml" value="Profile"/></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><h:commandLink styleClass="dropdown-item" action="#{accountBean.doLogout}" value="Logout"/></li>
+                                </ul>
                             </li>
                         </ul>
                     </h:panelGroup>

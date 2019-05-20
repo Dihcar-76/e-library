@@ -132,8 +132,9 @@ public class AccountBean implements Serializable {
         try {
             user = query.getSingleResult();
             // If the user is an administrator
-            if (user.getRole().equals(UserRole.ADMIN))
+            if (user.getRole().equals(UserRole.ADMIN)) {
                 admin = true;
+            }
             // If the user has clicked on remember me
             if (rememberMe) {
                 String uuid = UUID.randomUUID().toString();
@@ -145,9 +146,8 @@ public class AccountBean implements Serializable {
             }
             // The user is now logged in
             loggedIn = true;
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome back " + user.getFirstName(),
-                    "You can now browse the catalog"));
-            return "/main";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome back " + user.getFirstName(), "You can now browse the catalog"));
+            return "/main?faces-redirect=true";
         } catch (NoResultException e) {
             FacesContext.getCurrentInstance().addMessage("signinForm:inputPassword", new FacesMessage(FacesMessage.SEVERITY_WARN, "Wrong user/password",
                     "Check your inputs or ask for a new password"));
@@ -168,6 +168,9 @@ public class AccountBean implements Serializable {
         removeCookie();
         user.setUuid(null);
         em.merge(user);
+        /*TypedQuery<User> query = em.createNamedQuery(User.UPDATE_UUID, User.class);
+        query.setParameter("login", user.getLogin());
+        query.getResultList();*/
         AlterableContext ctx = (AlterableContext) beanManager.getContext(SessionScoped.class);
         Bean<?> myBean = beanManager.getBeans(AccountBean.class).iterator().next();
         ctx.destroy(myBean);
@@ -187,7 +190,7 @@ public class AccountBean implements Serializable {
             int n = rand.nextInt(50);
             String temporaryPassword = loremIpsum.getWords(1, n);
             System.out.println("#################################################################################"+temporaryPassword);
-            user.setPassword(temporaryPassword);
+            user.setPassword(PasswordUtils.digestPassword(temporaryPassword));
             System.out.println("#################################################################################"+PasswordUtils.digestPassword(temporaryPassword).toString());
             em.merge(user);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Email sent",
