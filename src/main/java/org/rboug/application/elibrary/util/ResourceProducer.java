@@ -17,7 +17,7 @@ public class ResourceProducer {
     // ======================================
 
     @Produces
-    @PersistenceContext(unitName = "applicationCDBookStorePU")
+    @PersistenceContext(unitName = "elibraryPU")
     private EntityManager em;
 
     @Produces

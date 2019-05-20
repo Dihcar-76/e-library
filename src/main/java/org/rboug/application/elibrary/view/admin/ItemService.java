@@ -13,7 +13,7 @@ import java.util.List;
 @Stateless
 public class ItemService {
 
-    @PersistenceContext(unitName = "applicationCDBookStorePU", type = PersistenceContextType.EXTENDED)
+    @PersistenceContext(unitName = "elibraryPU", type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
 
     public List<Item> getItemList(int start, int size){

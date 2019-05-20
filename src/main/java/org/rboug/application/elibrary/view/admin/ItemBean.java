@@ -66,7 +66,7 @@ public class ItemBean implements Serializable {
     @Inject
     private Conversation conversation;
 
-    @PersistenceContext(unitName = "applicationCDBookStorePU", type = PersistenceContextType.EXTENDED)
+    @PersistenceContext(unitName = "elibraryPU", type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
 
     private int page;

@@ -55,7 +55,7 @@ public class PublisherBean implements Serializable {
     private Publisher publisher;
     @Inject
     private Conversation conversation;
-    @PersistenceContext(unitName = "applicationCDBookStorePU", type = PersistenceContextType.EXTENDED)
+    @PersistenceContext(unitName = "elibraryPU", type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
     private int page;
     private long count;
