@@ -51,7 +51,7 @@
         <!-- Custom styles for this template -->
         <!--<link href="../starter-template.css" rel="stylesheet"/>-->
 
-        <title><ui:insert name="title"/></title>
+        <title>#{pageTitle}</title>
 
     </h:head>
 
@@ -108,7 +108,7 @@
 
         <div class="container forgecontainer">
             <div id="navigation">
-                <h:link id="homeLink" outcome="/main.xhtml">
+                <h:link id="homeLink" outcome="/admin/main.xhtml">
                     <img src='#{resource["admin.png"]}' width="195" height="198" alt="Admin" border="0"/>
                 </h:link>
                 <ul>

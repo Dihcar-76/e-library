@@ -23,6 +23,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Random;
 import java.util.UUID;
@@ -56,7 +57,7 @@ public class AccountBean implements Serializable {
     // ======================================
 
     private static final String COOKIE_NAME = "applicationCDBookStoreCookie";
-    private static final int COOKIE_AGE = 60; // Expires after 60 seconds or even 2_592_000 for one month
+    private static final int COOKIE_AGE = 300; // Expires after 60 seconds or even 2_592_000 for one month
 
     // ======================================
     // =             Attributes             =
@@ -64,7 +65,7 @@ public class AccountBean implements Serializable {
 
     // Logged user
     private User user = new User();
-    private boolean loggedIn;
+    private boolean loggedIn = false;
     private boolean admin;
     private String password1;
     private String password2;
@@ -75,10 +76,10 @@ public class AccountBean implements Serializable {
     // ======================================
 
     @PostConstruct
-    private void checkIfUserHasRememberMeCookie() {
+    public void checkIfUserHasRememberMeCookie() {
         String coockieValue = getCookieValue();
         if (coockieValue == null)
-            return;
+            return ;
 
         TypedQuery<User> query = em.createNamedQuery(User.FIND_BY_UUID, User.class);
         query.setParameter("uuid", coockieValue);
@@ -89,9 +90,19 @@ public class AccountBean implements Serializable {
                 admin = true;
             // The user is now logged in
             loggedIn = true;
+/*            try {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }*/
         } catch (NoResultException e) {
             // The user maybe has an old coockie, let's get rid of it
             removeCookie();
+/*            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/account/signin");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }*/
         }
     }
 
@@ -230,7 +241,7 @@ public class AccountBean implements Serializable {
 
     private void addCookie(String value) {
         Cookie cookie = new Cookie(COOKIE_NAME, value);
-        cookie.setPath("/sampleJSFLogin");
+        //cookie.setPath("/sampleJSFLogin");
         cookie.setMaxAge(COOKIE_AGE);
         response.addCookie(cookie);
     }
