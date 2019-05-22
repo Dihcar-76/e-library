@@ -108,43 +108,6 @@
                 <h:outputText/>
                 <h:outputLabel for="bookBeanBookAuthors" value="Authors:"/>
                 <h:panelGroup>
-                <!--    <ui:param name="_collection" value="#{bookBean.book.authors}"/>
-                    <h:dataTable id="bookBeanBookAuthors" styleClass="data-table"
-                                 value="#{forgeview:asList(_collection)}" var="_item">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="First Name"/>
-                            </f:facet>
-                            <h:link outcome="/admin/author/view">
-                                <f:param name="id" value="#{_item.id}"/>
-                                <h:outputText id="itemFirstName" value="#{_item.firstName}"/>
-                            </h:link>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Last Name"/>
-                            </f:facet>
-                            <h:link outcome="/admin/author/view">
-                                <f:param name="id" value="#{_item.id}"/>
-                                <h:outputText id="itemLastName" value="#{_item.lastName}"/>
-                            </h:link>
-                        </h:column>
-                        <h:column footerClass="remove-column" headerClass="remove-column">
-                            <h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
-                        </h:column>
-                    </h:dataTable>
-                    <h:panelGrid columnClasses=",remove-column" columns="2" styleClass="data-table-footer">
-                        <h:selectOneMenu converter="#{authorBean.converter}" id="bookBeanBookAuthorsSelect"
-                                         value="#{requestScope['bookBeanBookAuthorsSelect']}">
-                            <f:selectItem/>
-                            <f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}"
-                                           value="#{authorBean.all}" var="_item"/>
-                        </h:selectOneMenu>
-                        <h:commandLink action="#{_collection.add(requestScope['bookBeanBookAuthorsSelect'])}"
-                                       id="bookBeanBookAuthorsAdd"
-                                       onclick="if (document.getElementById(document.forms[0].id+':bookBeanBookAuthorsSelect').selectedIndex &lt; 1) { alert('Must select a Author'); return false; }"
-                                       styleClass="add-button"/>
-                    </h:panelGrid>-->
                     <h:selectManyListbox converter="#{authorBean.converter}" id="bookBeanBookAuthors"
                                      value="#{bookBean.book.authors}">
                         <f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}"
@@ -166,7 +129,8 @@
                 <h:outputLabel for="fileUpload" value="Image:"/>
                 <h:panelGroup>
                     <p:growl id="messages" style="padding-top:50px" showDetail="true"/>
-                    <p:fileUpload id="fileUpload" value="#{bookBean.file}" mode="simple" skinSimple="true"/>
+                    <p:fileUpload id="fileUpload" value="#{bookBean.file}" mode="simple" skinSimple="true" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/"/>
+                    <p:fileUpload id="fileUpload1" fileUploadListener="#{bookBean.upload}" value="#{bookBean.file}" mode="advanced"/>
                 </h:panelGroup>
                 <h:outputText/>
             </h:panelGrid>

@@ -4,6 +4,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:forgeview="http://jboss.org/forge/view"
                 template="/resources/templates/templateAdmin.xhtml">
@@ -55,7 +56,7 @@
                     value="#{bookBean.book.category}">
                 <f:param name="id" value="#{bookBean.book.category.id}"/>
             </h:link>
-            <h:outputLabel for="bookBeanBookCategory" value="" rendered="#{empty bookBean.book.category}"/>
+            <h:outputText id="bookBeanBookCategory2" value="" rendered="#{empty bookBean.book.category}"/>
             <h:outputText/>
             <h:outputLabel for="bookBeanBookAuthors" value="Authors:"/>
             <h:dataTable id="bookBeanBookAuthors" styleClass="data-table"
@@ -85,6 +86,12 @@
                     rendered="#{!empty bookBean.book.publisher}" value="#{bookBean.book.publisher}">
                 <f:param name="id" value="#{bookBean.book.publisher.id}"/>
             </h:link>
+            <h:outputText id="bookBeanBookPublisher2" value="" rendered="#{empty bookBean.book.publisher}"/>
+            <h:outputText/>
+            <h:outputLabel for="bookImage" value="Image:"/>
+            <p:graphicImage cache="false" id="bookImage" value="#{itemBean.imageFromDB}" width="190px" height="200px" >
+                <f:param name="id" value="#{bookBean.book.id}" />
+            </p:graphicImage>
             <h:outputText/>
         </h:panelGrid>
 

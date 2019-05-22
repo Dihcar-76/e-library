@@ -111,24 +111,24 @@ public class BookBean implements Serializable {
     public void upload() {
         try{
             //this.file = event.getFile();
-
             InputStream input = this.file.getInputstream();
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
             for(int length = 0; (length = input.read(buffer))>0;){
                 output.write(buffer, 0, length);
             }
-            Item item = entityManager.find(Item.class, this.book.getId());
-            if(item.getSmallImage().equals(output.toByteArray())){
-                System.out.println("##############idem##############");
-            }
             this.book.setSmallImage(output.toByteArray());
-            entityManager.merge(book);
+            //entityManager.merge(book);
             FacesMessage message = new FacesMessage("Uploaded!"+file.getFileName());
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
         catch (IOException e) {
             FacesMessage message = new FacesMessage("Error upload."+file.getFileName());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            e.printStackTrace();
+        }
+        catch (NullPointerException e) {
+            FacesMessage message = new FacesMessage("Image is empty.");
             FacesContext.getCurrentInstance().addMessage(null, message);
             e.printStackTrace();
         }
