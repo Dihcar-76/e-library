@@ -77,6 +77,38 @@
                 </h:panelGroup>
             </h:panelGroup>
         </f:validateBean>
+            <h:dataTable id="bookBeanPageItems" styleClass="data-table" value="#{bookBean.pageItems}" var="_item">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Title"/>
+                    </f:facet>
+                    <h:link outcome="/admin/book/view">
+                        <f:param name="id" value="#{_item.id}"/>
+                        <h:outputText id="itemTitle" value="#{_item.title}"/>
+                    </h:link>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Isbn"/>
+                    </f:facet>
+                    <h:link outcome="/admin/book/view">
+                        <f:param name="id" value="#{_item.id}"/>
+                        <h:outputText id="itemIsbn" value="#{_item.isbn}"/>
+                    </h:link>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Small Image URL"/>
+                    </f:facet>
+                    <!--<p:graphicImage url="#{_item.smallImageURL}" id="smallImageURL"/>-->
+                    <p:graphicImage id="itemBeanBookImageURL" value="#{itemBean.imageFromDB}" width="100px" height="100px" >
+                        <f:param name="id" value="#{_item.id}" />
+                    </p:graphicImage>
+                </h:column>
+            </h:dataTable>
+            <ui:include src="/resources/templates/paginator.xhtml">
+                <ui:param name="paginatorBean" value='#{bookBean}'/>
+            </ui:include>
         </h:form>
 
     </ui:define>

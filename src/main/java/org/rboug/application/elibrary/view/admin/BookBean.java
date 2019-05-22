@@ -100,15 +100,30 @@ public class BookBean implements Serializable {
         this.file = file;
     }
 
+    public StreamedContent getImagestream() {
+        if( file != null ){
+            return new DefaultStreamedContent(new ByteArrayInputStream(file.getContents()), file.getContentType());
+        }else{
+            return new DefaultStreamedContent();
+        }
+    }
+
     public void upload() {
         try{
+            //this.file = event.getFile();
+
             InputStream input = this.file.getInputstream();
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
             for(int length = 0; (length = input.read(buffer))>0;){
                 output.write(buffer, 0, length);
             }
+            Item item = entityManager.find(Item.class, this.book.getId());
+            if(item.getSmallImage().equals(output.toByteArray())){
+                System.out.println("##############idem##############");
+            }
             this.book.setSmallImage(output.toByteArray());
+            entityManager.merge(book);
             FacesMessage message = new FacesMessage("Uploaded!"+file.getFileName());
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
@@ -176,16 +191,14 @@ public class BookBean implements Serializable {
 
     public String update() {
         this.conversation.end();
-        upload();//upload image
+        upload();//image
         try {
             if (id == null) {
                 book.setIsbn(generator.generateNumber());
-                //if(FacesContext.getCurrentInstance().)
-                //book.addAuthor();
-                System.out.println("Selected Values");
+                //System.out.println("Selected Values");
                 for(Author a:book.getAuthors()){
                     book.addAuthor(a);
-                    System.out.println(a);
+                    //System.out.println(a);
                 }
                 entityManager.persist(book);
                 return "search?faces-redirect=true";

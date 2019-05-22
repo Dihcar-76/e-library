@@ -315,7 +315,6 @@ public class ItemBean implements Serializable {
     public StreamedContent getImageFromDB() {
 
         FacesContext context = FacesContext.getCurrentInstance();
-
         if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
             // So, we're rendering the HTML. Return a stub StreamedContent so that it will generate right URL.
             return new DefaultStreamedContent();

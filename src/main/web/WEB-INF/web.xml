@@ -16,6 +16,13 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>main.xhtml</welcome-file>
+    </welcome-file-list>
+    <filter-mapping>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <servlet-name>Faces Servlet</servlet-name>
+    </filter-mapping>
 
     <filter>
         <filter-name>PrimeFaces FileUpload Filter</filter-name>
@@ -23,10 +30,6 @@
             org.primefaces.webapp.filter.FileUploadFilter
         </filter-class>
     </filter>
-    <filter-mapping>
-        <filter-name>PrimeFaces FileUpload Filter</filter-name>
-        <servlet-name>Faces Servlet</servlet-name>
-    </filter-mapping>
 
     <context-param>
         <param-name>primefaces.UPLOADER</param-name>
