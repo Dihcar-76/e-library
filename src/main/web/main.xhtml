@@ -9,11 +9,11 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/resources/templates/template.xhtml">
 
-    <!--<f:event listener="#{itemBean.load}" type="preRenderView" />-->
-    <!--<f:metadata>
+    <f:event listener="#{itemBean.load}" type="preRenderView" />
+    <f:metadata>
         <f:viewParam name="page" value='#{itemBean.page}'/>
         <f:event type="preRenderView" listener='#{itemBean.paginate}'/>
-    </f:metadata>-->
+    </f:metadata>
 
     <ui:define name="title">e-library</ui:define>
 
@@ -43,7 +43,7 @@
                         <h:outputText value="#{fn:substring(item.title, 0, 35)}"/>
                         <h:link outcome="/shopping/viewItem.xhtml">
                             <f:param name="id" value="#{item.id}"/>
-                            <p:graphicImage value="#{itemBean.imageFromDB}" width="200px" height="200px" >
+                            <p:graphicImage cache="false" value="#{itemBean.imageFromDB}" width="200px" height="200px" >
                                 <f:param name="id" value="#{item.id}" />
                             </p:graphicImage>
                         </h:link>
@@ -84,9 +84,7 @@
                      rowClasses="order-table-odd-row,order-table-even-row"
         >
             <h:column>
-                <!-- column header -->
                 <f:facet name="header">Title</f:facet>
-                <!-- row record -->
                 #{_item2.title}
             </h:column>
             <h:column>
@@ -99,7 +97,7 @@
             </h:column>
             <h:column>
                 <f:facet name="header">Image</f:facet>
-                <p:graphicImage value="#{itemBean.imageFromDB}" width="190px" height="200px">
+                <p:graphicImage cache="false" value="#{itemBean.imageFromDB}" width="190px" height="200px">
                     <f:param name="id" value="#{_item2.id}"/>
                 </p:graphicImage>
             </h:column>

@@ -22,6 +22,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ActionListener;
 import javax.faces.event.PhaseId;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -36,6 +38,7 @@ import javax.persistence.criteria.Root;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 import javax.faces.annotation.FacesConfig;
 import static javax.faces.annotation.FacesConfig.Version.JSF_2_3;
@@ -100,39 +103,45 @@ public class BookBean implements Serializable {
         this.file = file;
     }
 
-    public StreamedContent getImagestream() {
-        if( file != null ){
-            return new DefaultStreamedContent(new ByteArrayInputStream(file.getContents()), file.getContentType());
-        }else{
-            return new DefaultStreamedContent();
-        }
+    public void noImage() {
+            try {
+                InputStream input = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/noimage.png");
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                for (int length = 0; (length = input.read(buffer)) > 0; ) {
+                    output.write(buffer, 0, length);
+                }
+                this.book.setSmallImage(output.toByteArray());
+
+            } catch (IOException e1) {
+                FacesMessage message1 = new FacesMessage("Error upload noimage file." + file.getFileName());
+                FacesContext.getCurrentInstance().addMessage(null, message1);
+                e1.printStackTrace();
+            }
     }
 
-    public void upload() {
-        try{
-            //this.file = event.getFile();
+    public void upload(FileUploadEvent  event) {
+        try {
+            this.file = event.getFile();
             InputStream input = this.file.getInputstream();
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
-            for(int length = 0; (length = input.read(buffer))>0;){
+            for (int length = 0; (length = input.read(buffer)) > 0; ) {
                 output.write(buffer, 0, length);
             }
             this.book.setSmallImage(output.toByteArray());
             //entityManager.merge(book);
-            FacesMessage message = new FacesMessage("Uploaded!"+file.getFileName());
+            FacesMessage message = new FacesMessage("Uploaded!" + file.getFileName());
             FacesContext.getCurrentInstance().addMessage(null, message);
-        }
-        catch (IOException e) {
-            FacesMessage message = new FacesMessage("Error upload."+file.getFileName());
+        } catch (IOException e) {
+            FacesMessage message = new FacesMessage("Error upload." + file.getFileName());
             FacesContext.getCurrentInstance().addMessage(null, message);
             e.printStackTrace();
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             FacesMessage message = new FacesMessage("Image is empty.");
             FacesContext.getCurrentInstance().addMessage(null, message);
             e.printStackTrace();
         }
-
     }
 
 
@@ -191,7 +200,8 @@ public class BookBean implements Serializable {
 
     public String update() {
         this.conversation.end();
-        upload();//image
+        //upload();//image
+
         try {
             if (id == null) {
                 book.setIsbn(generator.generateNumber());

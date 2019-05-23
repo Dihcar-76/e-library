@@ -101,7 +101,7 @@
                         <h:outputText value="Small Image URL"/>
                     </f:facet>
                     <!--<p:graphicImage url="#{_item.smallImageURL}" id="smallImageURL"/>-->
-                    <p:graphicImage id="itemBeanBookImageURL" value="#{itemBean.imageFromDB}" width="100px" height="100px" >
+                    <p:graphicImage cache="false" id="itemBeanBookImageURL" value="#{itemBean.imageFromDB}" width="100px" height="100px" >
                         <f:param name="id" value="#{_item.id}" />
                     </p:graphicImage>
                 </h:column>

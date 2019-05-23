@@ -99,6 +99,7 @@
                 <h:panelGroup>
                     <h:selectOneMenu converter="#{categoryBean.converter}" id="bookBeanBookCategory"
                                      value="#{bookBean.book.category}">
+                        <f:selectItem itemLabel="#{forgeview:display(bookBean.book.category)}" itemValue="#{bookBean.book.category}"/>
                         <f:selectItem/>
                         <f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}"
                                        value="#{categoryBean.all}" var="_item"/>
@@ -109,7 +110,8 @@
                 <h:outputLabel for="bookBeanBookAuthors" value="Authors:"/>
                 <h:panelGroup>
                     <h:selectManyListbox converter="#{authorBean.converter}" id="bookBeanBookAuthors"
-                                     value="#{bookBean.book.authors}">
+                                     value="#{bookBean.book.authors}" selected="true" >
+
                         <f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}"
                                        value="#{authorBean.all}" var="_item"/>
                     </h:selectManyListbox>
@@ -127,12 +129,19 @@
                 </h:panelGroup>
                 <h:outputText/>
                 <h:outputLabel for="fileUpload" value="Image:"/>
+                <p:graphicImage cache="false" id="bookImage" value="#{itemBean.imageFromDB}" width="100px" height="100px">
+                    <f:param name="id" value="#{bookBean.book.id}" />
+                </p:graphicImage>
+                <h:outputText/>
+                <h:outputLabel for="noImageUpload" value="Change to no image:"/>
+                <h:commandLink id="noImageUpload"  value="No Image" action='#{bookBean.noImage}' styleClass="btn btn-primary"/>
+                <h:outputText/>
+                <h:outputLabel for="fileUpload" value="Change to another image:"/>
                 <h:panelGroup>
                     <p:growl id="messages" style="padding-top:50px" showDetail="true"/>
                     <p:fileUpload id="fileUpload" value="#{bookBean.file}" mode="simple" skinSimple="true" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/"/>
                     <p:fileUpload id="fileUpload1" fileUploadListener="#{bookBean.upload}" value="#{bookBean.file}" mode="advanced"/>
                 </h:panelGroup>
-                <h:outputText/>
             </h:panelGrid>
 
             <div class="buttons">
