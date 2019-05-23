@@ -28,7 +28,7 @@
         <!-- Custom styles for this template -->
         <h:outputStylesheet name="jumbotron.css"/>
         <style type="text/css">
-            .ui-growl{
+            .ui-growl {
                 top: 55px;
             }
         </style>
@@ -93,7 +93,8 @@
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"/>
                     <button class="btn btn-secondary my-2 my-sm-0 mr-1" type="submit">Search</button>
-                    <h:panelGroup layout="block" styleClass="form-group my-2 my-sm-0 mr-1" rendered="true">
+                    <h:panelGroup layout="block" styleClass="form-group my-2 my-sm-0 mr-1"
+                                  rendered="#{!accountBean.loggedIn}">
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown active">
                                 <h:link outcome="/account/signin.xhtml" styleClass="btn btn-secondary" value="Log in"/>
@@ -111,36 +112,40 @@
                 <h:link id="homeLink" outcome="/admin/main.xhtml">
                     <img src='#{resource["admin.png"]}' width="195" height="198" alt="Admin" border="0"/>
                 </h:link>
-                <ul>
+                <ul id="menu-accordeon">
                     <li>
-                        <h:link outcome="/admin/CD/search" value="CD"/>
+                        <h:link styleClass="homlink" outcome="/admin/CD/search" value="CD"/>
+                        <ul>
+                            <li>
+                                <h:link outcome="/admin/genre/search" value="Genre"/>
+                            </li>
+                            <li>
+                                <h:link outcome="/admin/label/search" value="Label"/>
+                            </li>
+                            <li>
+                                <h:link outcome="/admin/musician/search" value="Musician"/>
+                            </li>
+                        </ul>
                     </li>
                     <li>
-                        <h:link outcome="/admin/author/search" value="Author"/>
-                    </li>
-                    <li>
-                        <h:link outcome="/admin/book/search" value="Book"/>
-                    </li>
-                    <li>
-                        <h:link outcome="/admin/category/search" value="Category"/>
-                    </li>
-                    <li>
-                        <h:link outcome="/admin/country/search" value="Country"/>
-                    </li>
-                    <li>
-                        <h:link outcome="/admin/genre/search" value="Genre"/>
+                        <h:link class="link" outcome="/admin/book/search" value="Book"/>
+                        <ul>
+                            <li>
+                                <h:link class="link" outcome="/admin/author/search" value="Author"/>
+                            </li>
+                            <li>
+                                <h:link class="link" outcome="/admin/category/search" value="Category"/>
+                            </li>
+                            <li>
+                                <h:link class="link" outcome="/admin/publisher/search" value="Publisher"/>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <h:link outcome="/admin/item/search" value="Item"/>
                     </li>
                     <li>
-                        <h:link outcome="/admin/label/search" value="Label"/>
-                    </li>
-                    <li>
-                        <h:link outcome="/admin/musician/search" value="Musician"/>
-                    </li>
-                    <li>
-                        <h:link outcome="/admin/publisher/search" value="Publisher"/>
+                        <h:link outcome="/admin/country/search" value="Country"/>
                     </li>
                     <li>
                         <h:link outcome="/admin/user/search" value="User"/>
@@ -167,7 +172,16 @@
             </div>
         </footer>
 
-
+        <script src="https://code.jquery.com/jquery-3.4.1.js"
+                integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://unpkg.com/default-passive-events"></script>
     </h:body>
 </f:view>
 </html>

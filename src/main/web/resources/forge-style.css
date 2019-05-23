@@ -169,7 +169,7 @@ footer p {
 #navigation li.nav-header,
 #navigation li.nav-header a {
     display: block;
-    color: #867F10;
+    /*color: #867F10;*/
     font-weight: bold;
     padding: 3px;
     text-decoration: none;
@@ -182,7 +182,7 @@ footer p {
 
 #navigation li a {/*li*/
     padding-left: 15px;
-    color: #444444;
+    /*color: #444444;*/
 }
 
 #navigation li.nav-header a {

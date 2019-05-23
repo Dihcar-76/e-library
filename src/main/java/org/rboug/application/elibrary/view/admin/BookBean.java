@@ -40,7 +40,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
+import java.util.Objects;
 import javax.faces.annotation.FacesConfig;
+
 import static javax.faces.annotation.FacesConfig.Version.JSF_2_3;
 
 /**
@@ -62,9 +64,9 @@ public class BookBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-   /*
-    * Support creating and retrieving Book entities
-    */
+    /*
+     * Support creating and retrieving Book entities
+     */
 
     private Long id;
     private Book book;
@@ -104,50 +106,55 @@ public class BookBean implements Serializable {
     }
 
     public void noImage() {
+
+    }
+
+    public void upload() {//FileUploadEvent  event
+        if (Objects.nonNull(this.file)) {
             try {
-                InputStream input = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/noimage.png");
+                //this.file = event.getFile();
+
+                InputStream input = this.file.getInputstream();
                 ByteArrayOutputStream output = new ByteArrayOutputStream();
                 byte[] buffer = new byte[1024];
                 for (int length = 0; (length = input.read(buffer)) > 0; ) {
                     output.write(buffer, 0, length);
                 }
                 this.book.setSmallImage(output.toByteArray());
-
-            } catch (IOException e1) {
-                FacesMessage message1 = new FacesMessage("Error upload noimage file." + file.getFileName());
-                FacesContext.getCurrentInstance().addMessage(null, message1);
-                e1.printStackTrace();
+                //entityManager.merge(book);
+                FacesMessage message = new FacesMessage("Uploaded!" + file.getFileName());
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            } catch (IOException e) {
+                FacesMessage message = new FacesMessage("Error upload." + file.getFileName());
+                FacesContext.getCurrentInstance().addMessage(null, message);
+                e.printStackTrace();
             }
-    }
-
-    public void upload(FileUploadEvent  event) {
-        try {
-            this.file = event.getFile();
-            InputStream input = this.file.getInputstream();
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            for (int length = 0; (length = input.read(buffer)) > 0; ) {
-                output.write(buffer, 0, length);
-            }
-            this.book.setSmallImage(output.toByteArray());
-            //entityManager.merge(book);
-            FacesMessage message = new FacesMessage("Uploaded!" + file.getFileName());
-            FacesContext.getCurrentInstance().addMessage(null, message);
-        } catch (IOException e) {
-            FacesMessage message = new FacesMessage("Error upload." + file.getFileName());
-            FacesContext.getCurrentInstance().addMessage(null, message);
-            e.printStackTrace();
-        } catch (NullPointerException e) {
+        } else {
             FacesMessage message = new FacesMessage("Image is empty.");
             FacesContext.getCurrentInstance().addMessage(null, message);
-            e.printStackTrace();
+            if (Objects.isNull(book.getSmallImage())) {
+                try {
+                    InputStream input = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/noimage.png");
+                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[1024];
+                    for (int length = 0; (length = input.read(buffer)) > 0; ) {
+                        output.write(buffer, 0, length);
+                    }
+                    this.book.setSmallImage(output.toByteArray());
+
+                } catch (IOException e1) {
+                    FacesMessage message1 = new FacesMessage("Error upload noimage file." + file.getFileName());
+                    FacesContext.getCurrentInstance().addMessage(null, message1);
+                    e1.printStackTrace();
+                }
+            }
         }
     }
 
 
-   /*
-    * Support updating and deleting Book entities
-    */
+    /*
+     * Support updating and deleting Book entities
+     */
     public Long getId() {
         return this.id;
     }
@@ -156,9 +163,9 @@ public class BookBean implements Serializable {
         this.id = id;
     }
 
-   /*
-    * Support searching Book entities with pagination
-    */
+    /*
+     * Support searching Book entities with pagination
+     */
 
     public Book getBook() {
         return this.book;
@@ -200,13 +207,13 @@ public class BookBean implements Serializable {
 
     public String update() {
         this.conversation.end();
-        //upload();//image
+        upload();//image
 
         try {
             if (id == null) {
                 book.setIsbn(generator.generateNumber());
                 //System.out.println("Selected Values");
-                for(Author a:book.getAuthors()){
+                for (Author a : book.getAuthors()) {
                     book.addAuthor(a);
                     //System.out.println(a);
                 }
@@ -322,9 +329,9 @@ public class BookBean implements Serializable {
         return predicatesList.toArray(new Predicate[predicatesList.size()]);
     }
 
-   /*
-    * Support listing and POSTing back Book entities (e.g. from inside an HtmlSelectOneMenu)
-    */
+    /*
+     * Support listing and POSTing back Book entities (e.g. from inside an HtmlSelectOneMenu)
+     */
 
     public List<Book> getPageItems() {
         return this.pageItems;
@@ -342,9 +349,9 @@ public class BookBean implements Serializable {
                 criteria.select(criteria.from(Book.class))).getResultList();
     }
 
-   /*
-    * Support adding children to bidirectional, one-to-many tables
-    */
+    /*
+     * Support adding children to bidirectional, one-to-many tables
+     */
 
     public Converter getConverter() {
 
