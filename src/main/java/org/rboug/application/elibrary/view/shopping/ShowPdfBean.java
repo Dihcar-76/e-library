@@ -6,14 +6,11 @@ import javax.faces.annotation.FacesConfig;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -46,36 +43,24 @@ public class ShowPdfBean {
         this.invoice_id = invoice_id;
     }
 
-    String PATH_OF_REPORT_JASPER;
-
-    public String getPathFromWebContentFolder(String filePath) {
-        try {
-            return FacesContext.getCurrentInstance().getExternalContext().getResource(filePath).getPath();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    private String PATH_OF_REPORTS_JASPER = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/jasperReports");
 
     public String viewReportPDF() throws SQLException, JRException, IOException, ClassNotFoundException {
         String url = "jdbc:postgresql://localhost:5432/elibrary";
         //Long id = Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id"));
         // - Connexion à la base
         Properties props = new Properties();
-        props.setProperty("user", "postgres");
-        props.setProperty("password", "admin");
+        props.setProperty("user","postgres");
+        props.setProperty("password","admin");
         //props.setProperty("ssl","true");
         Connection conn = DriverManager.getConnection(url, props);
-
-        String myFileName1 = getPathFromWebContentFolder("./resources/jasperReports/SubReport_Invoice.jasper");
-        String myFileName2 = getPathFromWebContentFolder("./resources/jasperReports/Invoice.jasper");
-
-
-        File file = new File(myFileName2);
+        System.out.println("###############"+PATH_OF_REPORTS_JASPER);
+        File file = new File(PATH_OF_REPORTS_JASPER);
         HashMap hm = new HashMap();
         Long id = (Long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("id");
-        hm.put("INVOICE_ID", id);
-        hm.put("subReport", myFileName1);
+        hm.put("INVOICE_ID", id );
+        hm.put("SUBREPORT", PATH_OF_REPORTS_JASPER+"/SubReport_Invoice" + ".jasper");
+        hm.put("LOGO_PATH", PATH_OF_REPORTS_JASPER+"/invoice_logo.png");
         JasperPrint jasperPrint = JasperFillManager.fillReport(
                 new FileInputStream(new File(file, "Invoice" + ".jasper")),
                 hm, conn);
