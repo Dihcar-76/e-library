@@ -122,7 +122,7 @@ public class AccountBean implements Serializable {
         }
 
         // Everything is ok, we can create the user
-        user.setPassword(password1);
+        user.setPassword(PasswordUtils.digestPassword(password1));
         em.persist(user);
         // if (user.getEmail().contains("antonio"))
         //     throw new IllegalArgumentException("Wrong email");
