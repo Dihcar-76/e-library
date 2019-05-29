@@ -69,15 +69,15 @@ public class ItemBean implements Serializable {
     @PersistenceContext(unitName = "elibraryPU", type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
 
-    private int page;
+    private int page;//page of pagination process
 
     private long count;
 
-    private List<Item> pageItems;
+    private List<Item> pageItems;//page items to display
 
     private Item example = new Item();
 
-    private List<Item> allItems;
+    private List<Item> allItems;//all items to display
 
     private StreamedContent imageFromDB;
 
