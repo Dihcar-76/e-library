@@ -105,11 +105,11 @@ public class ShoppingCartBean implements Serializable {
 
         // Creating the invoice
         User user = accountBean.getUser();
-        Invoice invoice = new Invoice(user.getFirstName(), user.getLastName(), user.getEmail(), address.getStreet1(), address.getCity(), address.getZipcode(), country);
+        Invoice invoice = new Invoice(user, user.getFirstName(), user.getLastName(), user.getEmail(), address.getStreet1(), address.getCity(), address.getZipcode(), country);
         invoice.setTelephone(user.getTelephone());
         invoice.setStreet2(address.getStreet2());
         for (ShoppingCartItem cartItem : cartItems) {
-            invoice.addInvoiceLine(new InvoiceLine(cartItem.getQuantity(), cartItem.getItem().getTitle(), cartItem.getItem().getUnitCost()));
+            invoice.addInvoiceLine(new InvoiceLine(cartItem.getQuantity(), cartItem.getItem().getTitle(), cartItem.getItem().getUnitCost(), cartItem.getItem()));
         }
         //persist invoice
         em.persist(invoice);

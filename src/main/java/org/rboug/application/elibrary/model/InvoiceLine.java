@@ -35,6 +35,8 @@ public class InvoiceLine implements Serializable {
     @NotNull
     @Min(1)
     private Integer quantity;
+    @ManyToOne
+    private Item item;
 
     // ======================================
     // =            Constructors            =
@@ -43,10 +45,11 @@ public class InvoiceLine implements Serializable {
     public InvoiceLine() {
     }
 
-    public InvoiceLine(Integer quantity, String title, Float unitCost) {
+    public InvoiceLine(Integer quantity, String title, Float unitCost, Item item) {
         this.quantity = quantity;
         this.title = title;
         this.unitCost = unitCost;
+        this.item = item;
     }
 
     // ======================================

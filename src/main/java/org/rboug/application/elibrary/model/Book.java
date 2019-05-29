@@ -42,7 +42,7 @@ public class Book extends Item {
     @ManyToOne
     private Category category;
 
-    @OneToMany
+    @ManyToMany
     private Set<Author> authors = new HashSet<>();
 
     // ======================================

@@ -83,6 +83,9 @@ public class Invoice implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<InvoiceLine> invoiceLines = new HashSet<>();
 
+    @ManyToOne
+    private User user;
+
     // ======================================
     // =            Constructors            =
     // ======================================
@@ -90,7 +93,8 @@ public class Invoice implements Serializable {
     public Invoice() {
     }
 
-    public Invoice(String firstName, String lastName, String email, String street1, String city, String zipcode, String country) {
+    public Invoice(User user, String firstName, String lastName, String email, String street1, String city, String zipcode, String country) {
+        this.user = user;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
