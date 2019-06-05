@@ -8,6 +8,7 @@ import org.rboug.application.elibrary.model.Author;
 import org.rboug.application.elibrary.model.Book;
 import org.rboug.application.elibrary.model.Item;
 import org.rboug.application.elibrary.model.Language;
+import org.rboug.application.elibrary.service.EntityService;
 import org.rboug.application.elibrary.util.Loggable;
 import org.rboug.application.elibrary.util.NumberGenerator;
 import org.rboug.application.elibrary.util.ThirteenDigits;
@@ -27,10 +28,7 @@ import javax.faces.event.ActionListener;
 import javax.faces.event.PhaseId;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -223,6 +221,24 @@ public class BookBean implements Serializable {
                 entityManager.merge(book);
                 return "view?faces-redirect=true&id=" + book.getId();
             }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+            return null;
+        }
+    }
+
+    @Inject
+    EntityService entityService;
+    public String updatebis(){
+        this.conversation.end();
+        upload();//image
+        try {
+          if(entityService.update(book, id)){
+              return "search?faces-redirect=true";
+          }else{
+              return "view?faces-redirect=true&id=" + book.getId();
+          }
+
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
             return null;
