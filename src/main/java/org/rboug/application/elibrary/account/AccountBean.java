@@ -56,7 +56,7 @@ public class AccountBean implements Serializable {
     // =             Constants              =
     // ======================================
 
-    private static final String COOKIE_NAME = "applicationCDBookStoreCookie";
+    private static final String COOKIE_NAME = "elibraryCookie";
     private static final int COOKIE_AGE = 300; // Expires after 60 seconds or even 2_592_000 for one month
 
     // ======================================
@@ -117,7 +117,7 @@ public class AccountBean implements Serializable {
                 .getResultList().size() > 0) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "Login already exists " + user.getLogin(),
-                            "You must choose a different login"));
+                            "Choose a different login"));
             return null;
         }
 
