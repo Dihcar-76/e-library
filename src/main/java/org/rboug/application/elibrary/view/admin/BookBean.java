@@ -1,19 +1,14 @@
 package org.rboug.application.elibrary.view.admin;
 
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import org.rboug.application.elibrary.model.Author;
 import org.rboug.application.elibrary.model.Book;
-import org.rboug.application.elibrary.model.Item;
 import org.rboug.application.elibrary.model.Language;
-import org.rboug.application.elibrary.service.EntityService;
+import org.rboug.application.elibrary.service.CatalogService;
 import org.rboug.application.elibrary.util.Loggable;
 import org.rboug.application.elibrary.util.NumberGenerator;
 import org.rboug.application.elibrary.util.ThirteenDigits;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
@@ -23,9 +18,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.event.ActionEvent;
-import javax.faces.event.ActionListener;
-import javax.faces.event.PhaseId;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.*;
@@ -34,9 +26,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.io.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 import java.util.Objects;
 import javax.faces.annotation.FacesConfig;
@@ -140,10 +130,10 @@ public class BookBean implements Serializable {
                     }
                     this.book.setSmallImage(output.toByteArray());
 
-                } catch (IOException e1) {
-                    FacesMessage message1 = new FacesMessage("Error upload noimage file." + file.getFileName());
+                } catch (IOException e) {
+                    FacesMessage message1 = new FacesMessage("Error upload no image file." + file.getFileName());
                     FacesContext.getCurrentInstance().addMessage(null, message1);
-                    e1.printStackTrace();
+                    e.printStackTrace();
                 }
             }
         }
@@ -176,7 +166,7 @@ public class BookBean implements Serializable {
     public String create() {
 
         this.conversation.begin();
-        this.conversation.setTimeout(1800000L);
+        this.conversation.setTimeout(1800000L);//less than 20 seconds
         return "create?faces-redirect=true";
     }
 
@@ -194,7 +184,11 @@ public class BookBean implements Serializable {
         if (this.id == null) {
             this.book = this.example;
         } else {
-            this.book = findById(getId());
+            try {
+                this.book = catalogService.findById(getId());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -203,18 +197,17 @@ public class BookBean implements Serializable {
         return this.entityManager.find(Book.class, id);
     }
 
-    public String update() {
+    /*public String update() {
         this.conversation.end();
         upload();//image
-
+        for (Author a : book.getAuthors()) {
+            book.addAuthor(a);
+            //System.out.println(a);
+        }
         try {
             if (id == null) {
                 book.setIsbn(generator.generateNumber());
-                //System.out.println("Selected Values");
-                for (Author a : book.getAuthors()) {
-                    book.addAuthor(a);
-                    //System.out.println(a);
-                }
+
                 entityManager.persist(book);
                 return "search?faces-redirect=true";
             } else {
@@ -225,15 +218,18 @@ public class BookBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
             return null;
         }
-    }
+    }*/
 
     @Inject
-    EntityService entityService;
+    CatalogService catalogService;
     public String updatebis(){
         this.conversation.end();
         upload();//image
+        for (Author a : book.getAuthors()) { //authors
+            book.addAuthor(a);
+        }
         try {
-          if(entityService.update(book, id)){
+          if(catalogService.createOrUpdateBook(book, id)){
               return "search?faces-redirect=true";
           }else{
               return "view?faces-redirect=true&id=" + book.getId();
@@ -245,14 +241,28 @@ public class BookBean implements Serializable {
         }
     }
 
-    public String delete() {
+    /*public String delete() {
         this.conversation.end();
-
         try {
             Book deletableEntity = findById(getId());
 
             this.entityManager.remove(deletableEntity);
             this.entityManager.flush();
+            return "search?faces-redirect=true";
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(e.getMessage()));
+            return null;
+        }
+    }*/
+
+    public String deletebis() {
+        this.conversation.end();
+        try {
+            Book deletableEntity = catalogService.findById(getId());
+
+            this.catalogService.remove(deletableEntity);
+            this.catalogService.flush();
             return "search?faces-redirect=true";
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -286,7 +296,7 @@ public class BookBean implements Serializable {
         return null;
     }
 
-    public void paginate() {
+   /* public void paginate() {
 
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
 
@@ -343,14 +353,28 @@ public class BookBean implements Serializable {
         }
 
         return predicatesList.toArray(new Predicate[predicatesList.size()]);
+    }*/
+
+    public void paginate() {
+        catalogService.paginate(this);
     }
+
+
 
     /*
      * Support listing and POSTing back Book entities (e.g. from inside an HtmlSelectOneMenu)
      */
 
+    public void setPageItems(List<Book> pageItems) {
+        this.pageItems = pageItems;
+    }
+
     public List<Book> getPageItems() {
         return this.pageItems;
+    }
+
+    public void setCount(long count) {
+        this.count = count;
     }
 
     public long getCount() {
@@ -359,10 +383,11 @@ public class BookBean implements Serializable {
 
     public List<Book> getAll() {
 
-        CriteriaQuery<Book> criteria = this.entityManager.getCriteriaBuilder()
+        /*CriteriaQuery<Book> criteria = this.catalogService.getCriteriaBuilder()
                 .createQuery(Book.class);
-        return this.entityManager.createQuery(
-                criteria.select(criteria.from(Book.class))).getResultList();
+        return this.catalogService.createQuery2(
+                criteria.select(criteria.from(Book.class))).getResultList();*/
+        return catalogService.getAll();
     }
 
     /*
@@ -371,7 +396,7 @@ public class BookBean implements Serializable {
 
     public Converter getConverter() {
 
-        final BookBean ejbProxy = this.sessionContext
+        /*final BookBean ejbProxy = this.sessionContext
                 .getBusinessObject(BookBean.class);
 
         return new Converter() {
@@ -393,7 +418,8 @@ public class BookBean implements Serializable {
 
                 return String.valueOf(((Book) value).getId());
             }
-        };
+        };*/
+        return catalogService.getConverter();
     }
 
     public Book getAdd() {
