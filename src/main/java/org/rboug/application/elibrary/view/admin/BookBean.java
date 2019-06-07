@@ -5,6 +5,7 @@ import org.rboug.application.elibrary.model.Author;
 import org.rboug.application.elibrary.model.Book;
 import org.rboug.application.elibrary.model.Language;
 import org.rboug.application.elibrary.service.CatalogService;
+import org.rboug.application.elibrary.service.CatalogServiceInterface;
 import org.rboug.application.elibrary.util.Loggable;
 import org.rboug.application.elibrary.util.NumberGenerator;
 import org.rboug.application.elibrary.util.ThirteenDigits;
@@ -221,7 +222,7 @@ public class BookBean implements Serializable {
     }*/
 
     @Inject
-    CatalogService catalogService;
+    CatalogServiceInterface catalogService;
     public String updatebis(){
         this.conversation.end();
         upload();//image
@@ -247,7 +248,7 @@ public class BookBean implements Serializable {
             Book deletableEntity = findById(getId());
 
             this.entityManager.remove(deletableEntity);
-            this.entityManager.flush();
+            this.entityManager.refresh();
             return "search?faces-redirect=true";
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -262,7 +263,7 @@ public class BookBean implements Serializable {
             Book deletableEntity = catalogService.findById(getId());
 
             this.catalogService.remove(deletableEntity);
-            this.catalogService.flush();
+            this.catalogService.refresh();
             return "search?faces-redirect=true";
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,

@@ -2,9 +2,7 @@ package org.rboug.application.elibrary.dao;
 
 import org.rboug.application.elibrary.model.Book;
 import org.rboug.application.elibrary.model.Language;
-import org.rboug.application.elibrary.view.admin.BookBean;
 
-import javax.inject.Inject;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -13,7 +11,7 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookDaoBdd implements ElibraryDaoBdd<Long, Book> {
+public class BookDaoBdd implements BookDaoBddInterface {
     @PersistenceContext(unitName = "elibraryPU", type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
 
@@ -49,7 +47,7 @@ public class BookDaoBdd implements ElibraryDaoBdd<Long, Book> {
         return entityManager.find(Book.class, id);
     }
 
-    public void flush() {
+    public void refresh() {
         entityManager.flush();
     }
 

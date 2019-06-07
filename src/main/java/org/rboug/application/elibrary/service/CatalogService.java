@@ -1,41 +1,21 @@
 package org.rboug.application.elibrary.service;
 
 import org.rboug.application.elibrary.dao.BookDaoBdd;
-import org.rboug.application.elibrary.model.Author;
+import org.rboug.application.elibrary.dao.BookDaoBddInterface;
 import org.rboug.application.elibrary.model.Book;
 import org.rboug.application.elibrary.model.Language;
-import org.rboug.application.elibrary.util.Loggable;
 import org.rboug.application.elibrary.util.NumberGenerator;
 import org.rboug.application.elibrary.util.ThirteenDigits;
-import org.rboug.application.elibrary.view.admin.BookBean;
 
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.annotation.FacesConfig;
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
 import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Stateful
-public class CatalogService {
+public class CatalogService implements CatalogServiceInterface{
     @Inject
-    BookDaoBdd bookDaoBdd;
+    BookDaoBddInterface bookDaoBdd;
 
     @Inject
     @ThirteenDigits
@@ -65,8 +45,8 @@ public class CatalogService {
         bookDaoBdd.delete(deletableEntity);
     }
 
-    public void flush() {
-        bookDaoBdd.flush();
+    public void refresh() {
+        bookDaoBdd.refresh();
     }
 
 

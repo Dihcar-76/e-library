@@ -40,24 +40,9 @@ public class AccountBean implements Serializable {
     @Inject
     private BeanManager beanManager;
 
-    /*@Inject
-    private FacesContext facesContext;*/
-
-    @Inject
-    private HttpServletResponse response;
-
-    @Inject
-    private HttpServletRequest request;
-
     @Inject
     private EntityManager em;
 
-    // ======================================
-    // =             Constants              =
-    // ======================================
-
-    private static final String COOKIE_NAME = "elibraryCookie";
-    private static final int COOKIE_AGE = 300; // Expires after 60 seconds or even 2_592_000 for one month
 
     // ======================================
     // =             Attributes             =
@@ -69,42 +54,6 @@ public class AccountBean implements Serializable {
     private boolean admin;
     private String password1;
     private String password2;
-    private boolean rememberMe;
-
-    // ======================================
-    // =         Lifecycle methods          =
-    // ======================================
-
-    @PostConstruct
-    public void checkIfUserHasRememberMeCookie() {
-        String coockieValue = getCookieValue();
-        if (coockieValue == null)
-            return ;
-
-        TypedQuery<User> query = em.createNamedQuery(User.FIND_BY_UUID, User.class);
-        query.setParameter("uuid", coockieValue);
-        try {
-            user = query.getSingleResult();
-            // If the user is an administrator
-            if (user.getRole().equals(UserRole.ADMIN))
-                admin = true;
-            // The user is now logged in
-            loggedIn = true;
-/*            try {
-                    FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
-        } catch (NoResultException e) {
-            // The user maybe has an old coockie, let's get rid of it
-            removeCookie();
-/*            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/account/signin");
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }*/
-        }
-    }
 
     // ======================================
     // =          Business methods          =
@@ -146,15 +95,6 @@ public class AccountBean implements Serializable {
             if (user.getRole().equals(UserRole.ADMIN)) {
                 admin = true;
             }
-            // If the user has clicked on remember me
-            if (rememberMe) {
-                String uuid = UUID.randomUUID().toString();
-                user.setUuid(uuid);
-                addCookie(uuid);
-            } else {
-                user.setUuid(null);
-                removeCookie();
-            }
             // The user is now logged in
             loggedIn = true;
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome back " + user.getFirstName(), "You can now browse the catalog"));
@@ -167,21 +107,6 @@ public class AccountBean implements Serializable {
     }
 
     public String doLogout() {
-        AlterableContext ctx = (AlterableContext) beanManager.getContext(SessionScoped.class);
-        Bean<?> myBean = beanManager.getBeans(AccountBean.class).iterator().next();
-        ctx.destroy(myBean);
-        myBean = beanManager.getBeans(ShoppingCartBean.class).iterator().next();
-        ctx.destroy(myBean);
-        return "/main";
-    }
-
-    public String doLogoutAndRemoveCookie() {
-        removeCookie();
-        user.setUuid(null);
-        em.merge(user);
-        /*TypedQuery<User> query = em.createNamedQuery(User.UPDATE_UUID, User.class);
-        query.setParameter("login", user.getLogin());
-        query.getResultList();*/
         AlterableContext ctx = (AlterableContext) beanManager.getContext(SessionScoped.class);
         Bean<?> myBean = beanManager.getBeans(AccountBean.class).iterator().next();
         ctx.destroy(myBean);
@@ -226,31 +151,6 @@ public class AccountBean implements Serializable {
         return null;
     }
 
-    // Cookie
-    private String getCookieValue() {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (COOKIE_NAME.equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
-            }
-        }
-        return null;
-    }
-
-    private void addCookie(String value) {
-        Cookie cookie = new Cookie(COOKIE_NAME, value);
-        //cookie.setPath("/sampleJSFLogin");
-        cookie.setMaxAge(COOKIE_AGE);
-        response.addCookie(cookie);
-    }
-
-    private void removeCookie() {
-        Cookie cookie = new Cookie(COOKIE_NAME, null);
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-    }
 
     private void resetPasswords() {
         password1 = null;
@@ -283,14 +183,6 @@ public class AccountBean implements Serializable {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
-    }
-
-    public boolean isRememberMe() {
-        return rememberMe;
-    }
-
-    public void setRememberMe(boolean rememberMe) {
-        this.rememberMe = rememberMe;
     }
 
     public String getPassword1() {
