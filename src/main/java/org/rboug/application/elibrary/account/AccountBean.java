@@ -4,6 +4,7 @@ import de.svenjacobs.loremipsum.LoremIpsum;
 
 import org.rboug.application.elibrary.model.User;
 import org.rboug.application.elibrary.model.UserRole;
+import org.rboug.application.elibrary.service.AccountService;
 import org.rboug.application.elibrary.util.PasswordUtils;
 import org.rboug.application.elibrary.view.shopping.ShoppingCartBean;
 
@@ -58,12 +59,15 @@ public class AccountBean implements Serializable {
     // ======================================
     // =          Business methods          =
     // ======================================
-
+    @Inject
+    AccountService accountService;
     @Transactional(dontRollbackOn = IllegalArgumentException.class)
     public String doSignup() {
         // Does the login already exists ?
-        if (em.createNamedQuery(User.FIND_BY_LOGIN, User.class).setParameter("login", user.getLogin())
-                .getResultList().size() > 0) {
+        if(accountService.userExist(user.getLogin()))
+//        if (em.createNamedQuery(User.FIND_BY_LOGIN, User.class).setParameter("login", user.getLogin())
+//                .getResultList().size() > 0)
+            {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "Login already exists " + user.getLogin(),
                             "Choose a different login"));
@@ -72,7 +76,8 @@ public class AccountBean implements Serializable {
 
         // Everything is ok, we can create the user
         user.setPassword(PasswordUtils.digestPassword(password1));
-        em.persist(user);
+        accountService.create(user);
+        //em.persist(user);
         // if (user.getEmail().contains("antonio"))
         //     throw new IllegalArgumentException("Wrong email");
 

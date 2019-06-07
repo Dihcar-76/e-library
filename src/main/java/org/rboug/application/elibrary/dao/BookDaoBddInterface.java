@@ -9,10 +9,8 @@ public interface BookDaoBddInterface {
 
 
     /**
-     * Base pour assurer la persistance des entités dans une Bdd
+     * Base pour assurer la persistance des entités book dans une Bdd
      *
-     * @param <ID_TYPE> type de l'identifiant de l'entité
-     * @param <ENTITY_TYPE> type de l'entité
      */
 
     public Book create(Book entity);
