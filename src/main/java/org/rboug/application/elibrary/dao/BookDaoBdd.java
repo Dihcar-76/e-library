@@ -53,16 +53,68 @@ public class BookDaoBdd implements ElibraryDaoBdd<Long, Book> {
         entityManager.flush();
     }
 
-    public CriteriaBuilder getCriteriaBuilder() {
-        return entityManager.getCriteriaBuilder();
+    public List<Book> getAll() {
+        CriteriaQuery<Book> criteria = this.entityManager.getCriteriaBuilder()
+                .createQuery(Book.class);
+        return this.entityManager.createQuery(
+                criteria.select(criteria.from(Book.class))).getResultList();
     }
 
+    public Long getItemsCount(String title, String description, String isbn, Integer nbOfPage, Language language) {
+        CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
 
-    public Query createQuery1(CriteriaQuery<Long> countCriteria) {
-        return entityManager.createQuery(countCriteria);
+        // Populate count of items
+
+        CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
+        Root<Book> root = countCriteria.from(Book.class);
+        countCriteria = countCriteria.select(builder.count(root)).where(
+                getSearchPredicates(root, title, description, isbn, nbOfPage, language));
+        return this.entityManager.createQuery(countCriteria)
+                .getSingleResult();
     }
 
-    public TypedQuery<Book> createQuery2(CriteriaQuery<Book> where) {
-        return entityManager.createQuery(where);
+    private Predicate[] getSearchPredicates(Root<Book> root, String title, String description, String isbn, Integer nbOfPage, Language language) {
+
+        CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        List<Predicate> predicatesList = new ArrayList<>();
+
+        if (title != null && !"".equals(title)) {
+            predicatesList.add(builder.like(
+                    builder.lower(root.<String>get("title")),
+                    '%' + title.toLowerCase() + '%'));
+        }
+
+        if (description != null && !"".equals(description)) {
+            predicatesList.add(builder.like(
+                    builder.lower(root.<String>get("description")),
+                    '%' + description.toLowerCase() + '%'));
+        }
+
+        if (isbn != null && !"".equals(isbn)) {
+            predicatesList.add(builder.like(
+                    builder.lower(root.<String>get("isbn")),
+                    '%' + isbn.toLowerCase() + '%'));
+        }
+
+        if (nbOfPage != null && nbOfPage.intValue() != 0) {
+            predicatesList.add(builder.equal(root.get("nbOfPage"), nbOfPage));
+        }
+
+        if (language != null) {
+            predicatesList.add(builder.equal(root.get("language"), language));
+        }
+
+        return predicatesList.toArray(new Predicate[predicatesList.size()]);
+    }
+
+    public List<Book> getPageItems(String title, String description, String isbn, Integer nbOfPage, Language language, int page, int pageSize) {
+        CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        CriteriaQuery<Book> criteria = builder.createQuery(Book.class);
+        Root<Book> root = criteria.from(Book.class);
+        TypedQuery<Book> query = this.entityManager.createQuery(criteria
+                .select(root).where(getSearchPredicates(root, title, description, isbn, nbOfPage, language)));
+        query.setFirstResult(page * pageSize).setMaxResults(
+                pageSize);
+        return query.getResultList();
     }
 }

@@ -15,7 +15,7 @@ import java.util.Set;
 @DiscriminatorValue("B")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Book extends Item {
+public class Book extends Item implements BookInterface{
 
     // ======================================
     // =             Attributes             =

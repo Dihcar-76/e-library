@@ -293,7 +293,18 @@ public class BookBean implements Serializable {
 
     public String search() {
         this.page = 0;
+
         return null;
+    }
+
+    public void paginate() {
+        this.count = catalogService.getItemsCount(this.example.getTitle(), this.example.getDescription(),
+                this.example.getIsbn(),
+                this.example.getNbOfPage(), this.example.getLanguage());
+        this.pageItems = catalogService.getPageItems(this.example.getTitle(), this.example.getDescription(),
+                this.example.getIsbn(),
+                this.example.getNbOfPage(), this.example.getLanguage(),
+                this.page, getPageSize());
     }
 
    /* public void paginate() {
@@ -355,11 +366,6 @@ public class BookBean implements Serializable {
         return predicatesList.toArray(new Predicate[predicatesList.size()]);
     }*/
 
-    public void paginate() {
-        catalogService.paginate(this);
-    }
-
-
 
     /*
      * Support listing and POSTing back Book entities (e.g. from inside an HtmlSelectOneMenu)
@@ -383,9 +389,9 @@ public class BookBean implements Serializable {
 
     public List<Book> getAll() {
 
-        /*CriteriaQuery<Book> criteria = this.catalogService.getCriteriaBuilder()
+        /*CriteriaQuery<Book> criteria = this.entityManager.getCriteriaBuilder()
                 .createQuery(Book.class);
-        return this.catalogService.createQuery2(
+        return this.entityManager.createQuery(
                 criteria.select(criteria.from(Book.class))).getResultList();*/
         return catalogService.getAll();
     }
@@ -396,7 +402,7 @@ public class BookBean implements Serializable {
 
     public Converter getConverter() {
 
-        /*final BookBean ejbProxy = this.sessionContext
+        final BookBean ejbProxy = this.sessionContext
                 .getBusinessObject(BookBean.class);
 
         return new Converter() {
@@ -418,8 +424,7 @@ public class BookBean implements Serializable {
 
                 return String.valueOf(((Book) value).getId());
             }
-        };*/
-        return catalogService.getConverter();
+        };
     }
 
     public Book getAdd() {
