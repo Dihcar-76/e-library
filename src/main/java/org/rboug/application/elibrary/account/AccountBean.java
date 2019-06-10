@@ -61,8 +61,6 @@ public class AccountBean implements Serializable {
     public String doSignup() {
         // Does the login already exists ?
         if(accountService.userExist(user.getLogin()))
-//        if (em.createNamedQuery(User.FIND_BY_LOGIN, User.class).setParameter("login", user.getLogin())
-//                .getResultList().size() > 0)
             {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "Login already exists " + user.getLogin(),
@@ -73,11 +71,10 @@ public class AccountBean implements Serializable {
         // Everything is ok, we can create the user
         user.setPassword(PasswordUtils.digestPassword(password1));
         accountService.create(user);
-        //em.persist(user);
 
         resetPasswords();
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Hi " + user.getFirstName(), "Welcome to this website"));
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Hi " + user.getFirstName(), "Welcome to this elibrary"));
         loggedIn = true;
         if (user.getRole().equals(UserRole.ADMIN))
             admin = true;
@@ -85,16 +82,10 @@ public class AccountBean implements Serializable {
     }
 
     public String doSignin() {
-
-        /*TypedQuery<User> query = em.createNamedQuery(User.FIND_BY_LOGIN_PASSWORD, User.class);
-        query.setParameter("login", user.getLogin());
-        query.setParameter("password", PasswordUtils.digestPassword(user.getPassword()));*/
-//        try {
-            //user = query.getSingleResult();
             User userFound = accountService.findByLoginPassword(user.getLogin(), PasswordUtils.digestPassword(user.getPassword()));
             if(Objects.isNull(userFound)){
                 FacesContext.getCurrentInstance().addMessage("signinForm:inputPassword", new FacesMessage(FacesMessage.SEVERITY_WARN, "Wrong user/password",
-                        "Check your inputs or ask for a new password"));
+                        "Check your email and password or click on forgot password link."));
                 return null;
             }
             user = userFound;
@@ -106,13 +97,8 @@ public class AccountBean implements Serializable {
             loggedIn = true;
             FacesContext context = FacesContext.getCurrentInstance();
             context.getExternalContext().getFlash().setKeepMessages(true);//keep messages after a redirect
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome back " + user.getFirstName(), "You can now browse the catalog"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome back " + user.getFirstName(), "You can browse the catalog"));
             return "/main?faces-redirect=true";
-/*        } catch (NoResultException e) {
-            FacesContext.getCurrentInstance().addMessage("signinForm:inputPassword", new FacesMessage(FacesMessage.SEVERITY_WARN, "Wrong user/password",
-                    "Check your inputs or ask for a new password"));
-            return null;
-        }*/
     }
 
     public String doLogout() {
@@ -138,7 +124,6 @@ public class AccountBean implements Serializable {
             user.setPassword(PasswordUtils.digestPassword(temporaryPassword));
             System.out.println("##"+PasswordUtils.digestPassword(temporaryPassword).toString());
             accountService.update(user);
-            //em.merge(user);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Email sent",
                     "An email has been sent to " + user.getEmail() + " with temporary password :" + temporaryPassword));
             // TODO:send an email with the password "dummyPassword"
@@ -153,7 +138,6 @@ public class AccountBean implements Serializable {
     public String doUpdateProfile() {
         if (password1 != null && !password1.isEmpty())
             user.setPassword(PasswordUtils.digestPassword(password1));
-        //em.merge(user);
         accountService.update(user);
         resetPasswords();
         FacesContext.getCurrentInstance().addMessage(null,
