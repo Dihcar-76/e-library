@@ -12,7 +12,7 @@ import javax.persistence.*;
         @NamedQuery(name = User.FIND_ALL, query = "SELECT u FROM User u"),
         @NamedQuery(name = User.UPDATE_UUID, query = "UPDATE User u SET u.uuid = null WHERE u.login = :login")
 })
-public class AccountDaoBdd {
+public class AccountDaoBdd implements  AccountDaoBddInterface{
 
     public static final String FIND_BY_EMAIL = "User.findByEmail";
     public static final String FIND_BY_LOGIN = "User.findByLogin";
@@ -32,5 +32,22 @@ public class AccountDaoBdd {
 
     public void create(User user) {
         entityManager.persist(user);
+    }
+
+    public User update(User user) {
+        entityManager.merge(user);
+        return user;
+    }
+
+    public User findByLoginPassword(String login, String digestPassword){
+        TypedQuery<User> query = entityManager.createNamedQuery(User.FIND_BY_LOGIN_PASSWORD, User.class);
+        query.setParameter("login", login);
+        query.setParameter("password", digestPassword);
+        try{
+            return query.getSingleResult();
+        }
+        catch(NoResultException e){
+            return null;
+        }
     }
 }

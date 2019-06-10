@@ -28,6 +28,7 @@
 
 
         <h:form id="form">
+            <p:growl id="messages" style="padding-top:50px" showDetail="true"/>
             <p:dataGrid var="item" value="#{itemBean.model}" columns="3" layout="grid" lazy="true"
                         rows="6" paginator="true" id="items"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"

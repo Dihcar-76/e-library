@@ -19,7 +19,7 @@ import java.util.Date;
         @NamedQuery(name = User.FIND_ALL, query = "SELECT u FROM User u"),
         @NamedQuery(name = User.UPDATE_UUID, query = "UPDATE User u SET u.uuid = null WHERE u.login = :login")
 })
-public class User implements Serializable {
+public class User implements Serializable, UserInterface {
 
     // ======================================
     // =             Constants              =
