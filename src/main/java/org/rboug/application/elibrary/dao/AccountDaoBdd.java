@@ -50,4 +50,15 @@ public class AccountDaoBdd implements  AccountDaoBddInterface{
             return null;
         }
     }
+
+    public User findByEmail(String email) {
+        TypedQuery<User> query = entityManager.createNamedQuery(User.FIND_BY_EMAIL, User.class);
+        query.setParameter("email", email);
+        try {
+            return query.getSingleResult();
+        }
+        catch(NoResultException e){
+            return null;
+        }
+    }
 }

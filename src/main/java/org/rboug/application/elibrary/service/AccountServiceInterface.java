@@ -10,4 +10,6 @@ public interface AccountServiceInterface {
     public User findByLoginPassword(String login, String digestPassword);
 
     public User update(User user);
+
+    public User findByEmail(String email);
 }

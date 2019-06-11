@@ -27,4 +27,8 @@ public class AccountService implements AccountServiceInterface{
     public User update(User user) {
         return accountDaoBdd.update(user);
     }
+
+    public User findByEmail(String email) {
+        return accountDaoBdd.findByEmail(email);
+    }
 }

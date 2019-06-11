@@ -13,4 +13,6 @@ public interface AccountDaoBddInterface {
     public User update(User user);
 
     public User findByLoginPassword(String login, String digestPassword);
+
+    User findByEmail(String email);
 }

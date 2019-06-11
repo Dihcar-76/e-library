@@ -1,10 +1,8 @@
 package org.rboug.application.elibrary.account;
 
 import de.svenjacobs.loremipsum.LoremIpsum;
-
 import org.rboug.application.elibrary.model.User;
 import org.rboug.application.elibrary.model.UserRole;
-import org.rboug.application.elibrary.service.AccountService;
 import org.rboug.application.elibrary.service.AccountServiceInterface;
 import org.rboug.application.elibrary.util.PasswordUtils;
 import org.rboug.application.elibrary.view.shopping.ShoppingCartBean;
@@ -57,7 +55,7 @@ public class AccountBean implements Serializable {
     // ======================================
     @Inject
     AccountServiceInterface accountService;
-    @Transactional(dontRollbackOn = IllegalArgumentException.class)
+    @Transactional
     public String doSignup() {
         // Does the login already exists ?
         if(accountService.userExist(user.getLogin()))
@@ -111,27 +109,27 @@ public class AccountBean implements Serializable {
     }
 
     public String doForgotPassword() {
-        TypedQuery<User> query = em.createNamedQuery(User.FIND_BY_EMAIL, User.class);
-        query.setParameter("email", user.getEmail());
-        try {
-            user = query.getSingleResult();
+        User userFound = accountService.findByEmail(user.getEmail());
+        if(Objects.isNull(userFound)){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Unknown email",
+                    "Unknown email address"));
+            return null;
+        }
+        else {
+            user = userFound;
             LoremIpsum loremIpsum = new LoremIpsum();
             Random rand = new Random();
             // Obtain a number between [0 - 49].
             int n = rand.nextInt(50);
             String temporaryPassword = loremIpsum.getWords(1, n);
-            System.out.println("##"+temporaryPassword);
+            System.out.println("##" + temporaryPassword);
             user.setPassword(PasswordUtils.digestPassword(temporaryPassword));
-            System.out.println("##"+PasswordUtils.digestPassword(temporaryPassword).toString());
+            System.out.println("##" + PasswordUtils.digestPassword(temporaryPassword).toString());
             accountService.update(user);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Email sent",
-                    "An email has been sent to " + user.getEmail() + " with temporary password :" + temporaryPassword));
+                    "An email has been sent to " + user.getEmail() + " with temporary password: " + temporaryPassword));
             // TODO:send an email with the password "dummyPassword"
             return doLogout();
-        } catch (NoResultException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Unknown email",
-                    "This email address is unknonw in our system"));
-            return null;
         }
     }
 
@@ -140,9 +138,11 @@ public class AccountBean implements Serializable {
             user.setPassword(PasswordUtils.digestPassword(password1));
         accountService.update(user);
         resetPasswords();
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Profile has been updated for " + user.getFirstName(),
-                        null));
+                        "profile is now updated"));
         return null;
     }
 
