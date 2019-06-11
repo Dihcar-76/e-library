@@ -60,7 +60,7 @@
         </h:form>
 <br/>
         <h:form>
-            <p:dataTable var="_item" value="#{itemBean.allItems}" rows="10"
+            <p:dataTable var="_item" value="#{itemBean.all}" rows="10"
                          paginator="true"
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="5,10,15">
@@ -79,7 +79,7 @@
             </p:dataTable>
         </h:form>
 
-        <h:dataTable value="#{itemBean.allItems}" var="_item2"
+        <h:dataTable value="#{itemBean.all}" var="_item2"
                      styleClass="order-table"
                      headerClass="order-table-header"
                      rowClasses="order-table-odd-row,order-table-even-row"

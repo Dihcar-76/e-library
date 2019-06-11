@@ -294,23 +294,23 @@ public class ItemBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        allItems= new ArrayList<Item>();
+        /*allItems= new ArrayList<Item>();
         TypedQuery<Item> query = entityManager.createNamedQuery(Item.FIND_ALL, Item.class);
-        this.allItems = query.getResultList();
+        this.allItems = query.getResultList();*/
     }
 
 
-    public void setAllItems(List<Item> allItems) {
+    /*public void setAllItems(List<Item> allItems) {
         this.allItems = allItems;
-    }
+    }*/
 
-    public List<Item> getAllItems() {
-        /*if (allItems == null) {
+   /* public List<Item> getAllItems() {
+        if (allItems == null) {
             TypedQuery<Item> query = entityManager.createNamedQuery(Item.FIND_ALL, Item.class);
             this.allItems = query.getResultList();
-        }*/
+        }
         return allItems;
-    }
+    }*/
 
     public StreamedContent getImageFromDB() {
 
@@ -324,16 +324,16 @@ public class ItemBean implements Serializable {
             String id = context.getExternalContext().getRequestParameterMap().get("id");
             Item item = this.findById(Long.valueOf(id));
             byte[] image = item.getSmallImage();
-            if (image != null) {
+//            if (image != null) {
 
                 return new DefaultStreamedContent(new ByteArrayInputStream(image),
                         "image/png");
-            }
-        else {
+//            }
+        /*else {
             return new DefaultStreamedContent(FacesContext
                     .getCurrentInstance().getExternalContext()
                     .getResourceAsStream("/resources/noimage.png"));
-        }
+        }*/
 
     }
 
