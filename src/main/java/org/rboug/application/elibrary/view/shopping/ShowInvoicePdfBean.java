@@ -31,7 +31,7 @@ import static javax.faces.annotation.FacesConfig.Version.JSF_2_3;
 
 @Named
 @RequestScoped
-public class ShowPdfBean {
+public class ShowInvoicePdfBean {
 
     private Long invoice_id;
 
@@ -47,7 +47,6 @@ public class ShowPdfBean {
 
     public String viewReportPDF() throws SQLException, JRException, IOException, ClassNotFoundException {
         String url = "jdbc:postgresql://localhost:5432/elibrary";
-        //Long id = Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id"));
         // - Connexion à la base
         Properties props = new Properties();
         props.setProperty("user","postgres");

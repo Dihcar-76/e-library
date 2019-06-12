@@ -32,10 +32,7 @@ import static javax.faces.annotation.FacesConfig.Version.JSF_2_3;
 
 /**
  * Backing bean for Label entities.
- * <p/>
- * This class provides CRUD functionality for all Label entities. It focuses purely on Java EE 6 standards (e.g.
- * <tt>&#64;ConversationScoped</tt> for state management, <tt>PersistenceContext</tt> for persistence,
- * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD framework or custom base class.
+ *
  */
 @FacesConfig(
         // Activates CDI build-in beans

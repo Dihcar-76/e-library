@@ -36,10 +36,7 @@ import static javax.faces.annotation.FacesConfig.Version.JSF_2_3;
 
 /**
  * Backing bean for Book entities.
- * <p/>
- * This class provides CRUD functionality for all Book entities. It focuses purely on Java EE 6 standards (e.g.
- * <tt>&#64;ConversationScoped</tt> for state management, <tt>PersistenceContext</tt> for persistence,
- * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD framework or custom base class.
+ *
  */
 @FacesConfig(
         // Activates CDI build-in beans
@@ -94,15 +91,10 @@ public class BookBean implements Serializable {
         this.file = file;
     }
 
-    public void noImage() {
-
-    }
-
     public void upload() {//FileUploadEvent  event
         if (Objects.nonNull(this.file)) {
             try {
                 //this.file = event.getFile();
-
                 InputStream input = this.file.getInputstream();
                 ByteArrayOutputStream output = new ByteArrayOutputStream();
                 byte[] buffer = new byte[1024];
@@ -139,7 +131,6 @@ public class BookBean implements Serializable {
             }
         }
     }
-
 
     /*
      * Support updating and deleting Book entities
@@ -194,68 +185,37 @@ public class BookBean implements Serializable {
     }
 
     public Book findById(Long id) {
-
-        return this.entityManager.find(Book.class, id);
-    }
-
-    /*public String update() {
-        this.conversation.end();
-        upload();//image
-        for (Author a : book.getAuthors()) {
-            book.addAuthor(a);
-            //System.out.println(a);
-        }
         try {
-            if (id == null) {
-                book.setIsbn(generator.generateNumber());
-
-                entityManager.persist(book);
-                return "search?faces-redirect=true";
-            } else {
-                entityManager.merge(book);
-                return "view?faces-redirect=true&id=" + book.getId();
-            }
+            return catalogService.findById(id);
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "No book found for this id " + id,
+                           e.getMessage()));
             return null;
         }
-    }*/
+    }
 
     @Inject
     CatalogServiceInterface catalogService;
-    public String updatebis(){
+
+    public String updatebis() {
         this.conversation.end();
         upload();//image
         for (Author a : book.getAuthors()) { //authors
             book.addAuthor(a);
         }
         try {
-          if(catalogService.createOrUpdateBook(book, id)){
-              return "search?faces-redirect=true";
-          }else{
-              return "view?faces-redirect=true&id=" + book.getId();
-          }
+            if (catalogService.createOrUpdateBook(book, id)) {
+                return "search?faces-redirect=true";
+            } else {
+                return "view?faces-redirect=true&id=" + book.getId();
+            }
 
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
             return null;
         }
     }
-
-    /*public String delete() {
-        this.conversation.end();
-        try {
-            Book deletableEntity = findById(getId());
-
-            this.entityManager.remove(deletableEntity);
-            this.entityManager.refresh();
-            return "search?faces-redirect=true";
-        } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(e.getMessage()));
-            return null;
-        }
-    }*/
 
     public String deletebis() {
         this.conversation.end();
@@ -308,66 +268,6 @@ public class BookBean implements Serializable {
                 this.page, getPageSize());
     }
 
-   /* public void paginate() {
-
-        CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-
-        // Populate this.count
-
-        CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-        Root<Book> root = countCriteria.from(Book.class);
-        countCriteria = countCriteria.select(builder.count(root)).where(
-                getSearchPredicates(root));
-        this.count = this.entityManager.createQuery(countCriteria)
-                .getSingleResult();
-
-        // Populate this.pageItems
-
-        CriteriaQuery<Book> criteria = builder.createQuery(Book.class);
-        root = criteria.from(Book.class);
-        TypedQuery<Book> query = this.entityManager.createQuery(criteria
-                .select(root).where(getSearchPredicates(root)));
-        query.setFirstResult(this.page * getPageSize()).setMaxResults(
-                getPageSize());
-        this.pageItems = query.getResultList();
-    }
-
-    private Predicate[] getSearchPredicates(Root<Book> root) {
-
-        CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-        List<Predicate> predicatesList = new ArrayList<>();
-
-        String title = this.example.getTitle();
-        if (title != null && !"".equals(title)) {
-            predicatesList.add(builder.like(
-                    builder.lower(root.<String>get("title")),
-                    '%' + title.toLowerCase() + '%'));
-        }
-        String description = this.example.getDescription();
-        if (description != null && !"".equals(description)) {
-            predicatesList.add(builder.like(
-                    builder.lower(root.<String>get("description")),
-                    '%' + description.toLowerCase() + '%'));
-        }
-        String isbn = this.example.getIsbn();
-        if (isbn != null && !"".equals(isbn)) {
-            predicatesList.add(builder.like(
-                    builder.lower(root.<String>get("isbn")),
-                    '%' + isbn.toLowerCase() + '%'));
-        }
-        Integer nbOfPage = this.example.getNbOfPage();
-        if (nbOfPage != null && nbOfPage.intValue() != 0) {
-            predicatesList.add(builder.equal(root.get("nbOfPage"), nbOfPage));
-        }
-        Language language = this.example.getLanguage();
-        if (language != null) {
-            predicatesList.add(builder.equal(root.get("language"), language));
-        }
-
-        return predicatesList.toArray(new Predicate[predicatesList.size()]);
-    }*/
-
-
     /*
      * Support listing and POSTing back Book entities (e.g. from inside an HtmlSelectOneMenu)
      */
@@ -389,11 +289,6 @@ public class BookBean implements Serializable {
     }
 
     public List<Book> getAll() {
-
-        /*CriteriaQuery<Book> criteria = this.entityManager.getCriteriaBuilder()
-                .createQuery(Book.class);
-        return this.entityManager.createQuery(
-                criteria.select(criteria.from(Book.class))).getResultList();*/
         return catalogService.getAll();
     }
 
