@@ -65,7 +65,7 @@
                         <h:outputText value="Unit cost"/>
                     </f:facet>
                     <h:link outcome="/admin/item/view">
-                        <f:param name="unitCost" value="#{_item.unitCost}"/>
+                        <f:param name="unitCost" value="#{_item.id}"/>
                         <h:outputText id="unitCost" value="#{_item.unitCost}"/>
                     </h:link>
                 </h:column>
