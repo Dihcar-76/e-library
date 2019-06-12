@@ -5,12 +5,12 @@ import org.rboug.application.elibrary.model.User;
 import javax.persistence.*;
 
 @NamedQueries({
-        @NamedQuery(name = AccountDaoBdd.FIND_BY_EMAIL, query = "SELECT u FROM User u WHERE u.email = :email"),
-        @NamedQuery(name = AccountDaoBdd.FIND_BY_UUID, query = "SELECT u FROM User u WHERE u.uuid = :uuid"),
-        @NamedQuery(name = AccountDaoBdd.FIND_BY_LOGIN, query = "SELECT u FROM User u WHERE u.login = :login"),
+        @NamedQuery(name = User.FIND_BY_EMAIL, query = "SELECT u FROM User u WHERE u.email = :email"),
+        @NamedQuery(name = User.FIND_BY_UUID, query = "SELECT u FROM User u WHERE u.uuid = :uuid"),
+        @NamedQuery(name = User.FIND_BY_LOGIN, query = "SELECT u FROM User u WHERE u.login = :login"),
         @NamedQuery(name = AccountDaoBdd.FIND_BY_LOGIN_PASSWORD, query = "SELECT u FROM User u WHERE u.login = :login AND u.password = :password"),
-        @NamedQuery(name = AccountDaoBdd.FIND_ALL, query = "SELECT u FROM User u"),
-        @NamedQuery(name = AccountDaoBdd.UPDATE_UUID, query = "UPDATE User u SET u.uuid = null WHERE u.login = :login")
+        @NamedQuery(name = User.FIND_ALL, query = "SELECT u FROM User u"),
+        @NamedQuery(name = User.UPDATE_UUID, query = "UPDATE User u SET u.uuid = null WHERE u.login = :login")
 })
 public class AccountDaoBdd implements  AccountDaoBddInterface{
 
@@ -52,7 +52,7 @@ public class AccountDaoBdd implements  AccountDaoBddInterface{
     }
 
     public User findByEmail(String email) {
-        TypedQuery<User> query = entityManager.createNamedQuery(AccountDaoBdd.FIND_BY_EMAIL, User.class);
+        TypedQuery<User> query = entityManager.createNamedQuery(User.FIND_BY_EMAIL, User.class);
         query.setParameter("email", email);
         try {
             return query.getSingleResult();
