@@ -47,12 +47,12 @@ public class AccountBean implements Serializable {
     private boolean admin;
     private String password1;
     private String password2;
-
+    @Inject
+    AccountServiceInterface accountService;
     // ======================================
     // =          Business methods          =
     // ======================================
-    @Inject
-    AccountServiceInterface accountService;
+
     @Transactional
     public String doSignup() {
         // Does the login already exists ?
