@@ -1,6 +1,5 @@
 package org.rboug.application.elibrary.service;
 
-import org.rboug.application.elibrary.dao.AccountDaoBdd;
 import org.rboug.application.elibrary.dao.AccountDaoBddInterface;
 import org.rboug.application.elibrary.model.User;
 
@@ -20,8 +19,8 @@ public class AccountService implements AccountServiceInterface{
         accountDaoBdd.create(user);
     }
 
-    public User findByLoginPassword(String login, String digestPassword){
-        return accountDaoBdd.findByLoginPassword(login, digestPassword);
+    public User findByLoginAndPassword(String login, String digestPassword){
+        return accountDaoBdd.findByLoginAndPassword(login, digestPassword);
     }
 
     public User update(User user) {

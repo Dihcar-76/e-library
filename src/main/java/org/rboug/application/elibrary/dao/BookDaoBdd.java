@@ -38,11 +38,6 @@ public class BookDaoBdd implements BookDaoBddInterface {
 
     }
 
-    @Override
-    public Book getNew() {
-        return null;
-    }
-
     public Book findById(Long id) {
         return entityManager.find(Book.class, id);
     }

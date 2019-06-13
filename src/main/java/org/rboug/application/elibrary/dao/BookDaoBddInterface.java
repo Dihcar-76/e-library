@@ -13,17 +13,21 @@ public interface BookDaoBddInterface {
      *
      */
 
-    public Book create(Book entity);
+    public Book create(Book book);
 
     public Book retrieve(Long id);
-    public Book update(Book entity);
 
-    public void delete(Book entity);
+    public Book update(Book book);
 
-    public Book getNew();
+    public void delete(Book book);
+
     public Book findById(Long id);
+
     public void refresh();
+
     public List<Book> getAll();
+
     public Long getItemsCount(String title, String description, String isbn, Integer nbOfPage, Language language);
+
     public List<Book> getPageItems(String title, String description, String isbn, Integer nbOfPage, Language language, int page, int pageSize);
 }

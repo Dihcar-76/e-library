@@ -16,8 +16,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Objects;
@@ -80,7 +78,7 @@ public class AccountBean implements Serializable {
     }
 
     public String doSignin() {
-            User userFound = accountService.findByLoginPassword(user.getLogin(), PasswordUtils.digestPassword(user.getPassword()));
+            User userFound = accountService.findByLoginAndPassword(user.getLogin(), PasswordUtils.digestPassword(user.getPassword()));
             if(Objects.isNull(userFound)){
                 FacesContext.getCurrentInstance().addMessage("signinForm:inputPassword", new FacesMessage(FacesMessage.SEVERITY_WARN, "Wrong user/password",
                         "Check your email and password or click on forgot password link."));

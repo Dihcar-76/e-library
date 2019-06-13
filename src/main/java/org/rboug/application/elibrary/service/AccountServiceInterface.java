@@ -7,7 +7,7 @@ public interface AccountServiceInterface {
 
     public void create(User user);
 
-    public User findByLoginPassword(String login, String digestPassword);
+    public User findByLoginAndPassword(String login, String digestPassword);
 
     public User update(User user);
 

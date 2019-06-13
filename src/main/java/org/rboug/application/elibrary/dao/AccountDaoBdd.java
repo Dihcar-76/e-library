@@ -39,7 +39,7 @@ public class AccountDaoBdd implements  AccountDaoBddInterface{
         return user;
     }
 
-    public User findByLoginPassword(String login, String digestPassword){
+    public User findByLoginAndPassword(String login, String digestPassword){
         TypedQuery<User> query = entityManager.createNamedQuery(AccountDaoBdd.FIND_BY_LOGIN_PASSWORD, User.class);
         query.setParameter("login", login);
         query.setParameter("password", digestPassword);

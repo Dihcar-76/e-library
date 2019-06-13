@@ -3,8 +3,6 @@ package org.rboug.application.elibrary.view.admin;
 import org.primefaces.model.UploadedFile;
 import org.rboug.application.elibrary.model.Author;
 import org.rboug.application.elibrary.model.Book;
-import org.rboug.application.elibrary.model.Language;
-import org.rboug.application.elibrary.service.CatalogService;
 import org.rboug.application.elibrary.service.CatalogServiceInterface;
 import org.rboug.application.elibrary.util.Loggable;
 import org.rboug.application.elibrary.util.NumberGenerator;
@@ -22,12 +20,7 @@ import javax.faces.convert.Converter;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.faces.annotation.FacesConfig;
@@ -70,8 +63,8 @@ public class BookBean implements Serializable {
     @Inject
     @ThirteenDigits
     private NumberGenerator generator;
-
     private UploadedFile file;
+    private String[] selectedAuthors;
 
     public String[] getSelectedAuthors() {
         return selectedAuthors;
@@ -81,8 +74,6 @@ public class BookBean implements Serializable {
         this.selectedAuthors = selectedAuthors;
     }
 
-    private String[] selectedAuthors;
-
     public UploadedFile getFile() {
         return file;
     }
@@ -91,7 +82,7 @@ public class BookBean implements Serializable {
         this.file = file;
     }
 
-    public void upload() {//FileUploadEvent  event
+    public void uploadImage() {//FileUploadEvent  event
         if (Objects.nonNull(this.file)) {
             try {
                 //this.file = event.getFile();
@@ -200,7 +191,7 @@ public class BookBean implements Serializable {
 
     public String updatebis() {
         this.conversation.end();
-        upload();//image
+        uploadImage();//image
         for (Author a : book.getAuthors()) { //authors
             book.addAuthor(a);
         }
