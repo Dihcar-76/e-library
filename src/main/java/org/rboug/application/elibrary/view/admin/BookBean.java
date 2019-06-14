@@ -3,7 +3,7 @@ package org.rboug.application.elibrary.view.admin;
 import org.primefaces.model.UploadedFile;
 import org.rboug.application.elibrary.model.Author;
 import org.rboug.application.elibrary.model.Book;
-import org.rboug.application.elibrary.service.CatalogServiceInterface;
+import org.rboug.application.elibrary.service.BookServiceInterface;
 import org.rboug.application.elibrary.util.Loggable;
 import org.rboug.application.elibrary.util.NumberGenerator;
 import org.rboug.application.elibrary.util.ThirteenDigits;
@@ -228,7 +228,7 @@ public class BookBean implements Serializable {
     }
 
     @Inject
-    CatalogServiceInterface catalogService;
+    BookServiceInterface catalogService;
 
     /*
      * Support updating and deleting Book entities

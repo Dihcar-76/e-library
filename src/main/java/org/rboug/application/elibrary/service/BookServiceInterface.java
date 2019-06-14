@@ -5,7 +5,7 @@ import org.rboug.application.elibrary.model.Language;
 
 import java.util.List;
 
-public interface CatalogServiceInterface {
+public interface BookServiceInterface {
     public boolean createOrUpdateBook(Book b, Long id) throws Exception;
     public Book findById(Long id) throws Exception;
     public void remove(Book deletableEntity);

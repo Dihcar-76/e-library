@@ -1,6 +1,5 @@
 package org.rboug.application.elibrary.service;
 
-import org.rboug.application.elibrary.dao.BookDaoBdd;
 import org.rboug.application.elibrary.dao.BookDaoBddInterface;
 import org.rboug.application.elibrary.model.Book;
 import org.rboug.application.elibrary.model.Language;
@@ -13,7 +12,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Stateful
-public class CatalogService implements CatalogServiceInterface{
+public class BookService implements BookServiceInterface {
     @Inject
     BookDaoBddInterface bookDaoBdd;
 
