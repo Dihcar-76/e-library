@@ -66,6 +66,66 @@ public class BookBean implements Serializable {
     private UploadedFile file;
     private String[] selectedAuthors;
 
+    // ======================================
+    // =        Getters and Setters         =
+    // ======================================
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Book getBook() {
+        return this.book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public void setPageItems(List<Book> pageItems) {
+        this.pageItems = pageItems;
+    }
+
+    public List<Book> getPageItems() {
+        return this.pageItems;
+    }
+
+    public void setCount(long count) {
+        this.count = count;
+    }
+
+    public long getCount() {
+        return this.count;
+    }
+
+    public List<Book> getAll() {
+        return catalogService.getAll();
+    }
+
+    public int getPage() {
+        return this.page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getPageSize() {
+        return 10;
+    }
+
+    public Book getExample() {
+        return this.example;
+    }
+
+    public void setExample(Book example) {
+        this.example = example;
+    }
+
     public String[] getSelectedAuthors() {
         return selectedAuthors;
     }
@@ -81,6 +141,10 @@ public class BookBean implements Serializable {
     public void setFile(UploadedFile file) {
         this.file = file;
     }
+
+    // ======================================
+    // =        methods         =
+    // ======================================
 
     public void uploadImage() {//FileUploadEvent  event
         if (Objects.nonNull(this.file)) {
@@ -121,29 +185,6 @@ public class BookBean implements Serializable {
                 }
             }
         }
-    }
-
-    /*
-     * Support updating and deleting Book entities
-     */
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /*
-     * Support searching Book entities with pagination
-     */
-
-    public Book getBook() {
-        return this.book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
     }
 
     public String create() {
@@ -189,6 +230,9 @@ public class BookBean implements Serializable {
     @Inject
     CatalogServiceInterface catalogService;
 
+    /*
+     * Support updating and deleting Book entities
+     */
     public String updatebis() {
         this.conversation.end();
         uploadImage();//image
@@ -223,32 +267,14 @@ public class BookBean implements Serializable {
         }
     }
 
-    public int getPage() {
-        return this.page;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
-
-    public int getPageSize() {
-        return 10;
-    }
-
-    public Book getExample() {
-        return this.example;
-    }
-
-    public void setExample(Book example) {
-        this.example = example;
-    }
-
     public String search() {
         this.page = 0;
-
         return null;
     }
 
+    /*
+     * Support searching Book entities with pagination
+     */
     public void paginate() {
         this.count = catalogService.getItemsCount(this.example.getTitle(), this.example.getDescription(),
                 this.example.getIsbn(),
@@ -257,30 +283,6 @@ public class BookBean implements Serializable {
                 this.example.getIsbn(),
                 this.example.getNbOfPage(), this.example.getLanguage(),
                 this.page, getPageSize());
-    }
-
-    /*
-     * Support listing and POSTing back Book entities (e.g. from inside an HtmlSelectOneMenu)
-     */
-
-    public void setPageItems(List<Book> pageItems) {
-        this.pageItems = pageItems;
-    }
-
-    public List<Book> getPageItems() {
-        return this.pageItems;
-    }
-
-    public void setCount(long count) {
-        this.count = count;
-    }
-
-    public long getCount() {
-        return this.count;
-    }
-
-    public List<Book> getAll() {
-        return catalogService.getAll();
     }
 
     /*

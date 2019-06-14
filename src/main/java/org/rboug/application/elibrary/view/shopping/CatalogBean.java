@@ -1,6 +1,7 @@
 package org.rboug.application.elibrary.view.shopping;
 
 import org.rboug.application.elibrary.model.Author;
+import org.rboug.application.elibrary.model.Book;
 import org.rboug.application.elibrary.model.Item;
 import org.rboug.application.elibrary.util.Auditable;
 
@@ -43,18 +44,6 @@ public class CatalogBean {
     private List<Item> items;
     private Item item;
     private Long itemId;
-
-    public List<Author> getAuthors() {
-        TypedQuery<Author> typedQuery = em.createNamedQuery(Item.FIND_ALL_BOOK_AUTHORS, Author.class);
-        typedQuery.setParameter("id", Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id")));
-        authors = typedQuery.getResultList();
-        return authors;
-    }
-
-    public void setAuthors(List<Author> authors) {
-        this.authors = authors;
-    }
-
     private List<Author> authors = new ArrayList<>();
 
     // ======================================
@@ -77,6 +66,17 @@ public class CatalogBean {
     // ======================================
     // =        Getters and Setters         =
     // ======================================
+
+    public List<Author> getAuthors() {
+        TypedQuery<Author> typedQuery = em.createNamedQuery(Book.FIND_ALL_BOOK_AUTHORS, Author.class);
+        typedQuery.setParameter("id", Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id")));
+        authors = typedQuery.getResultList();
+        return authors;
+    }
+
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
+    }
 
     public String getKeyword() {
         return keyword;

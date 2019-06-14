@@ -15,7 +15,14 @@ import java.util.Set;
 @DiscriminatorValue("B")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@NamedQueries({
+        @NamedQuery(name = Book.FIND_ALL_BOOK_AUTHORS, query = "SELECT a FROM Book b, IN(b.authors) a WHERE b.id = :id order by a.lastName")
+})
 public class Book extends Item implements BookInterface{
+    // ======================================
+    // =             Constants            =
+    // ======================================
+    public static final String FIND_ALL_BOOK_AUTHORS = "Book.findAllBookAuthors";
 
     // ======================================
     // =             Attributes             =
