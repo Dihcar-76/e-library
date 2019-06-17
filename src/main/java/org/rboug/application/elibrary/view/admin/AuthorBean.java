@@ -53,8 +53,6 @@ public class AuthorBean implements Serializable {
     private Author author;
     @Inject
     private Conversation conversation;
-    /*@PersistenceContext(unitName = "elibraryPU", type = PersistenceContextType.EXTENDED)
-    private EntityManager entityManager;*/
     private int page;
     private long count;
     private List<Author> pageItems;
