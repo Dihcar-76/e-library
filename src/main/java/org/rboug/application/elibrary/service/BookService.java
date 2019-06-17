@@ -25,6 +25,7 @@ public class BookService implements BookServiceInterface {
     *
     *@throws Exception
      */
+    @Override
     public boolean createOrUpdateBook(Book b, Long id) throws Exception{
             if (id == null) {
                 b.setIsbn(generator.generateNumber());
@@ -36,27 +37,32 @@ public class BookService implements BookServiceInterface {
             }
     }
 
+    @Override
     public Book findById(Long id) throws Exception{
         return bookDaoBdd.findById(id);
     }
 
+    @Override
     public void remove(Book deletableEntity) {
         bookDaoBdd.delete(deletableEntity);
     }
 
+    @Override
     public void refresh() {
         bookDaoBdd.refresh();
     }
 
-
+    @Override
     public List<Book> getAll() {
         return bookDaoBdd.getAll();
     }
 
+    @Override
     public Long getItemsCount(String title, String description, String isbn, Integer nbOfPage, Language language) {
        return bookDaoBdd.getItemsCount(title, description, isbn, nbOfPage, language);
     }
 
+    @Override
     public List<Book> getPageItems(String title, String description, String isbn, Integer nbOfPage, Language language, int page, int pageSize) {
         return bookDaoBdd.getPageItems(title, description, isbn, nbOfPage, language, page, pageSize);
     }

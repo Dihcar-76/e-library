@@ -38,14 +38,17 @@ public class BookDaoBdd implements BookDaoBddInterface {
 
     }
 
+    @Override
     public Book findById(Long id) {
         return entityManager.find(Book.class, id);
     }
 
+    @Override
     public void refresh() {
         entityManager.flush();
     }
 
+    @Override
     public List<Book> getAll() {
         CriteriaQuery<Book> criteria = this.entityManager.getCriteriaBuilder()
                 .createQuery(Book.class);
@@ -53,6 +56,7 @@ public class BookDaoBdd implements BookDaoBddInterface {
                 criteria.select(criteria.from(Book.class))).getResultList();
     }
 
+    @Override
     public Long getItemsCount(String title, String description, String isbn, Integer nbOfPage, Language language) {
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
 
@@ -100,6 +104,7 @@ public class BookDaoBdd implements BookDaoBddInterface {
         return predicatesList.toArray(new Predicate[predicatesList.size()]);
     }
 
+    @Override
     public List<Book> getPageItems(String title, String description, String isbn, Integer nbOfPage, Language language, int page, int pageSize) {
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<Book> criteria = builder.createQuery(Book.class);
