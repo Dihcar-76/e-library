@@ -7,7 +7,6 @@ import java.util.Set;
 
 
 @Entity
-@XmlRootElement
 @DiscriminatorValue("C")
 public class CD extends Item {
 

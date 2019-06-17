@@ -28,7 +28,6 @@ import java.util.Objects;
         @NamedQuery(name = Item.SEARCH, query = "SELECT i FROM Item i WHERE UPPER(i.title) LIKE :keyword OR UPPER(i.description) LIKE :keyword ORDER BY i.title"),
         @NamedQuery(name = Item.FIND_ALL, query = "SELECT i FROM Item i order by i.title"),
 })
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Item implements Serializable {
 
     // ======================================
@@ -50,7 +49,6 @@ public class Item implements Serializable {
 
     @Version
     @Column(name = "version")
-    @XmlTransient
     protected int version;
 
     @Column(length = 200)
@@ -69,11 +67,9 @@ public class Item implements Serializable {
     protected Integer rank;
 
     @Column(name = "small_image_url")
-    @XmlElement(name = "small-image-url")
     protected String smallImageURL;
 
     @Column(name = "medium_image_url")
-    @XmlElement(name = "medium-image-url")
     protected String mediumImageURL;
 
     private byte[] smallImage;

@@ -14,7 +14,6 @@ import java.util.GregorianCalendar;
 
 
 @MappedSuperclass
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Artist {
 
     // ======================================
@@ -24,23 +23,19 @@ public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
-    @XmlTransient
     protected Long id;
     @Version
     @Column(name = "version")
-    @XmlTransient
     protected int version;
 
     @Column(length = 50, name = "first_name", nullable = false)
     @NotNull
     @Size(min = 2, max = 50)
-    @XmlElement(name = "first-name")
     protected String firstName;
 
     @Column(length = 50, name = "last_name", nullable = false)
     @NotNull
     @Size(min = 2, max = 50)
-    @XmlElement(name = "last-name")
     protected String lastName;
 
     @Column(length = 5000)

@@ -11,7 +11,6 @@ import java.io.Serializable;
 
 
 @Entity
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Publisher implements Serializable {
 
     // ======================================
@@ -21,17 +20,14 @@ public class Publisher implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
-    @XmlTransient
     private Long id;
     @Version
     @Column(name = "version")
-    @XmlTransient
     private int version;
 
     @Column(length = 30)
     @NotNull
     @Size(max = 30)
-    @XmlAttribute
     private String name;
 
     // ======================================

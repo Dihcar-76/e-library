@@ -11,7 +11,6 @@ import java.io.Serializable;
 
 
 @Entity
-//@XmlAccessorType(XmlAccessType.FIELD)
 public class Category implements Serializable {
 
     // ======================================
@@ -21,17 +20,14 @@ public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
-    //@XmlTransient
     private Long id;
     @Version // UPDATE MYENTITY SET ..., VERSION = VERSION + 1 WHERE ((ID = ?) AND (VERSION = ?)) If the WHERE clause fails to match a record (because the same entity has already been updated by another thread), then the persistence provider will throw an OptimisticLockException.
     @Column(name = "version")
-    //@XmlTransient
     private int version;
 
     @Column(length = 100)
     @NotNull
     @Size(max = 100)
-    //@XmlAttribute
     private String name;
 
     // ======================================
