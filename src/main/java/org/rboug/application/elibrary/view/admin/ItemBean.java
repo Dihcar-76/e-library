@@ -317,16 +317,16 @@ public class ItemBean implements Serializable {
             String id = context.getExternalContext().getRequestParameterMap().get("id");
             Item item = this.findById(Long.valueOf(id));
             byte[] image = item.getSmallImage();
-//            if (image != null) {
+            if (image != null) {
 
                 return new DefaultStreamedContent(new ByteArrayInputStream(image),
                         "image/png");
-//            }
-        /*else {
+           }
+        else {
             return new DefaultStreamedContent(FacesContext
                     .getCurrentInstance().getExternalContext()
                     .getResourceAsStream("/resources/noimage.png"));
-        }*/
+        }
 
     }
 

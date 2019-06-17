@@ -101,7 +101,7 @@ public class BookBean implements Serializable {
     }
 
     public List<Book> getAll() {
-        return catalogService.getAll();
+        return bookService.getAll();
     }
 
     public int getPage() {
@@ -207,7 +207,7 @@ public class BookBean implements Serializable {
             this.book = this.example;
         } else {
             try {
-                this.book = catalogService.findById(getId());
+                this.book = bookService.findById(getId());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -216,7 +216,7 @@ public class BookBean implements Serializable {
 
     public Book findById(Long id) {
         try {
-            return catalogService.findById(id);
+            return bookService.findById(id);
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "No book found for this id " + id,
@@ -226,7 +226,7 @@ public class BookBean implements Serializable {
     }
 
     @Inject
-    BookServiceInterface catalogService;
+    BookServiceInterface bookService;
 
     /*
      * Support updating and deleting Book entities
@@ -238,7 +238,7 @@ public class BookBean implements Serializable {
             book.addAuthor(a);
         }
         try {
-            if (catalogService.createOrUpdateBook(book, id)) {
+            if (bookService.createOrUpdateBook(book, id)) {
                 return "search?faces-redirect=true";
             } else {
                 return "view?faces-redirect=true&id=" + book.getId();
@@ -253,10 +253,10 @@ public class BookBean implements Serializable {
     public String deletebis() {
         this.conversation.end();
         try {
-            Book deletableEntity = catalogService.findById(getId());
+            Book deletableEntity = bookService.findById(getId());
 
-            this.catalogService.remove(deletableEntity);
-            this.catalogService.refresh();
+            this.bookService.remove(deletableEntity);
+            this.bookService.refresh();
             return "search?faces-redirect=true";
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -274,10 +274,10 @@ public class BookBean implements Serializable {
      * Support searching Book entities with pagination
      */
     public void paginate() {
-        this.count = catalogService.getItemsCount(this.example.getTitle(), this.example.getDescription(),
+        this.count = bookService.getItemsCount(this.example.getTitle(), this.example.getDescription(),
                 this.example.getIsbn(),
                 this.example.getNbOfPage(), this.example.getLanguage());
-        this.pageItems = catalogService.getPageItems(this.example.getTitle(), this.example.getDescription(),
+        this.pageItems = bookService.getPageItems(this.example.getTitle(), this.example.getDescription(),
                 this.example.getIsbn(),
                 this.example.getNbOfPage(), this.example.getLanguage(),
                 this.page, getPageSize());

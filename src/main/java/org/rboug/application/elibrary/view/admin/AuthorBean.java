@@ -2,6 +2,7 @@ package org.rboug.application.elibrary.view.admin;
 
 import org.rboug.application.elibrary.model.Author;
 import org.rboug.application.elibrary.model.Language;
+import org.rboug.application.elibrary.service.AuthorServiceInterface;
 
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
@@ -52,8 +53,8 @@ public class AuthorBean implements Serializable {
     private Author author;
     @Inject
     private Conversation conversation;
-    @PersistenceContext(unitName = "elibraryPU", type = PersistenceContextType.EXTENDED)
-    private EntityManager entityManager;
+    /*@PersistenceContext(unitName = "elibraryPU", type = PersistenceContextType.EXTENDED)
+    private EntityManager entityManager;*/
     private int page;
     private long count;
     private List<Author> pageItems;
@@ -107,41 +108,50 @@ public class AuthorBean implements Serializable {
         if (this.id == null) {
             this.author = this.example;
         } else {
-            this.author = findById(getId());
+            try {
+                this.author = authorService.findById(getId());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public Author findById(Long id) {
+    @Inject
+    AuthorServiceInterface authorService;
 
-        return this.entityManager.find(Author.class, id);
+    public Author findById(Long id) {
+        try {
+            return  authorService.findById(id);
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "No author found for this id " + id,
+                            e.getMessage()));
+            return null;
+        }
     }
 
     public String update() {
         this.conversation.end();
-
         try {
-            if (this.id == null) {
-                this.entityManager.persist(this.author);
+            if (authorService.createOrUpdateAuthor(author, id)) {
                 return "search?faces-redirect=true";
             } else {
-                this.entityManager.merge(this.author);
-                return "view?faces-redirect=true&id=" + this.author.getId();
+                return "view?faces-redirect=true&id=" + author.getId();
             }
+
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
             return null;
         }
     }
 
     public String delete() {
         this.conversation.end();
-
         try {
-            Author deletableEntity = findById(getId());
+            Author deletableEntity = authorService.findById(getId());
 
-            this.entityManager.remove(deletableEntity);
-            this.entityManager.flush();
+            this.authorService.remove(deletableEntity);
+            this.authorService.refresh();
             return "search?faces-redirect=true";
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -176,64 +186,15 @@ public class AuthorBean implements Serializable {
     }
 
     public void paginate() {
-
-        CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-
-        // Populate this.count
-
-        CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-        Root<Author> root = countCriteria.from(Author.class);
-        countCriteria = countCriteria.select(builder.count(root)).where(
-                getSearchPredicates(root));
-        this.count = this.entityManager.createQuery(countCriteria)
-                .getSingleResult();
-
-        // Populate this.pageItems
-
-        CriteriaQuery<Author> criteria = builder.createQuery(Author.class);
-        root = criteria.from(Author.class);
-        TypedQuery<Author> query = this.entityManager.createQuery(criteria
-                .select(root).where(getSearchPredicates(root)));
-        query.setFirstResult(this.page * getPageSize()).setMaxResults(
-                getPageSize());
-        this.pageItems = query.getResultList();
+        this.count = authorService.getItemsCount(this.example.getFirstName(), this.example.getLastName(),
+                this.example.getBio(),
+                this.example.getAge(), this.example.getPreferredLanguage());
+        this.pageItems = authorService.getPageItems(this.example.getFirstName(), this.example.getLastName(),
+                this.example.getBio(),
+                this.example.getAge(), this.example.getPreferredLanguage(),
+                this.page, getPageSize());
     }
 
-    private Predicate[] getSearchPredicates(Root<Author> root) {
-
-        CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-        List<Predicate> predicatesList = new ArrayList<>();
-
-        String firstName = this.example.getFirstName();
-        if (firstName != null && !"".equals(firstName)) {
-            predicatesList.add(builder.like(
-                    builder.lower(root.<String>get("firstName")),
-                    '%' + firstName.toLowerCase() + '%'));
-        }
-        String lastName = this.example.getLastName();
-        if (lastName != null && !"".equals(lastName)) {
-            predicatesList.add(builder.like(
-                    builder.lower(root.<String>get("lastName")),
-                    '%' + lastName.toLowerCase() + '%'));
-        }
-        String bio = this.example.getBio();
-        if (bio != null && !"".equals(bio)) {
-            predicatesList.add(builder.like(
-                    builder.lower(root.<String>get("bio")),
-                    '%' + bio.toLowerCase() + '%'));
-        }
-        Integer age = this.example.getAge();
-        if (age != null && age.intValue() != 0) {
-            predicatesList.add(builder.equal(root.get("age"), age));
-        }
-        Language preferredLanguage = this.example.getPreferredLanguage();
-        if (preferredLanguage != null) {
-            predicatesList.add(builder.equal(root.get("preferredLanguage"),
-                    preferredLanguage));
-        }
-
-        return predicatesList.toArray(new Predicate[predicatesList.size()]);
-    }
 
    /*
     * Support listing and POSTing back Author entities (e.g. from inside an HtmlSelectOneMenu)
@@ -249,10 +210,7 @@ public class AuthorBean implements Serializable {
 
     public List<Author> getAll() {
 
-        CriteriaQuery<Author> criteria = this.entityManager
-                .getCriteriaBuilder().createQuery(Author.class);
-        return this.entityManager.createQuery(
-                criteria.select(criteria.from(Author.class))).getResultList();
+        return authorService.getAll();
     }
 
    /*
