@@ -31,23 +31,11 @@ public class ShoppingCartBean implements Serializable {
     // =          Injection Points          =
     // ======================================
 
-   /* @Inject
-    private FacesContext facesContext;*/
-
     @Inject
     private AccountBean accountBean;
 
-    /*@Inject
-    private transient JMSContext jmsContext;*/
-
-    /*@Resource(lookup = "jms/queue/invoiceQueue")
-    private Queue queue;*/
-
     @Inject
     private EntityManager em;
-
-    /*@Inject
-    private Logger logger;*/
 
     // ======================================
     // =             Attributes             =
@@ -114,9 +102,6 @@ public class ShoppingCartBean implements Serializable {
         //persist invoice
         em.persist(invoice);
         this.invoice_id = invoice.getId();
-        // Sending the invoice
-        /*jmsContext.createProducer().send(queue, invoice);
-        logger.info("An invoice has been sent to the queue");*/
 
         // Clear the shopping cart
         cartItems = new ArrayList<>();
@@ -126,11 +111,8 @@ public class ShoppingCartBean implements Serializable {
                 "You will receive a confirmation email"));
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("id", invoice_id);
         return "showPdf?faces-redirect=true";
-        //return null;
     }
-/*    public String redirect(){
-        return "showPdf?faces-redirect=true&includeViewParams=true";
-    }*/
+
     public List<ShoppingCartItem> getCartItems() {
         return cartItems;
     }
