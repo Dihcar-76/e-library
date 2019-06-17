@@ -13,6 +13,7 @@ import javax.inject.Named;
 import javax.jms.JMSContext;
 import javax.jms.Queue;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.io.Serializable;
@@ -34,7 +35,7 @@ public class ShoppingCartBean implements Serializable {
     @Inject
     private AccountBean accountBean;
 
-    @Inject
+    @PersistenceContext(unitName = "elibraryPU")
     private EntityManager em;
 
     // ======================================

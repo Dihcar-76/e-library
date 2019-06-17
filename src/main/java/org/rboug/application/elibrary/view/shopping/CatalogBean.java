@@ -3,7 +3,6 @@ package org.rboug.application.elibrary.view.shopping;
 import org.rboug.application.elibrary.model.Author;
 import org.rboug.application.elibrary.model.Book;
 import org.rboug.application.elibrary.model.Item;
-import org.rboug.application.elibrary.util.Auditable;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.annotation.FacesConfig;
@@ -11,11 +10,12 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.annotation.FacesConfig;
 
 import static javax.faces.annotation.FacesConfig.Version.JSF_2_3;
 
@@ -32,8 +32,7 @@ public class CatalogBean {
     // ======================================
     // =          Injection Points          =
     // ======================================
-
-    @Inject
+    @PersistenceContext(unitName = "elibraryPU")
     private EntityManager em;
 
     // ======================================
@@ -50,7 +49,6 @@ public class CatalogBean {
     // =          Business methods          =
     // ======================================
 
-    @Auditable
     public String doSearch() {
         TypedQuery<Item> typedQuery = em.createNamedQuery(Item.SEARCH, Item.class);
         typedQuery.setParameter("keyword", "%" + keyword.toUpperCase() + "%");

@@ -6,7 +6,6 @@ import org.primefaces.model.SortOrder;
 import org.primefaces.model.StreamedContent;
 import org.rboug.application.elibrary.model.Author;
 import org.rboug.application.elibrary.model.Item;
-import org.rboug.application.elibrary.util.Loggable;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -45,7 +44,6 @@ import static javax.faces.annotation.FacesConfig.Version.JSF_2_3;
 @Named
 @Stateful
 @ConversationScoped
-@Loggable
 public class ItemBean implements Serializable {
 
     private static final long serialVersionUID = 1L;

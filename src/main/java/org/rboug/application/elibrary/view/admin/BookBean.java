@@ -4,7 +4,6 @@ import org.primefaces.model.UploadedFile;
 import org.rboug.application.elibrary.model.Author;
 import org.rboug.application.elibrary.model.Book;
 import org.rboug.application.elibrary.service.BookServiceInterface;
-import org.rboug.application.elibrary.util.Loggable;
 import org.rboug.application.elibrary.util.NumberGenerator;
 import org.rboug.application.elibrary.util.ThirteenDigits;
 
@@ -38,7 +37,6 @@ import static javax.faces.annotation.FacesConfig.Version.JSF_2_3;
 @Named
 @Stateful
 @ConversationScoped
-@Loggable
 public class BookBean implements Serializable {
 
     private static final long serialVersionUID = 1L;

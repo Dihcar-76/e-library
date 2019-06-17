@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Objects;
@@ -33,7 +34,7 @@ public class AccountBean implements Serializable {
     @Inject
     private BeanManager beanManager;
 
-    @Inject
+    @PersistenceContext(unitName = "elibraryPU")
     private EntityManager em;
 
 

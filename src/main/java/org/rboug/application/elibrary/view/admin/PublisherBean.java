@@ -1,7 +1,6 @@
 package org.rboug.application.elibrary.view.admin;
 
 import org.rboug.application.elibrary.model.Publisher;
-import org.rboug.application.elibrary.util.Loggable;
 
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
@@ -39,7 +38,6 @@ import static javax.faces.annotation.FacesConfig.Version.JSF_2_3;
 @Named
 @Stateful
 @ConversationScoped
-@Loggable
 public class PublisherBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
