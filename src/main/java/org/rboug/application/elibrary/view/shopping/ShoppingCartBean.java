@@ -17,7 +17,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -47,6 +49,8 @@ public class ShoppingCartBean implements Serializable {
     private String country = new String();
     private CreditCard creditCard = new CreditCard();
     private Long invoice_id;
+    private Float vatRate = 5.5f;
+    private Float discountRate = 10.5f;
 
     // ======================================
     // =          Business methods          =
@@ -97,9 +101,19 @@ public class ShoppingCartBean implements Serializable {
         Invoice invoice = new Invoice(user, user.getFirstName(), user.getLastName(), user.getEmail(), address.getStreet1(), address.getCity(), address.getZipcode(), country);
         invoice.setTelephone(user.getTelephone());
         invoice.setStreet2(address.getStreet2());
+        invoice.setState(address.getState());
         for (ShoppingCartItem cartItem : cartItems) {
             invoice.addInvoiceLine(new InvoiceLine(cartItem.getQuantity(), cartItem.getItem().getTitle(), cartItem.getItem().getUnitCost(), cartItem.getItem()));
         }
+        invoice.setInvoiceDate(new Date());
+        invoice.setVatRate(vatRate);
+        invoice.setDiscountRate(discountRate);
+        Float total = getTotal();
+        invoice.setTotalBeforeDiscount(total);
+        invoice.setDiscount(round(total * (discountRate / 100)));
+        invoice.setTotalAfterDiscount(round(total - invoice.getDiscount()));
+        invoice.setVat(round(invoice.getTotalAfterDiscount() * (vatRate / 100)));
+        invoice.setTotalAfterVat(round(invoice.getTotalAfterDiscount() + invoice.getVat()));
         //persist invoice
         em.persist(invoice);
         this.invoice_id = invoice.getId();
@@ -192,5 +206,10 @@ public class ShoppingCartBean implements Serializable {
 
     public void setInvoice_id(Long invoice_id) {
         this.invoice_id = invoice_id;
+    }
+    private static Float round(Float d) {
+        BigDecimal bigDecimal = new BigDecimal(Float.toString(d));
+        bigDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
+        return bigDecimal.floatValue();
     }
 }
