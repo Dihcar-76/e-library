@@ -61,7 +61,7 @@ public final class ViewUtils {
                     }
                 }
             } catch (Exception ex) {
-                // Unlikely, but abort and stop view generation if any exception is thrown
+                // abort view generation if any exception is thrown
                 throw new RuntimeException(ex);
             }
         }
