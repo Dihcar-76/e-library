@@ -53,7 +53,6 @@ public class ShowInvoicePdfBean {
         props.setProperty("password","admin");
         //props.setProperty("ssl","true");
         Connection conn = DriverManager.getConnection(url, props);
-        System.out.println("###############"+PATH_OF_REPORTS_JASPER);
         File file = new File(PATH_OF_REPORTS_JASPER);
         HashMap hm = new HashMap();
         Long id = (Long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("id");
@@ -72,7 +71,7 @@ public class ShowInvoicePdfBean {
          * le nom rapport.pdf
          **********************************************************************/
         response.addHeader("Content-disposition",
-                "attachment;filename=rapport.pdf");
+                "attachment;filename=invoice.pdf");
         response.setContentLength(bytes.length);
         response.getOutputStream().write(bytes);
         response.setContentType("application/pdf");
