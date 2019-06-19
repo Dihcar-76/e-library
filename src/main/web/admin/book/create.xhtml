@@ -121,6 +121,7 @@
                 <h:panelGroup>
                     <h:selectOneMenu converter="#{publisherBean.converter}" id="bookBeanBookPublisher"
                                      value="#{bookBean.book.publisher}">
+                        <f:selectItem itemLabel="#{forgeview:display(bookBean.book.publisher)}" itemValue="#{bookBean.book.publisher}"/>
                         <f:selectItem/>
                         <f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}"
                                        value="#{publisherBean.all}" var="_item"/>
@@ -133,14 +134,12 @@
                     <f:param name="id" value="#{bookBean.book.id}" />
                 </p:graphicImage>
                 <h:outputText/>
-                <h:outputLabel for="noImageUpload" value="Change to no image:"/>
-                <h:commandLink id="noImageUpload"  value="No Image" action='#{bookBean.noImage}' styleClass="btn btn-primary"/>
-                <h:outputText/>
                 <h:outputLabel for="fileUpload" value="Change to another image:"/>
                 <h:panelGroup>
                     <p:growl id="messages" style="padding-top:50px" showDetail="true"/>
                     <p:fileUpload id="fileUpload" value="#{bookBean.file}" mode="simple" skinSimple="true" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/"/>
                 </h:panelGroup>
+                <h:outputText/>
             </h:panelGrid>
 
             <div class="buttons">

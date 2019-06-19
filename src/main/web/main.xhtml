@@ -9,7 +9,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/resources/templates/template.xhtml">
 
-    <f:event listener="#{itemBean.load}" type="preRenderView" />
+    <f:event listener="#{itemBean.load}" type="preRenderView"/>
     <f:metadata>
         <f:viewParam name="page" value='#{itemBean.page}'/>
         <f:event type="preRenderView" listener='#{itemBean.paginate}'/>
@@ -25,7 +25,6 @@
                 font-weight: bold;
             }
         </style>
-
 
         <h:form id="form">
             <p:growl id="messages" style="padding-top:50px" showDetail="true"/>
@@ -44,8 +43,8 @@
                         <h:outputText value="#{fn:substring(item.title, 0, 35)}"/>
                         <h:link outcome="/shopping/viewItem.xhtml">
                             <f:param name="id" value="#{item.id}"/>
-                            <p:graphicImage cache="false" value="#{itemBean.imageFromDB}" width="200px" height="200px" >
-                                <f:param name="id" value="#{item.id}" />
+                            <p:graphicImage cache="false" value="#{itemBean.imageFromDB}" width="200px" height="200px">
+                                <f:param name="id" value="#{item.id}"/>
                             </p:graphicImage>
                         </h:link>
                         <h:outputText value="#{fn:substring(item.description, 0, 35)}..."/>
@@ -58,7 +57,8 @@
 
             </p:dataGrid>
         </h:form>
-<br/>
+        <br/>
+        <!--
         <h:form>
             <p:dataTable var="_item" value="#{itemBean.all}" rows="10"
                          paginator="true"
@@ -103,5 +103,6 @@
                 </p:graphicImage>
             </h:column>
         </h:dataTable>
+        -->
     </ui:define>
 </ui:composition>

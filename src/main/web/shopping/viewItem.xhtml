@@ -74,8 +74,8 @@
             <div class="row">
                 <div class="col-md-2"><h:outputLabel for="itemBeanItemAuthors" value="Author(s):"/></div>
                 <div class="col-md-10">
-                    <p:orderList id="itemBeanItemAuthors" value="#{catalogBean.authors}" var="author" controlsLocation="none" itemLabel="#{author.lastName}, #{author.firstName}" itemValue="#{author.id}" />
-                    <p:dataTable id="itemBeanItemAuthors2" var="author" value="#{catalogBean.authors}">
+                    <!--<p:orderList id="itemBeanItemAuthors2" value="#{catalogBean.authors}" var="author" controlsLocation="none" itemLabel="#{author.lastName}, #{author.firstName}" itemValue="#{author.id}" />-->
+                    <p:dataTable id="itemBeanItemAuthors" var="author" value="#{catalogBean.authors}">
                         <p:column headerText="LastName">
                             <h:outputText value="#{author.lastName}" />
                         </p:column>
