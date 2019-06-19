@@ -1,8 +1,6 @@
 package org.rboug.application.elibrary.view.shopping;
 
-import org.rboug.application.elibrary.model.Author;
-import org.rboug.application.elibrary.model.Book;
-import org.rboug.application.elibrary.model.Item;
+import org.rboug.application.elibrary.model.*;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.annotation.FacesConfig;
@@ -44,6 +42,7 @@ public class CatalogBean {
     private Item item;
     private Long itemId;
     private List<Author> authors = new ArrayList<>();
+    private List<Musician> musicians = new ArrayList<>();
 
     // ======================================
     // =          Business methods          =
@@ -70,6 +69,13 @@ public class CatalogBean {
         typedQuery.setParameter("id", Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id")));
         authors = typedQuery.getResultList();
         return authors;
+    }
+
+    public List<Musician> getMusicians() {
+        TypedQuery<Musician> typedQuery = em.createNamedQuery(CD.FIND_ALL_CD_MUSICIANS, Musician.class);
+        typedQuery.setParameter("id", Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id")));
+        musicians = typedQuery.getResultList();
+        return musicians;
     }
 
     public void setAuthors(List<Author> authors) {

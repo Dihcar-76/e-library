@@ -104,7 +104,21 @@
                 <div class="col-md-10"><h:outputText id="itemBeanItemLabel"
                                                      value="#{catalogBean.item.label.name}"/></div>
             </div>
+            <div class="row">
+                <div class="col-md-2"><h:outputLabel for="itemBeanCDMusicians" value="Musician(s):"/></div>
+                <div class="col-md-10">
+                    <!--<p:orderList id="itemBeanItemAuthors2" value="#{catalogBean.authors}" var="author" controlsLocation="none" itemLabel="#{author.lastName}, #{author.firstName}" itemValue="#{author.id}" />-->
+                    <p:dataTable id="itemBeanCDMusicians" var="musician" value="#{catalogBean.musicians}">
+                        <p:column headerText="LastName">
+                            <h:outputText value="#{musician.lastName}" />
+                        </p:column>
 
+                        <p:column headerText="FirstName">
+                            <h:outputText value="#{musician.firstName}" />
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
         </h:panelGroup>
 
 

@@ -66,6 +66,7 @@
                 <h:panelGroup>
                     <h:selectOneMenu converter="#{labelBean.converter}" id="cDBeanCDLabel" value="#{CDBean.CD.label}">
                         <f:selectItem/>
+                        <f:selectItem itemLabel="#{forgeview:display(CDBean.CD.label)}" itemValue="#{CDBean.CD.label}"/>
                         <f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}"
                                        value="#{labelBean.all}" var="_item"/>
                     </h:selectOneMenu>
@@ -74,49 +75,20 @@
                 <h:outputText/>
                 <h:outputLabel for="cDBeanCDMusicians" value="Musicians:"/>
                 <h:panelGroup>
-                    <ui:param name="_collection" value="#{CDBean.CD.musicians}"/>
-                    <h:dataTable id="cDBeanCDMusicians" styleClass="data-table" value="#{forgeview:asList(_collection)}"
-                                 var="_item">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="First Name"/>
-                            </f:facet>
-                            <h:link outcome="/admin/musician/view">
-                                <f:param name="id" value="#{_item.id}"/>
-                                <h:outputText id="itemFirstName" value="#{_item.firstName}"/>
-                            </h:link>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Last Name"/>
-                            </f:facet>
-                            <h:link outcome="/admin/musician/view">
-                                <f:param name="id" value="#{_item.id}"/>
-                                <h:outputText id="itemLastName" value="#{_item.lastName}"/>
-                            </h:link>
-                        </h:column>
-                        <h:column footerClass="remove-column" headerClass="remove-column">
-                            <h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
-                        </h:column>
-                    </h:dataTable>
-                    <h:panelGrid columnClasses=",remove-column" columns="2" styleClass="data-table-footer">
-                        <h:selectOneMenu converter="#{musicianBean.converter}" id="cDBeanCDMusiciansSelect"
-                                         value="#{requestScope['cDBeanCDMusiciansSelect']}">
-                            <f:selectItem/>
-                            <f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}"
-                                           value="#{musicianBean.all}" var="_item"/>
-                        </h:selectOneMenu>
-                        <h:commandLink action="#{_collection.add(requestScope['cDBeanCDMusiciansSelect'])}"
-                                       id="cDBeanCDMusiciansAdd"
-                                       onclick="if (document.getElementById(document.forms[0].id+':cDBeanCDMusiciansSelect').selectedIndex &lt; 1) { alert('Must select a Musician'); return false; }"
-                                       styleClass="add-button"/>
-                    </h:panelGrid>
+                    <h:selectManyListbox converter="#{musicianBean.converter}" id="cDBeanCDMusicians"
+                                         value="#{CDBean.CD.musicians}" selected="true" >
+
+                        <f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}"
+                                       value="#{musicianBean.all}" var="_item"/>
+                    </h:selectManyListbox>
                 </h:panelGroup>
                 <h:outputText/>
                 <h:outputLabel for="cDBeanCDGenre" value="Genre:"/>
                 <h:panelGroup>
                     <h:selectOneMenu converter="#{genreBean.converter}" id="cDBeanCDGenre" value="#{CDBean.CD.genre}">
                         <f:selectItem/>
+                        <f:selectItem itemLabel="#{forgeview:display(CDBean.CD.genre)}" itemValue="#{CDBean.CD.genre}"/>
+
                         <f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}"
                                        value="#{genreBean.all}" var="_item"/>
                     </h:selectOneMenu>

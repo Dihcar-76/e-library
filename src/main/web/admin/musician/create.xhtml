@@ -81,34 +81,12 @@
                 <h:outputText/>
                 <h:outputLabel for="musicianBeanMusicianCds" value="Cds:"/>
                 <h:panelGroup>
-                    <ui:param name="_collection" value="#{musicianBean.musician.cds}"/>
-                    <h:dataTable id="musicianBeanMusicianCds" styleClass="data-table"
-                                 value="#{forgeview:asList(_collection)}" var="_item">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Title"/>
-                            </f:facet>
-                            <h:link outcome="/admin/CD/view">
-                                <f:param name="id" value="#{_item.id}"/>
-                                <h:outputText id="itemTitle" value="#{_item.title}"/>
-                            </h:link>
-                        </h:column>
-                        <h:column footerClass="remove-column" headerClass="remove-column">
-                            <h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
-                        </h:column>
-                    </h:dataTable>
-                    <h:panelGrid columnClasses=",remove-column" columns="2" styleClass="data-table-footer">
-                        <h:selectOneMenu converter="#{CDBean.converter}" id="musicianBeanMusicianCdsSelect"
-                                         value="#{requestScope['musicianBeanMusicianCdsSelect']}">
-                            <f:selectItem/>
-                            <f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}"
-                                           value="#{CDBean.all}" var="_item"/>
-                        </h:selectOneMenu>
-                        <h:commandLink action="#{_collection.add(requestScope['musicianBeanMusicianCdsSelect'])}"
-                                       id="musicianBeanMusicianCdsAdd"
-                                       onclick="if (document.getElementById(document.forms[0].id+':musicianBeanMusicianCdsSelect').selectedIndex &lt; 1) { alert('Must select a CD'); return false; }"
-                                       styleClass="add-button"/>
-                    </h:panelGrid>
+                    <h:selectManyListbox converter="#{CDBean.converter}" id="musicianBeanMusicianCds"
+                                         value="#{musicianBean.musician.cds}" selected="true" >
+
+                        <f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}"
+                                       value="#{CDBean.all}" var="_item"/>
+                    </h:selectManyListbox>
                 </h:panelGroup>
                 <h:outputText/>
             </h:panelGrid>

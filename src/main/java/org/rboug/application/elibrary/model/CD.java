@@ -8,7 +8,14 @@ import java.util.Set;
 
 @Entity
 @DiscriminatorValue("C")
+@NamedQueries({
+        @NamedQuery(name = CD.FIND_ALL_CD_MUSICIANS, query = "SELECT m FROM CD c, IN(c.musicians) m WHERE c.id = :id order by m.lastName")
+})
 public class CD extends Item {
+    // ======================================
+    // =             Constants            =
+    // ======================================
+    public static final String FIND_ALL_CD_MUSICIANS = "CD.findAllCDMusicians";
 
     // ======================================
     // =             Attributes             =

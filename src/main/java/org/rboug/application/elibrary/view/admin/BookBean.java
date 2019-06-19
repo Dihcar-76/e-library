@@ -234,9 +234,9 @@ public class BookBean implements Serializable {
     public String update() {
         this.conversation.end();
         uploadImage();//image
-        for (Author a : book.getAuthors()) { //authors
+        /*for (Author a : book.getAuthors()) { //unsuseful for authors - done by binding on authors property
             book.addAuthor(a);
-        }
+        }*/
         try {
             if (bookService.createOrUpdateBook(book, id)) {
                 return "search?faces-redirect=true";
