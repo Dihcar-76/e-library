@@ -231,7 +231,7 @@ public class BookBean implements Serializable {
     /*
      * Support updating and deleting Book entities
      */
-    public String updatebis() {
+    public String update() {
         this.conversation.end();
         uploadImage();//image
         for (Author a : book.getAuthors()) { //authors
@@ -250,7 +250,7 @@ public class BookBean implements Serializable {
         }
     }
 
-    public String deletebis() {
+    public String delete() {
         this.conversation.end();
         try {
             Book deletableEntity = bookService.findById(getId());

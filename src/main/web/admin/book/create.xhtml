@@ -144,13 +144,13 @@
             </h:panelGrid>
 
             <div class="buttons">
-                <h:commandLink value="Save" action='#{bookBean.updatebis}' styleClass="btn btn-primary mr-1"/>
+                <h:commandLink value="Save" action='#{bookBean.update}' styleClass="btn btn-primary mr-1"/>
                 <c:choose>
                     <c:when test='#{!empty bookBean.id}'>
                         <h:link value="Cancel" outcome="view" styleClass="btn btn-primary">
                             <f:param name="id" value='#{bookBean.id}'/>
                         </h:link>
-                        <h:commandLink value="Delete" action='#{bookBean.deletebis}' styleClass="btn btn-primary"/>
+                        <h:commandLink value="Delete" action='#{bookBean.delete}' styleClass="btn btn-primary"/>
                     </c:when>
                     <c:otherwise>
                         <h:link value="Cancel" outcome="search" styleClass="btn btn-primary"/>

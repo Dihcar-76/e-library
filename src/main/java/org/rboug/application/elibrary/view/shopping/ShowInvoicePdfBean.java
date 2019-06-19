@@ -71,7 +71,7 @@ public class ShowInvoicePdfBean {
          * le nom rapport.pdf
          **********************************************************************/
         response.addHeader("Content-disposition",
-                "attachment;filename=invoice.pdf");
+                "attachment;filename=invoice_"+id+".pdf");
         response.setContentLength(bytes.length);
         response.getOutputStream().write(bytes);
         response.setContentType("application/pdf");
