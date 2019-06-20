@@ -12,4 +12,6 @@ public interface AccountServiceInterface {
     public User update(User user);
 
     public User findByEmail(String email);
+
+    public void flush();
 }

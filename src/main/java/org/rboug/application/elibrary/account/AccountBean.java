@@ -69,6 +69,7 @@ public class AccountBean implements Serializable {
         // Everything is ok, we can create the user
         user.setPassword(PasswordUtils.digestPassword(password1));//PasswordUtils.digestPassword(password1)
         accountService.create(user);
+        accountService.flush();
         //login in
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest)
