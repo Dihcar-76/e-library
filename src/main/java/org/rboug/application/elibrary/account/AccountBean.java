@@ -17,6 +17,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Objects;
@@ -66,7 +68,7 @@ public class AccountBean implements Serializable {
         }
 
         // Everything is ok, we can create the user
-        user.setPassword(PasswordUtils.digestPassword(password1));
+        user.setPassword(PasswordUtils.digestPassword(password1));//PasswordUtils.digestPassword(password1)
         accountService.create(user);
 
         resetPasswords();
@@ -79,10 +81,20 @@ public class AccountBean implements Serializable {
     }
 
     public String doSignin() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        /*HttpServletRequest request = (HttpServletRequest)
+                context.getExternalContext().getRequest();
+        try {
+            request.login(user.getLogin(), user.getPassword());
+        } catch (ServletException e) {
+            context.addMessage("signinForm:inputPassword", new FacesMessage(FacesMessage.SEVERITY_WARN, "Wrong user/password",
+                    "Check your login and password or click on forgot password link."));
+            return null;
+        }*/
             User userFound = accountService.findByLoginAndPassword(user.getLogin(), PasswordUtils.digestPassword(user.getPassword()));
             if(Objects.isNull(userFound)){
-                FacesContext.getCurrentInstance().addMessage("signinForm:inputPassword", new FacesMessage(FacesMessage.SEVERITY_WARN, "Wrong user/password",
-                        "Check your email and password or click on forgot password link."));
+                context.addMessage("signinForm:inputPassword", new FacesMessage(FacesMessage.SEVERITY_WARN, "Wrong user/password",
+                        "Check your login and password or click on forgot password link."));
                 return null;
             }
             user = userFound;
@@ -92,9 +104,8 @@ public class AccountBean implements Serializable {
             }
             // The user is now logged in
             loggedIn = true;
-            FacesContext context = FacesContext.getCurrentInstance();
             context.getExternalContext().getFlash().setKeepMessages(true);//keep messages after a redirect
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome back " + user.getFirstName(), "You can browse the catalog"));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome back " + user.getFirstName(), "You can browse the catalog"));
             return "/main?faces-redirect=true";
     }
 
@@ -104,6 +115,7 @@ public class AccountBean implements Serializable {
         ctx.destroy(myBean);
         myBean = beanManager.getBeans(ShoppingCartBean.class).iterator().next();
         ctx.destroy(myBean);
+        //FacesContext.getCurrentInstance().getExternalContext().invalidateSession(); //for j_security_check
         return "/main";
     }
 
