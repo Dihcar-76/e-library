@@ -1,5 +1,7 @@
 package org.rboug.application.elibrary.account;
 
+import org.rboug.application.elibrary.model.UserRole;
+
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -41,7 +43,10 @@ public class LoginBean {
             return "error";
         }
 
-        return "/admin/main";
+        if (request.isUserInRole("1")) {
+            return "/admin/main";
+        }
+        return "/main";
     }
 
     public void logout() {

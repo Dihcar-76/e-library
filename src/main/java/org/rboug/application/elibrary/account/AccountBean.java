@@ -59,8 +59,7 @@ public class AccountBean implements Serializable {
     @Transactional
     public String doSignup() {
         // Does the login already exists ?
-        if(accountService.userExist(user.getLogin()))
-            {
+        if (accountService.userExist(user.getLogin())) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "Login already exists " + user.getLogin(),
                             "Choose a different login"));
@@ -70,8 +69,18 @@ public class AccountBean implements Serializable {
         // Everything is ok, we can create the user
         user.setPassword(PasswordUtils.digestPassword(password1));//PasswordUtils.digestPassword(password1)
         accountService.create(user);
-
+        //login in
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest)
+                context.getExternalContext().getRequest();
         resetPasswords();
+        try {
+            request.login(user.getLogin(), user.getPassword());
+        } catch (ServletException e) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error",
+                    "Couldn't connect with this login and password internal error."));
+            return null;
+        }
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Hi " + user.getFirstName(), "Welcome to this elibrary"));
         loggedIn = true;
@@ -82,7 +91,7 @@ public class AccountBean implements Serializable {
 
     public String doSignin() {
         FacesContext context = FacesContext.getCurrentInstance();
-        /*HttpServletRequest request = (HttpServletRequest)
+        HttpServletRequest request = (HttpServletRequest)
                 context.getExternalContext().getRequest();
         try {
             request.login(user.getLogin(), user.getPassword());
@@ -90,23 +99,26 @@ public class AccountBean implements Serializable {
             context.addMessage("signinForm:inputPassword", new FacesMessage(FacesMessage.SEVERITY_WARN, "Wrong user/password",
                     "Check your login and password or click on forgot password link."));
             return null;
-        }*/
-            User userFound = accountService.findByLoginAndPassword(user.getLogin(), PasswordUtils.digestPassword(user.getPassword()));
-            if(Objects.isNull(userFound)){
-                context.addMessage("signinForm:inputPassword", new FacesMessage(FacesMessage.SEVERITY_WARN, "Wrong user/password",
-                        "Check your login and password or click on forgot password link."));
-                return null;
-            }
-            user = userFound;
-            // If the user is an administrator
-            if (user.getRole().equals(UserRole.ADMIN)) {
-                admin = true;
-            }
-            // The user is now logged in
-            loggedIn = true;
-            context.getExternalContext().getFlash().setKeepMessages(true);//keep messages after a redirect
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome back " + user.getFirstName(), "You can browse the catalog"));
-            return "/main?faces-redirect=true";
+        }
+        User userFound = accountService.findByLoginAndPassword(user.getLogin(), PasswordUtils.digestPassword(user.getPassword()));
+        if (Objects.isNull(userFound)) {
+            context.addMessage("signinForm:inputPassword", new FacesMessage(FacesMessage.SEVERITY_WARN, "Wrong user/password",
+                    "Check your login and password or click on forgot password link."));
+            return null;
+        }
+        user = userFound;
+        // If the user is an administrator
+        if (user.getRole().equals(UserRole.ADMIN)) {
+            admin = true;
+        }
+        // The user is now logged in
+        loggedIn = true;
+        if (admin){
+            return "/admin/main?faces-redirect=true";
+        }
+        context.getExternalContext().getFlash().setKeepMessages(true);//keep messages after a redirect
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome back " + user.getFirstName(), "You can browse the catalog"));
+        return "/main?faces-redirect=true";
     }
 
     public String doLogout() {
@@ -115,18 +127,25 @@ public class AccountBean implements Serializable {
         ctx.destroy(myBean);
         myBean = beanManager.getBeans(ShoppingCartBean.class).iterator().next();
         ctx.destroy(myBean);
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest)
+                context.getExternalContext().getRequest();
+        try {
+            request.logout();
+        } catch (ServletException e) {
+            context.addMessage(null, new FacesMessage("Logout failed."));
+        }
         //FacesContext.getCurrentInstance().getExternalContext().invalidateSession(); //for j_security_check
         return "/main";
     }
 
     public String doForgotPassword() {
         User userFound = accountService.findByEmail(user.getEmail());
-        if(Objects.isNull(userFound)){
+        if (Objects.isNull(userFound)) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Unknown email",
                     "Unknown email address"));
             return null;
-        }
-        else {
+        } else {
             user = userFound;
             LoremIpsum loremIpsum = new LoremIpsum();
             Random rand = new Random();
