@@ -17,16 +17,24 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.security.enterprise.AuthenticationStatus;
+import javax.security.enterprise.SecurityContext;
+import javax.security.enterprise.credential.Credential;
+import javax.security.enterprise.credential.Password;
+import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Random;
 
+import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
+
 @Named
 @SessionScoped
-@Transactional
+//@Transactional
 public class AccountBean implements Serializable {
 
     // ======================================
@@ -51,12 +59,14 @@ public class AccountBean implements Serializable {
     private String password1;
     private String password2;
     @Inject
+    private SecurityContext securityContext;
+    @Inject
     AccountServiceInterface accountService;
     // ======================================
     // =          Business methods          =
     // ======================================
 
-    @Transactional
+    //@Transactional
     public String doSignup() {
         // Does the login already exists ?
         if (accountService.userExist(user.getLogin())) {
@@ -69,25 +79,36 @@ public class AccountBean implements Serializable {
         // Everything is ok, we can create the user
         user.setPassword(PasswordUtils.digestPassword(password1));//PasswordUtils.digestPassword(password1)
         accountService.create(user);
-        accountService.flush();
+        //accountService.refresh(user);
         //login in
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest)
                 context.getExternalContext().getRequest();
-        resetPasswords();
+
+
+        /*try {
+            request.login(user.getLogin(), user.getPassword());
+        } catch (ServletException e) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error!",
+                    "Couldn't connect with this login and password internal error."));
+            resetPasswords();
+            return null;
+        }*/
         try {
             request.login(user.getLogin(), user.getPassword());
         } catch (ServletException e) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error",
-                    "Couldn't connect with this login and password internal error."));
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error " + user.getFirstName(), "login error"));
             return null;
         }
+
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Hi " + user.getFirstName(), "Welcome to this elibrary"));
         loggedIn = true;
         if (user.getRole().equals(UserRole.ADMIN))
             admin = true;
-        return "/main";
+        resetPasswords();
+        return "/main?faces-redirect=true";
     }
 
     public String doSignin() {
@@ -95,7 +116,7 @@ public class AccountBean implements Serializable {
         HttpServletRequest request = (HttpServletRequest)
                 context.getExternalContext().getRequest();
         try {
-            request.login(user.getLogin(), user.getPassword());
+            request.login(user.getLogin(), PasswordUtils.digestPassword(user.getPassword()));
         } catch (ServletException e) {
             context.addMessage("signinForm:inputPassword", new FacesMessage(FacesMessage.SEVERITY_WARN, "Wrong user/password",
                     "Check your login and password or click on forgot password link."));
@@ -107,7 +128,9 @@ public class AccountBean implements Serializable {
                     "Check your login and password or click on forgot password link."));
             return null;
         }
+
         user = userFound;
+
         // If the user is an administrator
         if (user.getRole().equals(UserRole.ADMIN)) {
             admin = true;

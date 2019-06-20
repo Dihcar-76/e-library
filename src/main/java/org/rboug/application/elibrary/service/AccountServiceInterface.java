@@ -13,5 +13,5 @@ public interface AccountServiceInterface {
 
     public User findByEmail(String email);
 
-    public void flush();
+    public void refresh(User user);
 }
