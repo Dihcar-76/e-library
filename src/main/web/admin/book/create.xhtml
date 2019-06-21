@@ -72,9 +72,7 @@
                 <h:outputText/>
                 <h:outputLabel for="bookBeanBookPublicationDate" value="Publication Date:"/>
                 <h:panelGroup>
-                    <h:inputText id="bookBeanBookPublicationDate" value="#{bookBean.book.publicationDate}">
-                        <f:convertDateTime type="date"/>
-                    </h:inputText>
+                    <p:calendar id="bookBeanBookPublicationDate" navigator="true" value="#{bookBean.book.publicationDate}" showOn="button"/>
                     <h:message for="bookBeanBookPublicationDate" styleClass="error"/>
                 </h:panelGroup>
                 <h:outputText/>
