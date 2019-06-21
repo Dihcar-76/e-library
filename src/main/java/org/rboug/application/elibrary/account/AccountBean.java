@@ -130,16 +130,12 @@ public class AccountBean implements Serializable {
         }
 
         user = userFound;
-
         // If the user is an administrator
         if (user.getRole().equals(UserRole.ADMIN)) {
             admin = true;
         }
         // The user is now logged in
         loggedIn = true;
-        if (admin){
-            return "/admin/main?faces-redirect=true";
-        }
         context.getExternalContext().getFlash().setKeepMessages(true);//keep messages after a redirect
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome back " + user.getFirstName(), "You can browse the catalog"));
         return "/main?faces-redirect=true";
