@@ -69,12 +69,13 @@ public class ShoppingCartBean implements Serializable {
                 itemFound = true;
             }
         }
-        if (!itemFound)
-            // Otherwise it's added to the shopping cart
+        if (!itemFound) {
+            // Otherwise item added to the shopping cart
             cartItems.add(new ShoppingCartItem(item, 1));
+        }
 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, item.getTitle() + " added to the shopping cart",
-                "You can now add more stuff if you want"));
+                "You can now add more items"));
 
         return "/shopping/viewItem.xhtml?faces-redirect=true&includeViewParams=true";
     }
