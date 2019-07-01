@@ -10,7 +10,7 @@ import java.util.*;
 
 @Entity
 @NamedQuery(name = Invoice.FIND_MONTHLY, query = "SELECT i FROM Invoice i ORDER BY i.invoiceDate ASC")
-public class Invoice implements Serializable {
+public class Invoice implements Serializable, InvoiceInterface {
 
     // ======================================
     // =             Constants              =
