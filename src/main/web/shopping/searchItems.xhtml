@@ -18,12 +18,12 @@
     <ui:define name="body">
 
         <h:form>
-            <p:dataScroller value="#{catalogBean.items}" var="_item" chunkSize="5">
+            <p:dataScroller value="#{catalogBean.items}" var="_item">
                 <f:facet name="header">
                     Scroll Down to Load More Items
                 </f:facet>
 
-                <h:panelGrid columns="2" style="width:30%">
+                <h:panelGrid columns="2">
                     <h:link outcome="/shopping/viewItem.xhtml">
                         <f:param name="id" value="#{_item.id}"/>
                         <p:graphicImage id="image" value="#{itemBean.imageFromDB}" width="100px" height="100px" >
