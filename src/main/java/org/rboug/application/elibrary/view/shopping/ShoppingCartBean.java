@@ -2,6 +2,8 @@ package org.rboug.application.elibrary.view.shopping;
 
 import org.rboug.application.elibrary.model.*;
 import org.rboug.application.elibrary.account.AccountBean;
+import org.rboug.application.elibrary.service.ShoppingCartService;
+import org.rboug.application.elibrary.service.ShoppingCartServiceInterface;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
@@ -37,8 +39,8 @@ public class ShoppingCartBean implements Serializable {
     @Inject
     private AccountBean accountBean;
 
-    @PersistenceContext(unitName = "elibraryPU")
-    private EntityManager em;
+    @Inject
+    ShoppingCartServiceInterface shoppingCartService;
 
     // ======================================
     // =             Attributes             =
@@ -57,7 +59,7 @@ public class ShoppingCartBean implements Serializable {
     // ======================================
 
     public String addItemToCart() {
-        Item item = em.find(Item.class, getParamId("itemId"));
+        Item item = shoppingCartService.findById(getParamId("itemId"));
 
         boolean itemFound = false;
         for (ShoppingCartItem cartItem : cartItems) {
@@ -78,7 +80,7 @@ public class ShoppingCartBean implements Serializable {
     }
 
     public String removeItemFromCart() {
-        Item item = em.find(Item.class, getParamId("itemId"));
+        Item item = shoppingCartService.findById(getParamId("itemId"));
 
         for (ShoppingCartItem cartItem : cartItems) {
             if (cartItem.getItem().equals(item)) {
@@ -115,7 +117,7 @@ public class ShoppingCartBean implements Serializable {
         invoice.setVat(round(invoice.getTotalAfterDiscount() * (vatRate / 100)));
         invoice.setTotalAfterVat(round(invoice.getTotalAfterDiscount() + invoice.getVat()));
         //persist invoice
-        em.persist(invoice);
+        shoppingCartService.save(invoice);
         this.invoice_id = invoice.getId();
 
         // Clear the shopping cart
@@ -192,7 +194,7 @@ public class ShoppingCartBean implements Serializable {
     }
 
     public String[] getCountries() {
-        TypedQuery<Country> query = em.createNamedQuery(Country.FIND_ALL, Country.class);
+        TypedQuery<Country> query = shoppingCartService.findAllCountries();
         List<Country> countries = query.getResultList();
         String[] result = new String[countries.size()];
         for (int i = 0; i < countries.size(); i++) {
