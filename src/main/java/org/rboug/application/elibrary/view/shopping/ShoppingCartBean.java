@@ -74,6 +74,7 @@ public class ShoppingCartBean implements Serializable {
             cartItems.add(new ShoppingCartItem(item, 1));
         }
 
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);//keep messages after a redirect
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, item.getTitle() + " added to the shopping cart",
                 "You can now add more items"));
 
@@ -125,8 +126,10 @@ public class ShoppingCartBean implements Serializable {
         cartItems = new ArrayList<>();
 
         // Displaying the invoice creation
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);//keep messages after a redirect
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Order created",
-                "You will receive a confirmation email"));
+                "You can download the invoice now."));
+        // TODO:send an email with the invoice
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("id", invoice_id);
         return "showPdf?faces-redirect=true";
     }

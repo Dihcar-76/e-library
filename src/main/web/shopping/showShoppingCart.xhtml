@@ -21,6 +21,7 @@
     <ui:define name="body">
 
         <h:form rendered="#{!shoppingCartBean.shoppingCartIsEmpty()}">
+            <p:growl id="messages" style="padding-top:50px" showDetail="true"/>
             <h:dataTable value="#{shoppingCartBean.cartItems}" var="_item" styleClass="table">
                 <h:column>
                     <h:outputText value="#{_item.item.title}"/>

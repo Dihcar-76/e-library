@@ -79,21 +79,10 @@ public class AccountBean implements Serializable {
         // Everything is ok, we can create the user
         user.setPassword(PasswordUtils.digestPassword(password1));//PasswordUtils.digestPassword(password1)
         accountService.create(user);
-        //accountService.refresh(user);
         //login in
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest)
                 context.getExternalContext().getRequest();
-
-
-        /*try {
-            request.login(user.getLogin(), user.getPassword());
-        } catch (ServletException e) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error!",
-                    "Couldn't connect with this login and password internal error."));
-            resetPasswords();
-            return null;
-        }*/
         try {
             request.login(user.getLogin(), user.getPassword());
         } catch (ServletException e) {
@@ -101,7 +90,7 @@ public class AccountBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error " + user.getFirstName(), "login error"));
             return null;
         }
-
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);//keep messages after a redirect
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Hi " + user.getFirstName(), "Welcome to this elibrary"));
         loggedIn = true;
@@ -155,7 +144,6 @@ public class AccountBean implements Serializable {
         } catch (ServletException e) {
             context.addMessage(null, new FacesMessage("Logout failed."));
         }
-        //FacesContext.getCurrentInstance().getExternalContext().invalidateSession(); //for j_security_check
         return "/main";
     }
 
