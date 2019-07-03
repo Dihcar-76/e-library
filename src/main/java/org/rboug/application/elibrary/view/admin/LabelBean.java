@@ -182,18 +182,18 @@ public class LabelBean implements Serializable {
         // Populate this.count
 
         CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-        Root<Label> root = countCriteria.from(Label.class);
-        countCriteria = countCriteria.select(builder.count(root)).where(
-                getSearchPredicates(root));
+        Root<Label> rootNode = countCriteria.from(Label.class);
+        countCriteria = countCriteria.select(builder.count(rootNode)).where(
+                getSearchPredicates(rootNode));
         this.count = this.entityManager.createQuery(countCriteria)
                 .getSingleResult();
 
         // Populate this.pageItems
 
         CriteriaQuery<Label> criteria = builder.createQuery(Label.class);
-        root = criteria.from(Label.class);
+        rootNode = criteria.from(Label.class);
         TypedQuery<Label> query = this.entityManager.createQuery(criteria
-                .select(root).where(getSearchPredicates(root)));
+                .select(rootNode).where(getSearchPredicates(rootNode)));
         query.setFirstResult(this.page * getPageSize()).setMaxResults(
                 getPageSize());
         this.pageItems = query.getResultList();
@@ -202,16 +202,16 @@ public class LabelBean implements Serializable {
     private Predicate[] getSearchPredicates(Root<Label> root) {
 
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-        List<Predicate> predicatesList = new ArrayList<>();
+        List<Predicate> predicateList = new ArrayList<>();
 
         String name = this.example.getName();
         if (name != null && !"".equals(name)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("name")),
                     '%' + name.toLowerCase() + '%'));
         }
 
-        return predicatesList.toArray(new Predicate[predicatesList.size()]);
+        return predicateList.toArray(new Predicate[predicateList.size()]);
     }
 
    /*

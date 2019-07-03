@@ -63,9 +63,9 @@ public class BookDaoBdd implements BookDaoBddInterface {
         // Populate count of items
 
         CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-        Root<Book> root = countCriteria.from(Book.class);
-        countCriteria = countCriteria.select(builder.count(root)).where(
-                getSearchPredicates(root, title, description, isbn, nbOfPage, language));
+        Root<Book> rootNode = countCriteria.from(Book.class);
+        countCriteria = countCriteria.select(builder.count(rootNode)).where(
+                getSearchPredicates(rootNode, title, description, isbn, nbOfPage, language));
         return this.entityManager.createQuery(countCriteria)
                 .getSingleResult();
     }
@@ -73,35 +73,35 @@ public class BookDaoBdd implements BookDaoBddInterface {
     private Predicate[] getSearchPredicates(Root<Book> root, String title, String description, String isbn, Integer nbOfPage, Language language) {
 
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-        List<Predicate> predicatesList = new ArrayList<>();
+        List<Predicate> predicateList = new ArrayList<>();
 
         if (title != null && !"".equals(title)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("title")),
                     '%' + title.toLowerCase() + '%'));
         }
 
         if (description != null && !"".equals(description)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("description")),
                     '%' + description.toLowerCase() + '%'));
         }
 
         if (isbn != null && !"".equals(isbn)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("isbn")),
                     '%' + isbn.toLowerCase() + '%'));
         }
 
         if (nbOfPage != null && nbOfPage.intValue() != 0) {
-            predicatesList.add(builder.equal(root.get("nbOfPage"), nbOfPage));
+            predicateList.add(builder.equal(root.get("nbOfPage"), nbOfPage));
         }
 
         if (language != null) {
-            predicatesList.add(builder.equal(root.get("language"), language));
+            predicateList.add(builder.equal(root.get("language"), language));
         }
 
-        return predicatesList.toArray(new Predicate[predicatesList.size()]);
+        return predicateList.toArray(new Predicate[predicateList.size()]);
     }
 
     @Override

@@ -181,18 +181,18 @@ public class UserBean implements Serializable {
         // Populate this.count
 
         CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-        Root<User> root = countCriteria.from(User.class);
-        countCriteria = countCriteria.select(builder.count(root)).where(
-                getSearchPredicates(root));
+        Root<User> rootNode = countCriteria.from(User.class);
+        countCriteria = countCriteria.select(builder.count(rootNode)).where(
+                getSearchPredicates(rootNode));
         this.count = this.entityManager.createQuery(countCriteria)
                 .getSingleResult();
 
         // Populate this.pageItems
 
         CriteriaQuery<User> criteria = builder.createQuery(User.class);
-        root = criteria.from(User.class);
+        rootNode = criteria.from(User.class);
         TypedQuery<User> query = this.entityManager.createQuery(criteria
-                .select(root).where(getSearchPredicates(root)));
+                .select(rootNode).where(getSearchPredicates(rootNode)));
         query.setFirstResult(this.page * getPageSize()).setMaxResults(
                 getPageSize());
         this.pageItems = query.getResultList();
@@ -201,40 +201,40 @@ public class UserBean implements Serializable {
     private Predicate[] getSearchPredicates(Root<User> root) {
 
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-        List<Predicate> predicatesList = new ArrayList<>();
+        List<Predicate> predicateList = new ArrayList<>();
 
         String firstName = this.example.getFirstName();
         if (firstName != null && !"".equals(firstName)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("firstName")),
                     '%' + firstName.toLowerCase() + '%'));
         }
         String lastName = this.example.getLastName();
         if (lastName != null && !"".equals(lastName)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("lastName")),
                     '%' + lastName.toLowerCase() + '%'));
         }
         String telephone = this.example.getTelephone();
         if (telephone != null && !"".equals(telephone)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("telephone")),
                     '%' + telephone.toLowerCase() + '%'));
         }
         String email = this.example.getEmail();
         if (email != null && !"".equals(email)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("email")),
                     '%' + email.toLowerCase() + '%'));
         }
         String login = this.example.getLogin();
         if (login != null && !"".equals(login)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("login")),
                     '%' + login.toLowerCase() + '%'));
         }
 
-        return predicatesList.toArray(new Predicate[predicatesList.size()]);
+        return predicateList.toArray(new Predicate[predicateList.size()]);
     }
 
    /*

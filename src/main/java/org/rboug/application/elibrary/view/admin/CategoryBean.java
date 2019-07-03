@@ -52,8 +52,8 @@ public class CategoryBean implements Serializable {
     private Conversation conversation;
     @PersistenceContext(unitName = "elibraryPU", type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
-    //private int page;
-    //private long count;
+    private int page;
+    private long count;
     private List<Category> pageItems;
     private Category example = new Category();
     @Resource
@@ -148,17 +148,17 @@ public class CategoryBean implements Serializable {
         }
     }
 
-    /*public int getPage() {
+    public int getPage() {
         return this.page;
-    }*/
+    }
 
-    /*public void setPage(int page) {
+    public void setPage(int page) {
         this.page = page;
-    }*/
+    }
 
-    /*public int getPageSize() {
+    public int getPageSize() {
         return 10;
-    }*/
+    }
 
     public Category getExample() {
         return this.example;
@@ -169,59 +169,47 @@ public class CategoryBean implements Serializable {
     }
 
     public String search() {
-        //this.page = 0;
-        CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-        Root<Category> root = countCriteria.from(Category.class);
-        // Populate this.pageItems
-
-        CriteriaQuery<Category> criteria = builder.createQuery(Category.class);
-        root = criteria.from(Category.class);
-        TypedQuery<Category> query = this.entityManager.createQuery(criteria
-                .select(root).where(getSearchPredicates(root)));
-        //query.setFirstResult(this.page * getPageSize()).setMaxResults(
-         //       getPageSize());
-        this.pageItems = query.getResultList();
+        this.page = 0;
         return null;
     }
 
-    /*public void paginate() {
+    public void paginate() {
 
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
 
         // Populate this.count
 
         CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-        Root<Category> root = countCriteria.from(Category.class);
-        countCriteria = countCriteria.select(builder.count(root)).where(
-                getSearchPredicates(root));
+        Root<Category> rootNode = countCriteria.from(Category.class);
+        countCriteria = countCriteria.select(builder.count(rootNode)).where(
+                getSearchPredicates(rootNode));
         this.count = this.entityManager.createQuery(countCriteria)
                 .getSingleResult();
 
         // Populate this.pageItems
 
         CriteriaQuery<Category> criteria = builder.createQuery(Category.class);
-        root = criteria.from(Category.class);
+        rootNode = criteria.from(Category.class);
         TypedQuery<Category> query = this.entityManager.createQuery(criteria
-                .select(root).where(getSearchPredicates(root)));
+                .select(rootNode).where(getSearchPredicates(rootNode)));
         query.setFirstResult(this.page * getPageSize()).setMaxResults(
                 getPageSize());
         this.pageItems = query.getResultList();
-    }*/
+    }
 
     private Predicate[] getSearchPredicates(Root<Category> root) {
 
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-        List<Predicate> predicatesList = new ArrayList<>();
+        List<Predicate> predicateList = new ArrayList<>();
 
         String name = this.example.getName();
         if (name != null && !"".equals(name)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("name")),
                     '%' + name.toLowerCase() + '%'));
         }
 
-        return predicatesList.toArray(new Predicate[predicatesList.size()]);
+        return predicateList.toArray(new Predicate[predicateList.size()]);
     }
 
    /*
@@ -232,9 +220,9 @@ public class CategoryBean implements Serializable {
         return this.pageItems;
     }
 
-    /*public long getCount() {
+    public long getCount() {
         return this.count;
-    }*/
+    }
 
     public List<Category> getAll() {
 

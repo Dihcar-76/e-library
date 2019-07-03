@@ -61,9 +61,9 @@ public class AuthorDaoBdd implements AuthorDaoBddInterface{
         // Populate count of items
 
         CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-        Root<Author> root = countCriteria.from(Author.class);
-        countCriteria = countCriteria.select(builder.count(root)).where(
-                getSearchPredicates(root, firstName, lastName, bio, age, preferredLanguage));
+        Root<Author> rootNode = countCriteria.from(Author.class);
+        countCriteria = countCriteria.select(builder.count(rootNode)).where(
+                getSearchPredicates(rootNode, firstName, lastName, bio, age, preferredLanguage));
         return this.entityManager.createQuery(countCriteria)
                 .getSingleResult();
     }
@@ -71,36 +71,36 @@ public class AuthorDaoBdd implements AuthorDaoBddInterface{
     private Predicate[] getSearchPredicates(Root<Author> root, String firstName, String lastName, String bio, Integer age, Language preferredLanguage) {
 
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-        List<Predicate> predicatesList = new ArrayList<>();
+        List<Predicate> predicateList = new ArrayList<>();
 
         if (firstName != null && !"".equals(firstName)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("firstName")),
                     '%' + firstName.toLowerCase() + '%'));
         }
 
         if (lastName != null && !"".equals(lastName)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("lastName")),
                     '%' + lastName.toLowerCase() + '%'));
         }
 
         if (bio != null && !"".equals(bio)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("bio")),
                     '%' + bio.toLowerCase() + '%'));
         }
 
         if (age != null && age.intValue() != 0) {
-            predicatesList.add(builder.equal(root.get("age"), age));
+            predicateList.add(builder.equal(root.get("age"), age));
         }
 
         if (preferredLanguage != null) {
-            predicatesList.add(builder.equal(root.get("preferredLanguage"),
+            predicateList.add(builder.equal(root.get("preferredLanguage"),
                     preferredLanguage));
         }
 
-        return predicatesList.toArray(new Predicate[predicatesList.size()]);
+        return predicateList.toArray(new Predicate[predicateList.size()]);
     }
 
     @Override

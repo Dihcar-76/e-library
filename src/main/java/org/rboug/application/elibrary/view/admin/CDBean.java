@@ -184,18 +184,18 @@ public class CDBean implements Serializable {
         // Populate this.count
 
         CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-        Root<CD> root = countCriteria.from(CD.class);
-        countCriteria = countCriteria.select(builder.count(root)).where(
-                getSearchPredicates(root));
+        Root<CD> rootNode = countCriteria.from(CD.class);
+        countCriteria = countCriteria.select(builder.count(rootNode)).where(
+                getSearchPredicates(rootNode));
         this.count = this.entityManager.createQuery(countCriteria)
                 .getSingleResult();
 
         // Populate this.pageItems
 
         CriteriaQuery<CD> criteria = builder.createQuery(CD.class);
-        root = criteria.from(CD.class);
+        rootNode = criteria.from(CD.class);
         TypedQuery<CD> query = this.entityManager.createQuery(criteria.select(
-                root).where(getSearchPredicates(root)));
+                rootNode).where(getSearchPredicates(rootNode)));
         query.setFirstResult(this.page * getPageSize()).setMaxResults(
                 getPageSize());
         this.pageItems = query.getResultList();
@@ -204,30 +204,30 @@ public class CDBean implements Serializable {
     private Predicate[] getSearchPredicates(Root<CD> root) {
 
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-        List<Predicate> predicatesList = new ArrayList<>();
+        List<Predicate> predicateList = new ArrayList<>();
 
         String title = this.example.getTitle();
         if (title != null && !"".equals(title)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("title")),
                     '%' + title.toLowerCase() + '%'));
         }
         String description = this.example.getDescription();
         if (description != null && !"".equals(description)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("description")),
                     '%' + description.toLowerCase() + '%'));
         }
         Label label = this.example.getLabel();
         if (label != null) {
-            predicatesList.add(builder.equal(root.get("label"), label));
+            predicateList.add(builder.equal(root.get("label"), label));
         }
         Genre genre = this.example.getGenre();
         if (genre != null) {
-            predicatesList.add(builder.equal(root.get("genre"), genre));
+            predicateList.add(builder.equal(root.get("genre"), genre));
         }
 
-        return predicatesList.toArray(new Predicate[predicatesList.size()]);
+        return predicateList.toArray(new Predicate[predicateList.size()]);
     }
 
    /*

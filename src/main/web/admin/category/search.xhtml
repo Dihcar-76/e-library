@@ -8,8 +8,8 @@
                 template="/resources/templates/templateAdmin.xhtml">
 
     <f:metadata>
-        <!--<f:viewParam name="page" value='#{categoryBean.page}'/>-->
-        <f:event type="preRenderView" listener='#{categoryBean.search}'/>
+        <f:viewParam name="page" value='#{categoryBean.page}'/>
+        <f:event type="preRenderView" listener='#{categoryBean.paginate}'/>
     </f:metadata>
 
     <ui:param name="pageTitle" value="Search Category entities"/>
@@ -57,9 +57,9 @@
                     </h:link>
                 </h:column>
             </h:dataTable>
-            <!--<ui:include src="/resources/templates/paginator.xhtml">
+            <ui:include src="/resources/templates/paginator.xhtml">
                 <ui:param name="paginatorBean" value='#{categoryBean}'/>
-            </ui:include>-->
+            </ui:include>
         </h:form>
 
     </ui:define>

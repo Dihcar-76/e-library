@@ -200,16 +200,16 @@ public class ItemBean implements Serializable {
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
         // Populate this.count
         CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-        Root<Item> root = countCriteria.from(Item.class);
-        countCriteria = countCriteria.select(builder.count(root)).where(
-                getSearchPredicates(root));
+        Root<Item> rootNode = countCriteria.from(Item.class);
+        countCriteria = countCriteria.select(builder.count(rootNode)).where(
+                getSearchPredicates(rootNode));
         this.count = this.entityManager.createQuery(countCriteria)
                 .getSingleResult();
         // Populate this.pageItems
         CriteriaQuery<Item> criteria = builder.createQuery(Item.class);
-        root = criteria.from(Item.class);
+        rootNode = criteria.from(Item.class);
         TypedQuery<Item> query = this.entityManager.createQuery(criteria
-                .select(root).where(getSearchPredicates(root)));
+                .select(rootNode).where(getSearchPredicates(rootNode)));
         query.setFirstResult(this.page * getPageSize()).setMaxResults(
                 getPageSize());
         this.pageItems = query.getResultList();
@@ -217,20 +217,20 @@ public class ItemBean implements Serializable {
 
     private Predicate[] getSearchPredicates(Root<Item> root) {
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-        List<Predicate> predicatesList = new ArrayList<>();
+        List<Predicate> predicateList = new ArrayList<>();
         String title = this.example.getTitle();
         if (title != null && !"".equals(title)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("title")),
                     '%' + title.toLowerCase() + '%'));
         }
         String description = this.example.getDescription();
         if (description != null && !"".equals(description)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("description")),
                     '%' + description.toLowerCase() + '%'));
         }
-        return predicatesList.toArray(new Predicate[predicatesList.size()]);
+        return predicateList.toArray(new Predicate[predicateList.size()]);
     }
 
     /*

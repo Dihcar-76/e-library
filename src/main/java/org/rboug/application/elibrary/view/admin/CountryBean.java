@@ -181,18 +181,18 @@ public class CountryBean implements Serializable {
         // Populate this.count
 
         CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-        Root<Country> root = countCriteria.from(Country.class);
-        countCriteria = countCriteria.select(builder.count(root)).where(
-                getSearchPredicates(root));
+        Root<Country> rootNode = countCriteria.from(Country.class);
+        countCriteria = countCriteria.select(builder.count(rootNode)).where(
+                getSearchPredicates(rootNode));
         this.count = this.entityManager.createQuery(countCriteria)
                 .getSingleResult();
 
         // Populate this.pageItems
 
         CriteriaQuery<Country> criteria = builder.createQuery(Country.class);
-        root = criteria.from(Country.class);
+        rootNode = criteria.from(Country.class);
         TypedQuery<Country> query = this.entityManager.createQuery(criteria
-                .select(root).where(getSearchPredicates(root)));
+                .select(rootNode).where(getSearchPredicates(rootNode)));
         query.setFirstResult(this.page * getPageSize()).setMaxResults(
                 getPageSize());
         this.pageItems = query.getResultList();
@@ -201,40 +201,40 @@ public class CountryBean implements Serializable {
     private Predicate[] getSearchPredicates(Root<Country> root) {
 
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-        List<Predicate> predicatesList = new ArrayList<>();
+        List<Predicate> predicateList = new ArrayList<>();
 
         String isoCode = this.example.getIsoCode();
         if (isoCode != null && !"".equals(isoCode)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("isoCode")),
                     '%' + isoCode.toLowerCase() + '%'));
         }
         String name = this.example.getName();
         if (name != null && !"".equals(name)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("name")),
                     '%' + name.toLowerCase() + '%'));
         }
         String printableName = this.example.getPrintableName();
         if (printableName != null && !"".equals(printableName)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("printableName")),
                     '%' + printableName.toLowerCase() + '%'));
         }
         String iso3 = this.example.getIso3();
         if (iso3 != null && !"".equals(iso3)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("iso3")),
                     '%' + iso3.toLowerCase() + '%'));
         }
         String numcode = this.example.getNumcode();
         if (numcode != null && !"".equals(numcode)) {
-            predicatesList.add(builder.like(
+            predicateList.add(builder.like(
                     builder.lower(root.<String>get("numcode")),
                     '%' + numcode.toLowerCase() + '%'));
         }
 
-        return predicatesList.toArray(new Predicate[predicatesList.size()]);
+        return predicateList.toArray(new Predicate[predicateList.size()]);
     }
 
    /*
