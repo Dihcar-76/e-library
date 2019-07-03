@@ -6,6 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:forgeview="http://jboss.org/forge/view"
                 template="/resources/templates/templateAdmin.xhtml">
 
@@ -93,6 +94,17 @@
                                        value="#{genreBean.all}" var="_item"/>
                     </h:selectOneMenu>
                     <h:message for="cDBeanCDGenre" styleClass="error"/>
+                </h:panelGroup>
+                <h:outputText/>
+                <h:outputLabel for="cDImage" value="Image:"/>
+                <p:graphicImage cache="false" id="cDImage" value="#{itemBean.imageFromDB}" width="100px" height="100px">
+                    <f:param name="id" value="#{CDBean.CD.id}" />
+                </p:graphicImage>
+                <h:outputText/>
+                <h:outputLabel for="fileUpload" value="Change to another image:"/>
+                <h:panelGroup>
+                    <p:growl id="messages" style="padding-top:50px" showDetail="true"/>
+                    <p:fileUpload id="fileUpload" value="#{CDBean.file}" mode="simple" skinSimple="true" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/"/>
                 </h:panelGroup>
                 <h:outputText/>
             </h:panelGrid>
