@@ -286,26 +286,6 @@ public class ItemBean implements Serializable {
         return added;
     }
 
-  /*  @PostConstruct
-    public void init() {
-        allItems= new ArrayList<Item>();
-        TypedQuery<Item> query = entityManager.createNamedQuery(Item.FIND_ALL, Item.class);
-        this.allItems = query.getResultList();
-    }
-
-
-    /*public void setAllItems(List<Item> allItems) {
-        this.allItems = allItems;
-    }*/
-
-   /* public List<Item> getAllItems() {
-        if (allItems == null) {
-            TypedQuery<Item> query = entityManager.createNamedQuery(Item.FIND_ALL, Item.class);
-            this.allItems = query.getResultList();
-        }
-        return allItems;
-    }*/
-
     public StreamedContent getImageFromDB() {
 
         FacesContext context = FacesContext.getCurrentInstance();
