@@ -317,7 +317,7 @@ public class ItemBean implements Serializable {
             // Reading image from database assuming that product image (bytes)
             String id = context.getExternalContext().getRequestParameterMap().get("id");
             if (id == ""){
-                return null;
+                return new DefaultStreamedContent();//as mentionned before
             }
             Item item = this.findById(Long.parseLong(id));
             byte[] image = item.getSmallImage();
