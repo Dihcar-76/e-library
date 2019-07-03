@@ -50,7 +50,7 @@
                     <h:inputTextarea id="bookBeanBookDescription" style="width:75%;height:75px"  required="true" value="#{bookBean.book.description}"/>
                     <h:message for="bookBeanBookDescription" styleClass="error"/>
                 </h:panelGroup>
-                <h:outputText/>
+                <h:outputText value="*"/>
                 <h:outputLabel for="bookBeanBookUnitCost" value="Unit Cost:"/>
                 <h:panelGroup>
                     <h:inputText id="bookBeanBookUnitCost" value="#{bookBean.book.unitCost}"/>
@@ -113,6 +113,7 @@
                         <f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}"
                                        value="#{authorBean.all}" var="_item"/>
                     </h:selectManyListbox>
+                    <h:message for="bookBeanBookAuthors" styleClass="error"/>
                 </h:panelGroup>
                 <h:outputText/>
                 <h:outputLabel for="bookBeanBookPublisher" value="Publisher:"/>

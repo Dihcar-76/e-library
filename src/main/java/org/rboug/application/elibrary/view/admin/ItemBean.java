@@ -34,7 +34,6 @@ import static javax.faces.annotation.FacesConfig.Version.JSF_2_3;
 
 /**
  * Backing bean for Item entities.
- *
  */
 @FacesConfig(
         // Activates CDI build-in beans
@@ -97,9 +96,7 @@ public class ItemBean implements Serializable {
         return this.id;
     }
 
-    /*
-     * Support updating and deleting Item entities
-     */
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -108,9 +105,6 @@ public class ItemBean implements Serializable {
         return this.item;
     }
 
-    /*
-     * Support searching Item entities with pagination
-     */
     public void setItem(Item item) {
         this.item = item;
     }
@@ -140,6 +134,9 @@ public class ItemBean implements Serializable {
         return this.entityManager.find(Item.class, id);
     }
 
+    /*
+     * Support updating and deleting Item entities
+     */
     public String update() {
         this.conversation.end();
         try {
@@ -196,6 +193,10 @@ public class ItemBean implements Serializable {
         return null;
     }
 
+
+    /*
+     * Support searching Item entities with pagination
+     */
     public void paginate() {
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
         // Populate this.count
@@ -285,11 +286,11 @@ public class ItemBean implements Serializable {
         return added;
     }
 
-    @PostConstruct
+  /*  @PostConstruct
     public void init() {
-        /*allItems= new ArrayList<Item>();
+        allItems= new ArrayList<Item>();
         TypedQuery<Item> query = entityManager.createNamedQuery(Item.FIND_ALL, Item.class);
-        this.allItems = query.getResultList();*/
+        this.allItems = query.getResultList();
     }
 
 
@@ -315,35 +316,31 @@ public class ItemBean implements Serializable {
 
             // Reading image from database assuming that product image (bytes)
             String id = context.getExternalContext().getRequestParameterMap().get("id");
-            Item item = this.findById(Long.valueOf(id));
+            if (id == ""){
+                return null;
+            }
+            Item item = this.findById(Long.parseLong(id));
             byte[] image = item.getSmallImage();
             if (image != null) {
 
                 return new DefaultStreamedContent(new ByteArrayInputStream(image),
                         "image/png");
-           }
-        else {
-            return new DefaultStreamedContent(FacesContext
-                    .getCurrentInstance().getExternalContext()
-                    .getResourceAsStream("/resources/noimage.png"));
+            } else {
+                return new DefaultStreamedContent(FacesContext
+                        .getCurrentInstance().getExternalContext()
+                        .getResourceAsStream("/resources/noimage.png"));
+            }
         }
-
-    }
-
     }
 
     public void setModel(LazyDataModel<Item> model) {
         this.model = model;
     }
 
-    public void load(){
-
-    }
-
     private LazyDataModel<Item> model;
 
     public LazyDataModel<Item> getModel() {
-        if(model==null){
+        if (model == null) {
             this.model = new LazyDataModel<Item>() {
                 private static final long serialVersionUID = 1L;
 

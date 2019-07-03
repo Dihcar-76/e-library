@@ -165,12 +165,6 @@ public class Book extends Item implements BookInterface{
         this.authors = authors;
     }
 
-    public void addAuthor(Author author) {
-        if (authors == null) {
-            authors = new HashSet<>();
-        }
-        authors.add(author);
-    }
 
     // ======================================
     // =   Methods hash, equals, toString   =

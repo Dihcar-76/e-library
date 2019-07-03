@@ -45,6 +45,7 @@
                     value="#{CDBean.CD.label}">
                 <f:param name="id" value="#{CDBean.CD.label.id}"/>
             </h:link>
+            <h:outputText id="cDBeanCDLabel2" value="" rendered="#{empty CDBean.CD.label}"/>
             <h:outputText/>
             <h:outputLabel for="cDBeanCDMusicians" value="Musicians:"/>
             <h:dataTable id="cDBeanCDMusicians" styleClass="data-table" value="#{forgeview:asList(CDBean.CD.musicians)}"
@@ -74,9 +75,10 @@
                     value="#{CDBean.CD.genre}">
                 <f:param name="id" value="#{CDBean.CD.genre.id}"/>
             </h:link>
+            <h:outputText id="cDBeanCDGenre2" value="" rendered="#{empty CDBean.CD.genre}"/>
             <h:outputText/>
-            <h:outputLabel for="bookImage" value="Image:"/>
-            <p:graphicImage cache="false" id="bookImage" value="#{itemBean.imageFromDB}" width="190px" height="200px" >
+            <h:outputLabel for="cDImage" value="Image:"/>
+            <p:graphicImage cache="false" id="cDImage" value="#{itemBean.imageFromDB}" width="190px" height="200px" >
                 <f:param name="id" value="#{CDBean.CD.id}" />
             </p:graphicImage>
             <h:outputText/>

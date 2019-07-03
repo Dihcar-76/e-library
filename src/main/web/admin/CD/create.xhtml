@@ -35,7 +35,7 @@
     <ui:define name="footer"/>
 
     <ui:define name="main">
-        <h:form id="create">
+        <h:form id="create" enctype="multipart/form-data">
             <h:messages globalOnly="true" styleClass="error"/>
 
             <h:panelGrid columnClasses="label,component,required" columns="3">
@@ -50,7 +50,7 @@
                     <h:inputTextarea id="cDBeanCDDescription" value="#{CDBean.CD.description}"/>
                     <h:message for="cDBeanCDDescription" styleClass="error"/>
                 </h:panelGroup>
-                <h:outputText/>
+                <h:outputText value="*"/>
                 <h:outputLabel for="cDBeanCDUnitCost" value="Unit Cost:"/>
                 <h:panelGroup>
                     <h:inputText id="cDBeanCDUnitCost" value="#{CDBean.CD.unitCost}"/>
@@ -82,6 +82,7 @@
                         <f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}"
                                        value="#{musicianBean.all}" var="_item"/>
                     </h:selectManyListbox>
+                    <h:message for="cDBeanCDMusicians" styleClass="error"/>
                 </h:panelGroup>
                 <h:outputText/>
                 <h:outputLabel for="cDBeanCDGenre" value="Genre:"/>

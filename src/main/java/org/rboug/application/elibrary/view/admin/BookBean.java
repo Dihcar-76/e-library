@@ -49,8 +49,6 @@ public class BookBean implements Serializable {
     private Book book;
     @Inject
     private Conversation conversation;
-    @PersistenceContext(unitName = "elibraryPU", type = PersistenceContextType.EXTENDED)
-    private EntityManager entityManager;
     private int page;
     private long count;
     private List<Book> pageItems;

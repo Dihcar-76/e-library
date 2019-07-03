@@ -87,7 +87,10 @@
                     <f:facet name="header">
                         <h:outputText value="Small Image URL"/>
                     </f:facet>
-                    <p:graphicImage url="#{_item.smallImageURL}" id="smallImageURL"/>
+                    <!--<p:graphicImage url="#{_item.smallImageURL}" id="smallImageURL"/>-->
+                    <p:graphicImage cache="false" id="itemBeanCDImageURL" value="#{itemBean.imageFromDB}" width="100px" height="100px" >
+                        <f:param name="id" value="#{_item.id}" />
+                    </p:graphicImage>
                 </h:column>
             </h:dataTable>
             <ui:include src="/resources/templates/paginator.xhtml">
