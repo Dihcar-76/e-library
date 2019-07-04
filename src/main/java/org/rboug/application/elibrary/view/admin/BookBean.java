@@ -186,7 +186,7 @@ public class BookBean implements Serializable {
     public String create() {
 
         this.conversation.begin();
-        this.conversation.setTimeout(1800000L);//less than 20 seconds
+        this.conversation.setTimeout(1800000L);//30 seconds
         return "create?faces-redirect=true";
     }
 
