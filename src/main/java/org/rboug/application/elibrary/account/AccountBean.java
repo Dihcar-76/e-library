@@ -34,7 +34,6 @@ import static javax.security.enterprise.authentication.mechanism.http.Authentica
 
 @Named
 @SessionScoped
-//@Transactional
 public class AccountBean implements Serializable {
 
     // ======================================
@@ -66,7 +65,6 @@ public class AccountBean implements Serializable {
     // =          Business methods          =
     // ======================================
 
-    //@Transactional
     public String doSignup() {
         // Does the login already exists ?
         if (accountService.userExist(user.getLogin())) {
@@ -166,7 +164,7 @@ public class AccountBean implements Serializable {
             accountService.update(user);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Email sent",
                     "An email has been sent to " + user.getEmail() + " with temporary password: " + temporaryPassword));
-            // TODO:send an email with the password "dummyPassword"
+            // TODO:send an email with the temporary password
             return doLogout();
         }
     }
